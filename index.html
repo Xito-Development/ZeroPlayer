@@ -16,6 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add("js")</script>
 <style>
 :root{
   --bg:#000; --fg:#f5f5f7; --muted:#86868b; --card:#101012; --card2:#161619; --line:rgba(255,255,255,.08);
@@ -38,8 +39,8 @@ nav .wrap{display:flex;align-items:center;gap:28px;width:100%}
 nav .links{display:flex;gap:26px;margin-left:auto;font-size:13px;color:#d2d2d7}
 nav .links a:hover{color:#fff}
 .lang{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:4px 10px;color:#d2d2d7;cursor:pointer;background:none;font-family:inherit}
-.pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;font-weight:600;font-size:15px;padding:12px 22px;transition:transform .35s var(--ease),background .25s,box-shadow .35s;cursor:pointer;border:0;font-family:inherit}
-.pill:hover{transform:scale(1.04)}
+.pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;font-weight:600;font-size:15px;padding:12px 22px;min-height:44px;transition:scale .35s var(--ease),background .25s,box-shadow .35s;cursor:pointer;border:0;font-family:inherit}
+.pill:hover{scale:1.04}.pill:active{scale:.97}
 .pill.primary{background:var(--g1);color:#03140c;box-shadow:0 10px 40px -10px rgba(25,195,125,.6)}
 .pill.primary:hover{background:var(--g2)}
 .pill.ghost{background:rgba(255,255,255,.08);color:#fff}
@@ -49,7 +50,7 @@ nav .links a:hover{color:#fff}
 
 /* Portada */
 .hero{min-height:100vh;padding:130px 0 60px;position:relative;text-align:center;overflow:hidden}
-.aura{position:absolute;left:50%;top:48%;width:1100px;height:1100px;transform:translate(-50%,-50%);background:radial-gradient(closest-side,rgba(25,195,125,.35),rgba(25,195,125,.08) 45%,transparent 70%);filter:blur(10px);pointer-events:none;animation:breathe 8s ease-in-out infinite}
+.aura{position:absolute;left:50%;top:48%;width:1100px;height:1100px;transform:translate(-50%,-50%);background:radial-gradient(closest-side,rgba(25,195,125,.35),rgba(25,195,125,.08) 45%,transparent 70%);pointer-events:none;animation:breathe 8s ease-in-out infinite;will-change:transform,opacity}
 @keyframes breathe{50%{transform:translate(-50%,-50%) scale(1.12);opacity:.8}}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--g2);background:rgba(25,195,125,.12);border:1px solid rgba(25,195,125,.25);padding:6px 14px;border-radius:999px}
 .eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--g1);box-shadow:0 0 12px var(--g1);animation:pulse 2s infinite}
@@ -81,13 +82,14 @@ h3{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:-.02
 .kicker{font-family:var(--display);font-size:19px;font-weight:600;color:var(--g1);margin-bottom:14px}
 .sub{font-size:21px;color:#a1a1a6;max-width:620px;margin-top:22px;font-weight:500}
 .center{text-align:center}.center .sub{margin-left:auto;margin-right:auto}
-.reveal{opacity:0;transform:translateY(46px);filter:blur(8px);transition:opacity 1s var(--ease),transform 1.1s var(--ease),filter 1s var(--ease)}
-.reveal.in{opacity:1;transform:none;filter:none}
+.js .reveal{opacity:0;translate:0 46px;filter:blur(8px);transition:opacity 1s var(--ease),translate 1.1s var(--ease),filter 1s var(--ease),scale .5s var(--ease),border-color .4s,box-shadow .4s}
+.js .reveal.in{opacity:1;translate:0 0;filter:none}
+section,header{scroll-margin-top:56px}
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
 
 /* Cinta de formatos */
 .marquee{margin-top:60px;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
-.track{display:flex;gap:12px;width:max-content;animation:scroll 40s linear infinite}
+.track{display:flex;gap:12px;padding-right:12px;width:max-content;will-change:transform;animation:scroll 40s linear infinite}
 .track.rev{animation-direction:reverse;margin-top:12px;animation-duration:48s}
 .chip{font-family:var(--display);font-weight:700;font-size:22px;padding:14px 26px;border-radius:18px;background:var(--card);border:1px solid var(--line);color:#d2d2d7;letter-spacing:-.01em}
 .chip.g{color:var(--g2);border-color:rgba(25,195,125,.3);background:rgba(25,195,125,.08)}
@@ -100,7 +102,7 @@ h3{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:-.02
 .step.on{opacity:1}
 .step h2{font-size:clamp(36px,4.6vw,58px)}
 .sticky{position:sticky;top:12vh;height:76vh;display:flex;align-items:center;justify-content:center}
-.sticky .phone{position:relative;left:auto;top:auto;transform:none;width:min(320px,80%)}
+.sticky .phone{position:relative;left:auto;top:auto;transform:none;width:min(320px,80%,calc(70vh * .45))}
 .screens{position:relative;border-radius:36px;overflow:hidden}
 .screens img{transition:opacity .7s var(--ease),transform .9s var(--ease)}
 .screens img+img{position:absolute;inset:0}
@@ -110,12 +112,12 @@ h3{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:-.02
 .wavebox{margin:70px auto 0;max-width:900px;height:140px;border-radius:32px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;gap:24px;padding:0 36px}
 .wavebox .play{flex:none;width:68px;height:68px;border-radius:24px;background:var(--g1);display:grid;place-items:center;animation:morph 3.2s var(--ease) infinite}
 @keyframes morph{0%,40%{border-radius:24px}50%,90%{border-radius:50%}}
-.wavebox svg{flex:1;height:60px;overflow:visible}
+.wavebox svg{flex:1;min-width:0;width:100%;height:60px;overflow:visible}
 
 /* Rejilla de funciones */
 .bento{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-top:70px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:30px;position:relative;overflow:hidden;transition:transform .5s var(--ease),border-color .4s}
-.card:hover{transform:translateY(-4px) scale(1.01);border-color:rgba(25,195,125,.35)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:30px;position:relative;overflow:hidden;transition:scale .5s var(--ease),border-color .4s}
+.card:hover{scale:1.012;border-color:rgba(25,195,125,.35)}
 .card p{color:#a1a1a6;margin-top:10px;font-size:16px}
 .card .ic{width:46px;height:46px;border-radius:14px;background:rgba(25,195,125,.14);display:grid;place-items:center;margin-bottom:22px}
 .card .ic svg{width:24px;height:24px;stroke:var(--g2);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -129,7 +131,7 @@ h3{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:-.02
 .stat small{font-size:26px;color:var(--g2)}
 
 /* Windows */
-.win{margin-top:70px;border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.1),0 80px 160px -40px rgba(0,0,0,.9),0 40px 120px -60px rgba(25,195,125,.6);transform:perspective(2000px) rotateX(var(--wx,14deg)) scale(var(--ws,.94));transition:transform .2s linear;transform-origin:50% 0}
+.win{margin-top:70px;border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.1),0 80px 160px -40px rgba(0,0,0,.9),0 40px 120px -60px rgba(25,195,125,.6);transform:perspective(2000px) rotateX(var(--wx,14deg)) scale(var(--ws,.94));transform-origin:50% 0;will-change:transform}
 .win .tabs{display:flex;gap:10px;justify-content:center;margin-top:28px}
 .tabbtn{font-size:14px;font-weight:600;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:none;color:#a1a1a6;cursor:pointer;font-family:inherit;transition:all .3s}
 .tabbtn.on{background:#fff;color:#000;border-color:#fff}
@@ -140,8 +142,8 @@ h3{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:-.02
 
 /* Descargas */
 .dl{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:60px}
-.dlc{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:34px 30px;display:flex;flex-direction:column;gap:14px;transition:transform .5s var(--ease),border-color .4s}
-.dlc:hover{transform:translateY(-6px);border-color:rgba(25,195,125,.4)}
+.dlc{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:34px 30px;display:flex;flex-direction:column;gap:14px;transition:scale .5s var(--ease),border-color .4s}
+.dlc:hover{scale:1.02;border-color:rgba(25,195,125,.4)}
 .dlc .os{display:flex;align-items:center;gap:12px;font-family:var(--display);font-weight:700;font-size:22px}
 .dlc .os svg{width:30px;height:30px;fill:var(--g2)}
 .dlc p{color:#a1a1a6;font-size:15px;flex:1}
@@ -158,11 +160,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
 
 
 /* Accesibilidad, zonas seguras y pantallas táctiles */
+.skip{position:fixed;left:12px;top:-60px;z-index:70;background:var(--g1);color:#03140c;padding:10px 16px;border-radius:12px;font-weight:600}.skip:focus{top:12px}
+html{-webkit-tap-highlight-color:transparent}
 :focus-visible{outline:2px solid var(--g2);outline-offset:3px;border-radius:10px}
 nav{padding-top:env(safe-area-inset-top);height:calc(52px + env(safe-area-inset-top))}
 .wrap{padding-left:max(22px,env(safe-area-inset-left));padding-right:max(22px,env(safe-area-inset-right))}
 .hero{min-height:100vh;min-height:100svh}
-@media (hover:none){.pill:hover,.card:hover,.dlc:hover{transform:none}}
+@media (hover:none){.pill:hover,.card:hover,.dlc:hover{scale:none}}
 .menu-btn{display:none;width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:none;color:#fff;cursor:pointer;align-items:center;justify-content:center}
 .menu-btn span,.menu-btn span::before,.menu-btn span::after{display:block;width:16px;height:2px;background:#fff;border-radius:2px;position:relative;transition:transform .35s var(--ease),background .2s}
 .menu-btn span::before,.menu-btn span::after{content:"";position:absolute;left:0}
@@ -192,10 +196,12 @@ body.menu-open{overflow:hidden}
 .faq details[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
 .faq details p{color:#a1a1a6;padding:0 0 22px;max-width:680px;animation:fade .45s var(--ease)}
 footer a{color:#d2d2d7}footer a:hover{color:var(--g2)}
+.keys{display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:center;margin-top:30px;color:#a1a1a6;font-size:14px}.keys span{display:inline-flex;align-items:center;gap:6px}.keys em{font-style:normal;margin-left:4px}
+kbd{font-family:var(--text);font-size:13px;font-weight:600;min-width:30px;height:30px;padding:0 8px;display:inline-grid;place-items:center;border-radius:8px;background:linear-gradient(#2a2a2e,#1a1a1d);border:1px solid rgba(255,255,255,.12);box-shadow:0 2px 0 rgba(0,0,0,.6);color:#fff}
 .foot-links{display:flex;gap:18px;flex-wrap:wrap}
 @media (min-width:1600px){.wrap{max-width:1300px}body{font-size:18px}.phone{width:340px}.stage{height:740px}.phone.l{transform:translateX(calc(-50% - 300px)) translateY(80px) rotateY(18deg) scale(.86)}.phone.r{transform:translateX(calc(-50% + 300px)) translateY(80px) rotateY(-18deg) scale(.86)}}
 @media (min-width:901px) and (max-width:1100px){.phone.l{transform:translateX(calc(-50% - 220px)) translateY(70px) rotateY(18deg) scale(.82)}.phone.r{transform:translateX(calc(-50% + 220px)) translateY(70px) rotateY(-18deg) scale(.82)}}
-@media (max-width:900px){
+@media (max-width:900px){.aura{width:760px;height:760px}.js .reveal{filter:none;translate:0 28px}.js .reveal.in{translate:0 0}
   nav .links{display:none}.menu-btn{display:inline-flex}nav .pill.small{display:none}nav .wrap{gap:12px}.lang{margin-left:auto}
   .stage{height:520px}.phone{width:240px}
   .phone.l{transform:translateX(calc(-50% - 150px)) translateY(60px) rotateY(18deg) scale(.8)}
@@ -211,10 +217,11 @@ footer a{color:#d2d2d7}footer a:hover{color:var(--g2)}
 @media (max-width:420px){h1{font-size:clamp(40px,12.5vw,56px)}.cta .pill{width:100%;justify-content:center}.lead{font-size:17px}.wavebox{padding:0 16px;height:104px;gap:14px;border-radius:26px}.wavebox .play{width:52px;height:52px;border-radius:18px}.chip{font-size:16px;padding:10px 16px;border-radius:14px}.dl .pill{width:100%}.sub{font-size:18px}.stat{font-size:52px}.faq summary{font-size:17px}.win{border-radius:10px}.sheet a{font-size:28px}}
 @media (max-width:340px){.stage{height:480px}.phone{width:210px}.brand{font-size:16px}}
 @media (max-height:520px) and (orientation:landscape){.hero{min-height:auto;padding:84px 0 30px}h1{font-size:clamp(40px,7.5vw,68px);margin:14px 0}.lead{font-size:17px}h2{font-size:clamp(34px,5.5vw,56px)}.stage{height:440px;margin-top:40px}.phone{width:200px}.phone.l{transform:translateX(calc(-50% - 180px)) translateY(40px) rotateY(18deg) scale(.82)}.phone.r{transform:translateX(calc(-50% + 180px)) translateY(40px) rotateY(-18deg) scale(.82)}.story{grid-template-columns:1fr}.sticky{display:none}.step{min-height:auto;padding:28px 0;opacity:1}.step .mobile-shot{display:block!important;width:200px;margin:20px auto 0;border-radius:24px}section{padding:80px 0}}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none;filter:none}h1 .line span{transform:none}.fade-in{opacity:1}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.js .reveal{opacity:1;translate:none;filter:none}h1 .line span{transform:none}.fade-in{opacity:1}}
 </style>
 </head>
 <body>
+<a class="skip" href="#formats">Skip</a>
 <div class="progress" id="progress"></div>
 
 <nav>
@@ -245,7 +252,7 @@ footer a{color:#d2d2d7}footer a:hover{color:var(--g2)}
 <header class="hero">
   <div class="aura"></div>
   <div class="wrap" style="position:relative">
-    <span class="eyebrow fade-in" style="animation-delay:.1s"><i></i><span><span data-i18n="new">New</span> · v<span class="ver">1.1.5</span></span></span>
+    <span class="eyebrow fade-in" style="animation-delay:.1s"><i></i><span><span data-i18n="new">New</span> · v<span class="ver">1.1.6</span></span></span>
     <h1><span class="line"><span data-i18n="h1a">Watch. Listen.</span></span><span class="line"><span class="grad" data-i18n="h1b">No limits.</span></span></h1>
     <p class="lead fade-in" data-i18n="lead">A video and music player with the power of VLC and the soul of Material You. Every format, YouTube and a thousand more sites, on Android and Windows.</p>
     <div class="cta fade-in" style="animation-delay:.6s">
@@ -319,7 +326,7 @@ footer a{color:#d2d2d7}footer a:hover{color:var(--g2)}
     <p class="credit reveal d1"><span data-i18n="insp2">Expressive Material 3 design, inspired by</span> <a href="https://github.com/PixelPlayerHQ/PixelPlayer" target="_blank" rel="noopener">PixelPlayer</a></p>
     <div class="wavebox reveal d2" id="wavebox">
       <div class="play"><svg width="30" height="30" viewBox="0 0 24 24" fill="#03140c"><rect x="6" y="5" width="4" height="14" rx="1.5"/><rect x="14" y="5" width="4" height="14" rx="1.5"/></svg></div>
-      <svg viewBox="0 0 600 60" preserveAspectRatio="none"><path id="wave" fill="none" stroke="#19c37d" stroke-width="6" stroke-linecap="round"/><line id="rest" y1="30" y2="30" x2="600" stroke="rgba(255,255,255,.18)" stroke-width="6" stroke-linecap="round"/><line id="thumb" y1="16" y2="44" stroke="#19c37d" stroke-width="7" stroke-linecap="round"/></svg>
+      <svg id="waveSvg" viewBox="0 0 600 60"><path id="wave" fill="none" stroke="#19c37d" stroke-width="6" stroke-linecap="round"/><line id="rest" y1="30" y2="30" x2="596" stroke="rgba(255,255,255,.18)" stroke-width="6" stroke-linecap="round"/><line id="thumb" y1="16" y2="44" stroke="#19c37d" stroke-width="7" stroke-linecap="round"/></svg>
     </div>
   </div>
 </section>
@@ -330,7 +337,7 @@ footer a{color:#d2d2d7}footer a:hover{color:var(--g2)}
     <h2 class="reveal d1 center" data-i18n="b1">Made to be used.</h2>
     <div class="bento">
       <div class="card big s4 yt reveal">
-        <div class="stat">1000<small>+</small></div>
+        <div class="stat"><span id="count" data-to="1000">1000</span><small>+</small></div>
         <h3 style="margin-top:14px" data-i18n="c1">YouTube and a thousand more sites</h3>
         <p data-i18n="c1s">Thanks to yt-dlp, which updates itself every day. Up to 4K, with separate audio, and downloads to your phone or PC.</p>
       </div>
@@ -388,17 +395,24 @@ footer a{color:#d2d2d7}footer a:hover{color:var(--g2)}
     <p class="kicker reveal" data-i18n="k7">Now on Windows</p>
     <h2 class="reveal d1" data-i18n="x1">Your PC, Mac style.</h2>
     <p class="sub reveal d2" data-i18n="x1s">The same engine and the same soul, in a clean window with traffic lights. Custom installer, drag and drop, keyboard shortcuts and automatic updates.</p>
-    <div class="win reveal d2" id="win">
+    <div class="reveal d2"><div class="win" id="win">
       <div class="wincap" id="wincap">
         <img class="on" src="assets/site/desktop-videos.webp" width="1200" height="780" decoding="async" alt="ZeroPlayer for Windows">
         <img src="assets/site/desktop-music.webp" width="1200" height="780" decoding="async" alt="" loading="lazy">
         <img src="assets/site/desktop-settings.webp" width="1200" height="780" decoding="async" alt="" loading="lazy">
       </div>
-    </div>
+    </div></div>
     <div class="tabs reveal d3" style="display:flex;gap:10px;justify-content:center;margin-top:28px">
       <button class="tabbtn on" data-w="0" data-i18n="tv">Videos</button>
       <button class="tabbtn" data-w="1" data-i18n="tm">Music</button>
       <button class="tabbtn" data-w="2" data-i18n="ts">Settings</button>
+    </div>
+    <div class="keys reveal d3">
+      <span><kbd>Space</kbd><em data-i18n="kb1">Play / pause</em></span>
+      <span><kbd>←</kbd><kbd>→</kbd><em data-i18n="kb2">10 seconds</em></span>
+      <span><kbd>↑</kbd><kbd>↓</kbd><em data-i18n="kb3">Volume</em></span>
+      <span><kbd>F</kbd><em data-i18n="kb4">Full screen</em></span>
+      <span><kbd>M</kbd><em data-i18n="kb5">Mute</em></span>
     </div>
   </div>
 </section>
@@ -407,7 +421,7 @@ footer a{color:#d2d2d7}footer a:hover{color:var(--g2)}
   <div class="aura" style="top:60%;opacity:.6"></div>
   <div class="wrap" style="position:relative">
     <h2 class="reveal" data-i18n="d1">Get ZeroPlayer.</h2>
-    <p class="sub reveal d1" data-i18n="d1s">Free, no ads, no accounts. Version <span class="ver">1.1.5</span>.</p>
+    <p class="sub reveal d1" data-i18n="d1s">Free, no ads, no accounts. Version <span class="ver">1.1.6</span>.</p>
     <div class="dl">
       <div class="dlc reveal" id="dlAndroid">
         <span class="badge" data-i18n="rec">For your device</span>
@@ -463,7 +477,7 @@ footer a{color:#d2d2d7}footer a:hover{color:var(--g2)}
 </footer>
 
 <script>
-const ES={nav3:"Preguntas",insp:"Estética inspirada en",insp2:"Diseño Material 3 expresivo, inspirado en",rec:"Para tu dispositivo",rel:"Versiones",q0:"Preguntas.",q1:"¿Qué APK descargo?",q1a:"La de 64 bits (arm64‑v8a) sirve para prácticamente todos los móviles desde 2017. Solo los muy antiguos necesitan la de 32 bits. Si te equivocas, Android simplemente no la instalará.",q2:"Android dice que es de origen desconocido",q2a:"Es normal en las apps que no vienen de Google Play. Pulsa «Ajustes», permite instalar desde esa fuente y vuelve. Solo se hace una vez: después las actualizaciones se instalan desde la propia app.",q3:"Windows muestra «Windows protegió tu PC»",q3a:"El instalador no está firmado con un certificado de pago. Pulsa «Más información» y luego «Ejecutar de todas formas». Se instala solo para tu usuario, sin permisos de administrador.",q4:"¿Es gratis? ¿Tiene anuncios?",q4a:"Gratis, sin anuncios, sin cuentas y sin rastreo. Tu biblioteca se queda en tu dispositivo.",q5:"¿Cómo se actualiza?",q5a:"Las dos apps miran las versiones de esta web. Cuando hay una nueva te enseñan una tarjeta animada, la descargan y la instalan en un par de toques.",q6:"¿Por qué a veces YouTube deja de ir?",q6a:"YouTube cambia a menudo. ZeroPlayer pone al día su motor de enlaces (yt‑dlp) solo cada día, así que normalmente se arregla en unas horas. También puedes forzarlo en Ajustes → Internet y YouTube.",nav1:"Formatos",nav2:"Funciones",get:"Descargar",new:"Nuevo",h1a:"Mira. Escucha.",h1b:"Sin límites.",lead:"Un reproductor de vídeo y música con la potencia de VLC y el alma de Material You. Todos los formatos, YouTube y mil webs más, en Android y Windows.",free:"Descargar gratis",more:"Ver qué hace",k1:"Con el motor de VLC dentro",f1:"Si existe,<br>se reproduce.",f1s:"libVLC decodifica prácticamente todo: 4K HDR, subtítulos de cualquier tipo, varias pistas de audio, emisiones por internet y discos de tu NAS.",k2:"Tu biblioteca",s1:"Todo, en su sitio.",s1s:"Vídeos que se reanudan, carpetas, música por álbumes y artistas. Fluido, con rebote y siempre rápido.",k3:"Música",s2:"Música estilo Pixel.",s2s:"Barra de progreso ondulada, botones que cambian de forma, fundido entre canciones y letras sincronizadas que puedes traducir.",k4:"Reproduciendo",s3:"Colores que siguen a la música.",s3s:"El reproductor toma los colores de la carátula, y también la notificación y la pantalla de bloqueo.",k5:"Internet",s4:"Comparte un enlace. Listo.",s4s:"Comparte desde YouTube o el navegador para verlo al momento, o descarga el vídeo o el MP3.",w1:"Detalles que se mueven.",w1s:"Animaciones expresivas en todas partes: la barra ondula mientras suena y el botón de reproducir cambia de forma.",k6:"Y mucho más",b1:"Hecho para usarse.",c1:"YouTube y mil webs más",c1s:"Gracias a yt-dlp, que se actualiza solo cada día. Hasta 4K, con el audio aparte, y descargas al móvil o al PC.",c2s:"Salta solo los patrocinios, intros y recordatorios en YouTube.",c3:"¿Qué canción es?",c3s:"Reconoce la música que suena en tus vídeos y la guarda para luego.",c4:"Manos libres",c4s:"“Zero, siguiente canción”. Un asistente de voz sin internet que entiende seis idiomas.",c5:"Envía a la tele",c5s:"Chromecast y altavoces compatibles, directamente desde el reproductor.",c6:"Saltar intro, como en la tele",c6s:"Sáltate la intro, los créditos y los silencios. Siguiente episodio con cuenta atrás.",c7:"El sonido a tu gusto",c7s:"Ecualizador con ajustes, sincronización de audio, analizador de espectro y decodificación de máxima calidad.",c8:"Gestos y zoom",c8s:"Brillo, volumen, avanzar, pellizcar para hacer zoom y ventana flotante.",c9s:"Toma los colores de tu fondo de pantalla. Claro, oscuro y negro puro para AMOLED.",c10:"Siempre al día",c10s:"Las versiones nuevas se descargan e instalan desde la propia app, sin tienda.",k7:"Ahora en Windows",x1:"Tu PC, estilo Mac.",x1s:"El mismo motor y la misma alma, en una ventana limpia con semáforos. Instalador propio, arrastrar y soltar, atajos de teclado y actualizaciones automáticas.",tv:"Vídeos",tm:"Música",ts:"Ajustes",d1:"Consigue ZeroPlayer.",d1s:"Gratis, sin anuncios y sin cuentas. Versión 1.1.5.",a1:"Para casi todos los móviles desde 2017 (64 bits). Android 8 o superior.",dlapk:"Descargar APK",a2:"Windows 10 y 11 (64 bits). Se instala sin permisos de administrador y se actualiza solo.",dlexe:"Descargar para Windows",old:"Móviles antiguos",a3:"Versión de 32 bits para móviles de antes de 2017. Si no sabes cuál, elige la primera.",dlapk2:"Descargar APK (32 bits)",i1:"Descarga la APK",i2:"Ábrela y permite instalar",i3:"Disfruta. Las actualizaciones llegan solas",all:"Todas las versiones y novedades →",legal:"Motor de reproducción: libVLC de VideoLAN (LGPL 2.1). ZeroPlayer no es un producto oficial de VideoLAN ni de VLC. yt-dlp, FFmpeg, Vosk y SponsorBlock pertenecen a sus autores."};
+const ES={kb1:"Reproducir / pausa",kb2:"10 segundos",kb3:"Volumen",kb4:"Pantalla completa",kb5:"Silencio",nav3:"Preguntas",insp:"Estética inspirada en",insp2:"Diseño Material 3 expresivo, inspirado en",rec:"Para tu dispositivo",rel:"Versiones",q0:"Preguntas.",q1:"¿Qué APK descargo?",q1a:"La de 64 bits (arm64‑v8a) sirve para prácticamente todos los móviles desde 2017. Solo los muy antiguos necesitan la de 32 bits. Si te equivocas, Android simplemente no la instalará.",q2:"Android dice que es de origen desconocido",q2a:"Es normal en las apps que no vienen de Google Play. Pulsa «Ajustes», permite instalar desde esa fuente y vuelve. Solo se hace una vez: después las actualizaciones se instalan desde la propia app.",q3:"Windows muestra «Windows protegió tu PC»",q3a:"El instalador no está firmado con un certificado de pago. Pulsa «Más información» y luego «Ejecutar de todas formas». Se instala solo para tu usuario, sin permisos de administrador.",q4:"¿Es gratis? ¿Tiene anuncios?",q4a:"Gratis, sin anuncios, sin cuentas y sin rastreo. Tu biblioteca se queda en tu dispositivo.",q5:"¿Cómo se actualiza?",q5a:"Las dos apps miran las versiones de esta web. Cuando hay una nueva te enseñan una tarjeta animada, la descargan y la instalan en un par de toques.",q6:"¿Por qué a veces YouTube deja de ir?",q6a:"YouTube cambia a menudo. ZeroPlayer pone al día su motor de enlaces (yt‑dlp) solo cada día, así que normalmente se arregla en unas horas. También puedes forzarlo en Ajustes → Internet y YouTube.",nav1:"Formatos",nav2:"Funciones",get:"Descargar",new:"Nuevo",h1a:"Mira. Escucha.",h1b:"Sin límites.",lead:"Un reproductor de vídeo y música con la potencia de VLC y el alma de Material You. Todos los formatos, YouTube y mil webs más, en Android y Windows.",free:"Descargar gratis",more:"Ver qué hace",k1:"Con el motor de VLC dentro",f1:"Si existe,<br>se reproduce.",f1s:"libVLC decodifica prácticamente todo: 4K HDR, subtítulos de cualquier tipo, varias pistas de audio, emisiones por internet y discos de tu NAS.",k2:"Tu biblioteca",s1:"Todo, en su sitio.",s1s:"Vídeos que se reanudan, carpetas, música por álbumes y artistas. Fluido, con rebote y siempre rápido.",k3:"Música",s2:"Música estilo Pixel.",s2s:"Barra de progreso ondulada, botones que cambian de forma, fundido entre canciones y letras sincronizadas que puedes traducir.",k4:"Reproduciendo",s3:"Colores que siguen a la música.",s3s:"El reproductor toma los colores de la carátula, y también la notificación y la pantalla de bloqueo.",k5:"Internet",s4:"Comparte un enlace. Listo.",s4s:"Comparte desde YouTube o el navegador para verlo al momento, o descarga el vídeo o el MP3.",w1:"Detalles que se mueven.",w1s:"Animaciones expresivas en todas partes: la barra ondula mientras suena y el botón de reproducir cambia de forma.",k6:"Y mucho más",b1:"Hecho para usarse.",c1:"YouTube y mil webs más",c1s:"Gracias a yt-dlp, que se actualiza solo cada día. Hasta 4K, con el audio aparte, y descargas al móvil o al PC.",c2s:"Salta solo los patrocinios, intros y recordatorios en YouTube.",c3:"¿Qué canción es?",c3s:"Reconoce la música que suena en tus vídeos y la guarda para luego.",c4:"Manos libres",c4s:"“Zero, siguiente canción”. Un asistente de voz sin internet que entiende seis idiomas.",c5:"Envía a la tele",c5s:"Chromecast y altavoces compatibles, directamente desde el reproductor.",c6:"Saltar intro, como en la tele",c6s:"Sáltate la intro, los créditos y los silencios. Siguiente episodio con cuenta atrás.",c7:"El sonido a tu gusto",c7s:"Ecualizador con ajustes, sincronización de audio, analizador de espectro y decodificación de máxima calidad.",c8:"Gestos y zoom",c8s:"Brillo, volumen, avanzar, pellizcar para hacer zoom y ventana flotante.",c9s:"Toma los colores de tu fondo de pantalla. Claro, oscuro y negro puro para AMOLED.",c10:"Siempre al día",c10s:"Las versiones nuevas se descargan e instalan desde la propia app, sin tienda.",k7:"Ahora en Windows",x1:"Tu PC, estilo Mac.",x1s:"El mismo motor y la misma alma, en una ventana limpia con semáforos. Instalador propio, arrastrar y soltar, atajos de teclado y actualizaciones automáticas.",tv:"Vídeos",tm:"Música",ts:"Ajustes",d1:"Consigue ZeroPlayer.",d1s:"Gratis, sin anuncios y sin cuentas. Versión 1.1.6.",a1:"Para casi todos los móviles desde 2017 (64 bits). Android 8 o superior.",dlapk:"Descargar APK",a2:"Windows 10 y 11 (64 bits). Se instala sin permisos de administrador y se actualiza solo.",dlexe:"Descargar para Windows",old:"Móviles antiguos",a3:"Versión de 32 bits para móviles de antes de 2017. Si no sabes cuál, elige la primera.",dlapk2:"Descargar APK (32 bits)",i1:"Descarga la APK",i2:"Ábrela y permite instalar",i3:"Disfruta. Las actualizaciones llegan solas",all:"Todas las versiones y novedades →",legal:"Motor de reproducción: libVLC de VideoLAN (LGPL 2.1). ZeroPlayer no es un producto oficial de VideoLAN ni de VLC. yt-dlp, FFmpeg, Vosk y SponsorBlock pertenecen a sus autores."};
 const EN={};
 document.querySelectorAll("[data-i18n]").forEach(e=>EN[e.dataset.i18n]=e.innerHTML);
 let lang=(localStorage.getItem("zp-lang")||(navigator.language||"en")).startsWith("es")?"es":"en";
@@ -502,7 +516,12 @@ function fill(id,a){const el=document.getElementById(id);const html=a.map((x,i)=
 fill("t1",F1);fill("t2",F2);
 
 // Aparición al hacer scroll
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.15,rootMargin:"0px 0px -6% 0px"});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const el=e.target;el.classList.add("in");io.unobserve(el);
+  // Al terminar de aparecer se quitan las clases, para que los retrasos no afecten luego al pasar el ratón.
+  setTimeout(()=>el.classList.remove("reveal","in","d1","d2","d3","d4"),1500);
+  if(el.querySelector&&el.querySelector("#count"))countUp()}}),{threshold:.12,rootMargin:"0px 0px -5% 0px"});
+function countUp(){const c=document.getElementById("count"),to=+c.dataset.to,t0=performance.now();
+  (function f(t){const k=Math.min(1,(t-t0)/1400),e=1-Math.pow(1-k,3);c.textContent=Math.round(to*e);if(k<1)requestAnimationFrame(f)})(t0)}
 document.querySelectorAll(".reveal").forEach(e=>io.observe(e));
 
 // Historia: cambia la pantalla del móvil fijo
@@ -526,16 +545,18 @@ function onScroll(){
   win.style.setProperty("--wx",(14*(1-p))+"deg");win.style.setProperty("--ws",.94+.06*p);
   bar.style.width=(y/(document.documentElement.scrollHeight-h)*100)+"%";
 }
-addEventListener("scroll",onScroll,{passive:true});onScroll();
+let ticking=false;addEventListener("scroll",()=>{if(!ticking){ticking=true;requestAnimationFrame(()=>{onScroll();ticking=false})}},{passive:true});addEventListener("resize",onScroll);onScroll();
 
 // Barra ondulada animada
 const wave=document.getElementById("wave"),rest=document.getElementById("rest"),thumb=document.getElementById("thumb");
-let t0=performance.now();
+let t0=performance.now(),WW=600;const waveSvg=document.getElementById("waveSvg");
+function sizeWave(){const r=waveSvg.getBoundingClientRect();WW=r.height?Math.max(120,Math.round(r.width*60/r.height)):600;waveSvg.setAttribute("viewBox",`0 0 ${WW} 60`);rest.setAttribute("x2",WW-4)}
+sizeWave();addEventListener("resize",sizeWave);
 let waveOn=false,waveRun=false;new IntersectionObserver(es=>{waveOn=es[0].isIntersecting;if(waveOn&&!waveRun){waveRun=true;requestAnimationFrame(frame)}}).observe(document.getElementById("wavebox"));
 function frame(t){
   if(!waveOn){waveRun=false;return}
-  const k=((t-t0)/9000)%1,x=30+540*k,ph=t/260;let d="M0 30";
-  for(let i=0;i<=x-10;i+=4)d+=` L${i} ${30+7*Math.sin(i/22-ph)}`;
+  const k=((t-t0)/9000)%1,x=8+(WW-24)*k,ph=t/260;let d="M4 30";
+  for(let i=4;i<=x-10;i+=4)d+=` L${i} ${30+7*Math.sin(i/22-ph)}`;
   wave.setAttribute("d",d);rest.setAttribute("x1",x+12);thumb.setAttribute("x1",x);thumb.setAttribute("x2",x);
   requestAnimationFrame(frame);
 }
