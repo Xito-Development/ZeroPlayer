@@ -2,13 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ZeroPlayer</title>
 <meta name="description" content="A modern video and music player powered by the VLC engine. Plays any format, YouTube and a thousand more sites, with Material You design. Android and Windows.">
 <meta property="og:title" content="ZeroPlayer">
 <meta property="og:description" content="Watch. Listen. No limits. A modern player powered by the VLC engine.">
 <meta property="og:image" content="assets/social.png">
 <meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="assets/logo.png">
 <link rel="icon" href="assets/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,8 +24,9 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{background:var(--bg);color:var(--fg);font-family:var(--text);font-size:17px;line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-img{display:block;max-width:100%}
+html,body{overflow-x:hidden}@supports (overflow:clip){html,body{overflow-x:clip}}
+body{background:var(--bg);color:var(--fg);font-family:var(--text);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%;height:auto}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
 
@@ -152,8 +156,47 @@ footer .wrap{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
 
 .progress{position:fixed;left:0;top:0;height:2px;background:linear-gradient(90deg,var(--g3),var(--g2));z-index:60;width:0;box-shadow:0 0 10px var(--g1)}
 
+
+/* Accesibilidad, zonas seguras y pantallas táctiles */
+:focus-visible{outline:2px solid var(--g2);outline-offset:3px;border-radius:10px}
+nav{padding-top:env(safe-area-inset-top);height:calc(52px + env(safe-area-inset-top))}
+.wrap{padding-left:max(22px,env(safe-area-inset-left));padding-right:max(22px,env(safe-area-inset-right))}
+.hero{min-height:100vh;min-height:100svh}
+@media (hover:none){.pill:hover,.card:hover,.dlc:hover{transform:none}}
+.menu-btn{display:none;width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:none;color:#fff;cursor:pointer;align-items:center;justify-content:center}
+.menu-btn span,.menu-btn span::before,.menu-btn span::after{display:block;width:16px;height:2px;background:#fff;border-radius:2px;position:relative;transition:transform .35s var(--ease),background .2s}
+.menu-btn span::before,.menu-btn span::after{content:"";position:absolute;left:0}
+.menu-btn span::before{top:-5px}.menu-btn span::after{top:5px}
+body.menu-open .menu-btn span{background:transparent}
+body.menu-open .menu-btn span::before{transform:translateY(5px) rotate(45deg)}
+body.menu-open .menu-btn span::after{transform:translateY(-5px) rotate(-45deg)}
+.sheet{position:fixed;inset:0;z-index:45;background:rgba(0,0,0,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);display:flex;flex-direction:column;justify-content:center;gap:6px;padding:90px 32px 40px;opacity:0;pointer-events:none;transition:opacity .35s var(--ease)}
+.sheet a{font-family:var(--display);font-size:34px;font-weight:700;letter-spacing:-.03em;padding:8px 0;transform:translateY(16px);transition:transform .5s var(--ease),color .2s}
+.sheet a:hover{color:var(--g2)}
+body.menu-open .sheet{opacity:1;pointer-events:auto}
+body.menu-open .sheet a{transform:none}
+body.menu-open{overflow:hidden}
+.credit{margin-top:22px;font-size:14px;color:var(--muted)}
+.credit a{color:var(--g2);font-weight:600;border-bottom:1px solid rgba(93,242,176,.35);transition:border-color .2s}
+.credit a:hover{border-color:var(--g2)}
+.meta{display:block;font-size:13px;color:var(--muted);margin-top:-4px}
+.dlc{position:relative}
+.dlc.rec{border-color:rgba(25,195,125,.55);box-shadow:0 30px 80px -40px rgba(25,195,125,.6)}
+.dlc .badge{position:absolute;top:18px;right:18px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#03140c;background:var(--g2);padding:4px 10px;border-radius:999px;display:none}
+.dlc.rec .badge{display:block}
+.faq{max-width:780px;margin:56px auto 0;text-align:left}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:22px 40px 22px 0;font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:-.01em;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";position:absolute;right:6px;top:50%;width:12px;height:12px;border-right:2px solid var(--g2);border-bottom:2px solid var(--g2);transform:translateY(-70%) rotate(45deg);transition:transform .35s var(--ease)}
+.faq details[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
+.faq details p{color:#a1a1a6;padding:0 0 22px;max-width:680px;animation:fade .45s var(--ease)}
+footer a{color:#d2d2d7}footer a:hover{color:var(--g2)}
+.foot-links{display:flex;gap:18px;flex-wrap:wrap}
+@media (min-width:1600px){.wrap{max-width:1300px}body{font-size:18px}.phone{width:340px}.stage{height:740px}.phone.l{transform:translateX(calc(-50% - 300px)) translateY(80px) rotateY(18deg) scale(.86)}.phone.r{transform:translateX(calc(-50% + 300px)) translateY(80px) rotateY(-18deg) scale(.86)}}
+@media (min-width:901px) and (max-width:1100px){.phone.l{transform:translateX(calc(-50% - 220px)) translateY(70px) rotateY(18deg) scale(.82)}.phone.r{transform:translateX(calc(-50% + 220px)) translateY(70px) rotateY(-18deg) scale(.82)}}
 @media (max-width:900px){
-  nav .links{display:none}
+  nav .links{display:none}.menu-btn{display:inline-flex}nav .pill.small{display:none}nav .wrap{gap:12px}.lang{margin-left:auto}
   .stage{height:520px}.phone{width:240px}
   .phone.l{transform:translateX(calc(-50% - 150px)) translateY(60px) rotateY(18deg) scale(.8)}
   .phone.r{transform:translateX(calc(-50% + 150px)) translateY(60px) rotateY(-18deg) scale(.8)}
@@ -164,7 +207,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
   .dl{grid-template-columns:1fr}
   section{padding:96px 0}
 }
-@media (max-width:520px){.phone.l,.phone.r{display:none}.s2{grid-column:span 2}}
+@media (max-width:520px){.phone.l,.phone.r{display:none}.s2{grid-column:span 2}.stage{height:560px;margin-top:50px}.phone{width:250px}.bento{gap:12px}.card{padding:24px;border-radius:24px}.card.big{min-height:280px}}
+@media (max-width:420px){h1{font-size:clamp(40px,12.5vw,56px)}.cta .pill{width:100%;justify-content:center}.lead{font-size:17px}.wavebox{padding:0 16px;height:104px;gap:14px;border-radius:26px}.wavebox .play{width:52px;height:52px;border-radius:18px}.chip{font-size:16px;padding:10px 16px;border-radius:14px}.dl .pill{width:100%}.sub{font-size:18px}.stat{font-size:52px}.faq summary{font-size:17px}.win{border-radius:10px}.sheet a{font-size:28px}}
+@media (max-width:340px){.stage{height:480px}.phone{width:210px}.brand{font-size:16px}}
+@media (max-height:520px) and (orientation:landscape){.hero{min-height:auto;padding:84px 0 30px}h1{font-size:clamp(40px,7.5vw,68px);margin:14px 0}.lead{font-size:17px}h2{font-size:clamp(34px,5.5vw,56px)}.stage{height:440px;margin-top:40px}.phone{width:200px}.phone.l{transform:translateX(calc(-50% - 180px)) translateY(40px) rotateY(18deg) scale(.82)}.phone.r{transform:translateX(calc(-50% + 180px)) translateY(40px) rotateY(-18deg) scale(.82)}.story{grid-template-columns:1fr}.sticky{display:none}.step{min-height:auto;padding:28px 0;opacity:1}.step .mobile-shot{display:block!important;width:200px;margin:20px auto 0;border-radius:24px}section{padding:80px 0}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none;filter:none}h1 .line span{transform:none}.fade-in{opacity:1}}
 </style>
 </head>
@@ -178,27 +224,39 @@ footer .wrap{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
       <a href="#formats" data-i18n="nav1">Formats</a>
       <a href="#features" data-i18n="nav2">Features</a>
       <a href="#windows">Windows</a>
+      <a href="#faq" data-i18n="nav3">Questions</a>
       <a href="https://github.com/Xito-Development/ZeroPlayer">GitHub</a>
     </div>
-    <button class="lang" id="lang">ES</button>
+    <button class="lang" id="lang" aria-label="Language">ES</button>
     <a class="pill primary small" href="#download" data-i18n="get">Download</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false"><span></span></button>
   </div>
 </nav>
+
+<div class="sheet" id="sheet">
+  <a href="#formats" data-i18n="nav1">Formats</a>
+  <a href="#features" data-i18n="nav2">Features</a>
+  <a href="#windows">Windows</a>
+  <a href="#faq" data-i18n="nav3">Questions</a>
+  <a href="#download" data-i18n="get">Download</a>
+  <a href="https://github.com/Xito-Development/ZeroPlayer">GitHub</a>
+</div>
 
 <header class="hero">
   <div class="aura"></div>
   <div class="wrap" style="position:relative">
-    <span class="eyebrow fade-in" style="animation-delay:.1s"><i></i><span data-i18n="new">New</span> · v1.1.4</span>
+    <span class="eyebrow fade-in" style="animation-delay:.1s"><i></i><span><span data-i18n="new">New</span> · v<span class="ver">1.1.5</span></span></span>
     <h1><span class="line"><span data-i18n="h1a">Watch. Listen.</span></span><span class="line"><span class="grad" data-i18n="h1b">No limits.</span></span></h1>
     <p class="lead fade-in" data-i18n="lead">A video and music player with the power of VLC and the soul of Material You. Every format, YouTube and a thousand more sites, on Android and Windows.</p>
     <div class="cta fade-in" style="animation-delay:.6s">
-      <a class="pill primary" href="#download"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="free">Download free</span></a>
+      <a class="pill primary" href="#download" id="smartDl"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="smartTxt" data-i18n="free">Download free</span></a>
       <a class="pill ghost" href="#features"><span data-i18n="more">See what it does</span> →</a>
     </div>
+    <p class="credit fade-in" style="animation-delay:.75s"><span data-i18n="insp">Design inspired by</span> <a href="https://github.com/PixelPlayerHQ/PixelPlayer" target="_blank" rel="noopener">PixelPlayer</a></p>
     <div class="stage" id="stage">
-      <div class="phone l"><img src="assets/site/phone-videos.webp" alt="" loading="eager"></div>
-      <div class="phone c" id="heroPhone"><img src="assets/site/phone-player.webp" alt="ZeroPlayer" loading="eager"></div>
-      <div class="phone r"><img src="assets/site/phone-music.webp" alt="" loading="eager"></div>
+      <div class="phone l"><img src="assets/site/phone-videos.webp" width="540" height="1171" decoding="async" alt="" loading="eager"></div>
+      <div class="phone c" id="heroPhone"><img src="assets/site/phone-player.webp" width="540" height="1171" decoding="async" alt="ZeroPlayer" loading="eager"></div>
+      <div class="phone r"><img src="assets/site/phone-music.webp" width="540" height="1171" decoding="async" alt="" loading="eager"></div>
     </div>
   </div>
 </header>
@@ -222,33 +280,33 @@ footer .wrap{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
         <p class="kicker" data-i18n="k2">Your library</p>
         <h2 data-i18n="s1">Everything, in its place.</h2>
         <p class="sub" data-i18n="s1s">Videos with resume, folders, music by albums and artists. Smooth, springy and always fast.</p>
-        <img class="mobile-shot" src="assets/site/phone-videos.webp" alt="" style="display:none" loading="lazy">
+        <img class="mobile-shot" src="assets/site/phone-videos.webp" width="540" height="1171" decoding="async" alt="" style="display:none" loading="lazy">
       </div>
       <div class="step" data-shot="1">
         <p class="kicker" data-i18n="k3">Music</p>
         <h2 data-i18n="s2">Pixel‑style music.</h2>
         <p class="sub" data-i18n="s2s">Wavy progress bar, buttons that morph, crossfade between songs and synced lyrics you can translate.</p>
-        <img class="mobile-shot" src="assets/site/phone-music.webp" alt="" style="display:none" loading="lazy">
+        <img class="mobile-shot" src="assets/site/phone-music.webp" width="540" height="1171" decoding="async" alt="" style="display:none" loading="lazy">
       </div>
       <div class="step" data-shot="2">
         <p class="kicker" data-i18n="k4">Now playing</p>
         <h2 data-i18n="s3">Colors that follow the music.</h2>
         <p class="sub" data-i18n="s3s">The player takes the colors from the album art, and so do the notification and the lock screen.</p>
-        <img class="mobile-shot" src="assets/site/phone-player2.webp" alt="" style="display:none" loading="lazy">
+        <img class="mobile-shot" src="assets/site/phone-player2.webp" width="540" height="1171" decoding="async" alt="" style="display:none" loading="lazy">
       </div>
       <div class="step" data-shot="3">
         <p class="kicker" data-i18n="k5">Internet</p>
         <h2 data-i18n="s4">Share a link. Done.</h2>
         <p class="sub" data-i18n="s4s">Share from YouTube or the browser to play it right away, or download the video or the MP3.</p>
-        <img class="mobile-shot" src="assets/site/phone-player.webp" alt="" style="display:none" loading="lazy">
+        <img class="mobile-shot" src="assets/site/phone-player.webp" width="540" height="1171" decoding="async" alt="" style="display:none" loading="lazy">
       </div>
     </div>
     <div class="sticky">
       <div class="phone"><div class="screens" id="screens">
-        <img class="on" src="assets/site/phone-videos.webp" alt="">
-        <img src="assets/site/phone-music.webp" alt="" loading="lazy">
-        <img src="assets/site/phone-player2.webp" alt="" loading="lazy">
-        <img src="assets/site/phone-player.webp" alt="" loading="lazy">
+        <img class="on" src="assets/site/phone-videos.webp" width="540" height="1171" decoding="async" alt="">
+        <img src="assets/site/phone-music.webp" width="540" height="1171" decoding="async" alt="" loading="lazy">
+        <img src="assets/site/phone-player2.webp" width="540" height="1171" decoding="async" alt="" loading="lazy">
+        <img src="assets/site/phone-player.webp" width="540" height="1171" decoding="async" alt="" loading="lazy">
       </div></div>
     </div>
   </div>
@@ -258,7 +316,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
   <div class="wrap">
     <h2 class="reveal" data-i18n="w1">Details that move.</h2>
     <p class="sub reveal d1" data-i18n="w1s">Expressive animations everywhere: the progress bar waves while it plays and the play button changes shape.</p>
-    <div class="wavebox reveal d2">
+    <p class="credit reveal d1"><span data-i18n="insp2">Expressive Material 3 design, inspired by</span> <a href="https://github.com/PixelPlayerHQ/PixelPlayer" target="_blank" rel="noopener">PixelPlayer</a></p>
+    <div class="wavebox reveal d2" id="wavebox">
       <div class="play"><svg width="30" height="30" viewBox="0 0 24 24" fill="#03140c"><rect x="6" y="5" width="4" height="14" rx="1.5"/><rect x="14" y="5" width="4" height="14" rx="1.5"/></svg></div>
       <svg viewBox="0 0 600 60" preserveAspectRatio="none"><path id="wave" fill="none" stroke="#19c37d" stroke-width="6" stroke-linecap="round"/><line id="rest" y1="30" y2="30" x2="600" stroke="rgba(255,255,255,.18)" stroke-width="6" stroke-linecap="round"/><line id="thumb" y1="16" y2="44" stroke="#19c37d" stroke-width="7" stroke-linecap="round"/></svg>
     </div>
@@ -331,9 +390,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
     <p class="sub reveal d2" data-i18n="x1s">The same engine and the same soul, in a clean window with traffic lights. Custom installer, drag and drop, keyboard shortcuts and automatic updates.</p>
     <div class="win reveal d2" id="win">
       <div class="wincap" id="wincap">
-        <img class="on" src="assets/site/desktop-videos.webp" alt="ZeroPlayer for Windows">
-        <img src="assets/site/desktop-music.webp" alt="" loading="lazy">
-        <img src="assets/site/desktop-settings.webp" alt="" loading="lazy">
+        <img class="on" src="assets/site/desktop-videos.webp" width="1200" height="780" decoding="async" alt="ZeroPlayer for Windows">
+        <img src="assets/site/desktop-music.webp" width="1200" height="780" decoding="async" alt="" loading="lazy">
+        <img src="assets/site/desktop-settings.webp" width="1200" height="780" decoding="async" alt="" loading="lazy">
       </div>
     </div>
     <div class="tabs reveal d3" style="display:flex;gap:10px;justify-content:center;margin-top:28px">
@@ -344,25 +403,30 @@ footer .wrap{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
   </div>
 </section>
 
-<section id="download" class="center">
+<section id="download" class="center" style="overflow:hidden">
   <div class="aura" style="top:60%;opacity:.6"></div>
   <div class="wrap" style="position:relative">
     <h2 class="reveal" data-i18n="d1">Get ZeroPlayer.</h2>
-    <p class="sub reveal d1" data-i18n="d1s">Free, no ads, no accounts. Version 1.1.4.</p>
+    <p class="sub reveal d1" data-i18n="d1s">Free, no ads, no accounts. Version <span class="ver">1.1.5</span>.</p>
     <div class="dl">
-      <div class="dlc reveal">
+      <div class="dlc reveal" id="dlAndroid">
+        <span class="badge" data-i18n="rec">For your device</span>
         <div class="os"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.86 3.22a11.4 11.4 0 0 0-9.84 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg>Android</div>
         <p data-i18n="a1">For almost every phone from 2017 on (64‑bit). Android 8 or newer.</p>
+        <span class="meta" data-size="ZeroPlayer-arm64-v8a.apk"></span>
         <a class="pill primary" href="https://github.com/Xito-Development/ZeroPlayer/releases/latest/download/ZeroPlayer-arm64-v8a.apk"><span data-i18n="dlapk">Download APK</span></a>
       </div>
-      <div class="dlc reveal d1">
+      <div class="dlc reveal d1" id="dlWindows">
+        <span class="badge" data-i18n="rec">For your device</span>
         <div class="os"><svg viewBox="0 0 24 24"><path d="M3 5.5 10.5 4.4v7.1H3zm0 13 7.5 1.1v-7H3zm8.4 1.2L21 21v-8.5h-9.6zm0-15.4v7.2H21V3z"/></svg>Windows</div>
         <p data-i18n="a2">Windows 10 and 11 (64‑bit). Installs without admin rights and updates itself.</p>
+        <span class="meta" data-size="ZeroPlayer-Setup.exe"></span>
         <a class="pill primary" href="https://github.com/Xito-Development/ZeroPlayer/releases/latest/download/ZeroPlayer-Setup.exe"><span data-i18n="dlexe">Download for Windows</span></a>
       </div>
       <div class="dlc reveal d2">
         <div class="os"><svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.86 3.22a11.4 11.4 0 0 0-9.84 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52z"/></svg><span data-i18n="old">Older phones</span></div>
         <p data-i18n="a3">32‑bit version for phones from before 2017. If you're not sure, choose the first one.</p>
+        <span class="meta" data-size="ZeroPlayer-armeabi-v7a.apk"></span>
         <a class="pill ghost" href="https://github.com/Xito-Development/ZeroPlayer/releases/latest/download/ZeroPlayer-armeabi-v7a.apk"><span data-i18n="dlapk2">Download APK (32‑bit)</span></a>
       </div>
     </div>
@@ -375,21 +439,62 @@ footer .wrap{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
   </div>
 </section>
 
+<section id="faq" class="center" style="padding-top:40px">
+  <div class="wrap">
+    <h2 class="reveal" data-i18n="q0">Questions.</h2>
+    <div class="faq reveal d1">
+      <details><summary data-i18n="q1">Which APK do I download?</summary><p data-i18n="q1a">The 64‑bit one (arm64‑v8a) works on practically every phone from 2017 on. Only very old phones need the 32‑bit one. If you choose wrong, Android simply won't install it.</p></details>
+      <details><summary data-i18n="q2">Android says it's from an unknown source</summary><p data-i18n="q2a">That's normal for apps that don't come from Google Play. Tap “Settings”, allow installing from this source and go back. You only do it once: after that, updates install from the app itself.</p></details>
+      <details><summary data-i18n="q3">Windows shows “Windows protected your PC”</summary><p data-i18n="q3a">The installer isn't signed with a paid certificate. Click “More info” and then “Run anyway”. It installs only for your user, without admin rights.</p></details>
+      <details><summary data-i18n="q4">Is it free? Does it have ads?</summary><p data-i18n="q4a">Free, with no ads, no accounts and no tracking. Your library stays on your device.</p></details>
+      <details><summary data-i18n="q5">How does it update?</summary><p data-i18n="q5a">Both apps check this site's releases. When there is a new version they show you an animated card, download it and install it in a couple of taps.</p></details>
+      <details><summary data-i18n="q6">Why does YouTube sometimes stop working?</summary><p data-i18n="q6a">YouTube changes often. ZeroPlayer updates its link engine (yt‑dlp) by itself every day, so it usually fixes itself within hours. You can also force it in Settings → Internet and YouTube.</p></details>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
-    <div><b style="color:#d2d2d7">ZeroPlayer</b> · Xito Development</div>
+    <div><b style="color:#d2d2d7">ZeroPlayer</b> · Xito Development
+      <div class="foot-links" style="margin-top:8px"><a href="https://github.com/Xito-Development/ZeroPlayer">GitHub</a><a href="https://github.com/Xito-Development/ZeroPlayer/releases" data-i18n="rel">Releases</a><a href="https://github.com/PixelPlayerHQ/PixelPlayer" target="_blank" rel="noopener"><span data-i18n="insp">Design inspired by</span> PixelPlayer</a></div>
+    </div>
     <div data-i18n="legal">Playback engine: libVLC by VideoLAN (LGPL 2.1). ZeroPlayer is not an official VideoLAN or VLC product. yt-dlp, FFmpeg, Vosk and SponsorBlock belong to their authors.</div>
   </div>
 </footer>
 
 <script>
-const ES={nav1:"Formatos",nav2:"Funciones",get:"Descargar",new:"Nuevo",h1a:"Mira. Escucha.",h1b:"Sin límites.",lead:"Un reproductor de vídeo y música con la potencia de VLC y el alma de Material You. Todos los formatos, YouTube y mil webs más, en Android y Windows.",free:"Descargar gratis",more:"Ver qué hace",k1:"Con el motor de VLC dentro",f1:"Si existe,<br>se reproduce.",f1s:"libVLC decodifica prácticamente todo: 4K HDR, subtítulos de cualquier tipo, varias pistas de audio, emisiones por internet y discos de tu NAS.",k2:"Tu biblioteca",s1:"Todo, en su sitio.",s1s:"Vídeos que se reanudan, carpetas, música por álbumes y artistas. Fluido, con rebote y siempre rápido.",k3:"Música",s2:"Música estilo Pixel.",s2s:"Barra de progreso ondulada, botones que cambian de forma, fundido entre canciones y letras sincronizadas que puedes traducir.",k4:"Reproduciendo",s3:"Colores que siguen a la música.",s3s:"El reproductor toma los colores de la carátula, y también la notificación y la pantalla de bloqueo.",k5:"Internet",s4:"Comparte un enlace. Listo.",s4s:"Comparte desde YouTube o el navegador para verlo al momento, o descarga el vídeo o el MP3.",w1:"Detalles que se mueven.",w1s:"Animaciones expresivas en todas partes: la barra ondula mientras suena y el botón de reproducir cambia de forma.",k6:"Y mucho más",b1:"Hecho para usarse.",c1:"YouTube y mil webs más",c1s:"Gracias a yt-dlp, que se actualiza solo cada día. Hasta 4K, con el audio aparte, y descargas al móvil o al PC.",c2s:"Salta solo los patrocinios, intros y recordatorios en YouTube.",c3:"¿Qué canción es?",c3s:"Reconoce la música que suena en tus vídeos y la guarda para luego.",c4:"Manos libres",c4s:"“Zero, siguiente canción”. Un asistente de voz sin internet que entiende seis idiomas.",c5:"Envía a la tele",c5s:"Chromecast y altavoces compatibles, directamente desde el reproductor.",c6:"Saltar intro, como en la tele",c6s:"Sáltate la intro, los créditos y los silencios. Siguiente episodio con cuenta atrás.",c7:"El sonido a tu gusto",c7s:"Ecualizador con ajustes, sincronización de audio, analizador de espectro y decodificación de máxima calidad.",c8:"Gestos y zoom",c8s:"Brillo, volumen, avanzar, pellizcar para hacer zoom y ventana flotante.",c9s:"Toma los colores de tu fondo de pantalla. Claro, oscuro y negro puro para AMOLED.",c10:"Siempre al día",c10s:"Las versiones nuevas se descargan e instalan desde la propia app, sin tienda.",k7:"Ahora en Windows",x1:"Tu PC, estilo Mac.",x1s:"El mismo motor y la misma alma, en una ventana limpia con semáforos. Instalador propio, arrastrar y soltar, atajos de teclado y actualizaciones automáticas.",tv:"Vídeos",tm:"Música",ts:"Ajustes",d1:"Consigue ZeroPlayer.",d1s:"Gratis, sin anuncios y sin cuentas. Versión 1.1.4.",a1:"Para casi todos los móviles desde 2017 (64 bits). Android 8 o superior.",dlapk:"Descargar APK",a2:"Windows 10 y 11 (64 bits). Se instala sin permisos de administrador y se actualiza solo.",dlexe:"Descargar para Windows",old:"Móviles antiguos",a3:"Versión de 32 bits para móviles de antes de 2017. Si no sabes cuál, elige la primera.",dlapk2:"Descargar APK (32 bits)",i1:"Descarga la APK",i2:"Ábrela y permite instalar",i3:"Disfruta. Las actualizaciones llegan solas",all:"Todas las versiones y novedades →",legal:"Motor de reproducción: libVLC de VideoLAN (LGPL 2.1). ZeroPlayer no es un producto oficial de VideoLAN ni de VLC. yt-dlp, FFmpeg, Vosk y SponsorBlock pertenecen a sus autores."};
+const ES={nav3:"Preguntas",insp:"Estética inspirada en",insp2:"Diseño Material 3 expresivo, inspirado en",rec:"Para tu dispositivo",rel:"Versiones",q0:"Preguntas.",q1:"¿Qué APK descargo?",q1a:"La de 64 bits (arm64‑v8a) sirve para prácticamente todos los móviles desde 2017. Solo los muy antiguos necesitan la de 32 bits. Si te equivocas, Android simplemente no la instalará.",q2:"Android dice que es de origen desconocido",q2a:"Es normal en las apps que no vienen de Google Play. Pulsa «Ajustes», permite instalar desde esa fuente y vuelve. Solo se hace una vez: después las actualizaciones se instalan desde la propia app.",q3:"Windows muestra «Windows protegió tu PC»",q3a:"El instalador no está firmado con un certificado de pago. Pulsa «Más información» y luego «Ejecutar de todas formas». Se instala solo para tu usuario, sin permisos de administrador.",q4:"¿Es gratis? ¿Tiene anuncios?",q4a:"Gratis, sin anuncios, sin cuentas y sin rastreo. Tu biblioteca se queda en tu dispositivo.",q5:"¿Cómo se actualiza?",q5a:"Las dos apps miran las versiones de esta web. Cuando hay una nueva te enseñan una tarjeta animada, la descargan y la instalan en un par de toques.",q6:"¿Por qué a veces YouTube deja de ir?",q6a:"YouTube cambia a menudo. ZeroPlayer pone al día su motor de enlaces (yt‑dlp) solo cada día, así que normalmente se arregla en unas horas. También puedes forzarlo en Ajustes → Internet y YouTube.",nav1:"Formatos",nav2:"Funciones",get:"Descargar",new:"Nuevo",h1a:"Mira. Escucha.",h1b:"Sin límites.",lead:"Un reproductor de vídeo y música con la potencia de VLC y el alma de Material You. Todos los formatos, YouTube y mil webs más, en Android y Windows.",free:"Descargar gratis",more:"Ver qué hace",k1:"Con el motor de VLC dentro",f1:"Si existe,<br>se reproduce.",f1s:"libVLC decodifica prácticamente todo: 4K HDR, subtítulos de cualquier tipo, varias pistas de audio, emisiones por internet y discos de tu NAS.",k2:"Tu biblioteca",s1:"Todo, en su sitio.",s1s:"Vídeos que se reanudan, carpetas, música por álbumes y artistas. Fluido, con rebote y siempre rápido.",k3:"Música",s2:"Música estilo Pixel.",s2s:"Barra de progreso ondulada, botones que cambian de forma, fundido entre canciones y letras sincronizadas que puedes traducir.",k4:"Reproduciendo",s3:"Colores que siguen a la música.",s3s:"El reproductor toma los colores de la carátula, y también la notificación y la pantalla de bloqueo.",k5:"Internet",s4:"Comparte un enlace. Listo.",s4s:"Comparte desde YouTube o el navegador para verlo al momento, o descarga el vídeo o el MP3.",w1:"Detalles que se mueven.",w1s:"Animaciones expresivas en todas partes: la barra ondula mientras suena y el botón de reproducir cambia de forma.",k6:"Y mucho más",b1:"Hecho para usarse.",c1:"YouTube y mil webs más",c1s:"Gracias a yt-dlp, que se actualiza solo cada día. Hasta 4K, con el audio aparte, y descargas al móvil o al PC.",c2s:"Salta solo los patrocinios, intros y recordatorios en YouTube.",c3:"¿Qué canción es?",c3s:"Reconoce la música que suena en tus vídeos y la guarda para luego.",c4:"Manos libres",c4s:"“Zero, siguiente canción”. Un asistente de voz sin internet que entiende seis idiomas.",c5:"Envía a la tele",c5s:"Chromecast y altavoces compatibles, directamente desde el reproductor.",c6:"Saltar intro, como en la tele",c6s:"Sáltate la intro, los créditos y los silencios. Siguiente episodio con cuenta atrás.",c7:"El sonido a tu gusto",c7s:"Ecualizador con ajustes, sincronización de audio, analizador de espectro y decodificación de máxima calidad.",c8:"Gestos y zoom",c8s:"Brillo, volumen, avanzar, pellizcar para hacer zoom y ventana flotante.",c9s:"Toma los colores de tu fondo de pantalla. Claro, oscuro y negro puro para AMOLED.",c10:"Siempre al día",c10s:"Las versiones nuevas se descargan e instalan desde la propia app, sin tienda.",k7:"Ahora en Windows",x1:"Tu PC, estilo Mac.",x1s:"El mismo motor y la misma alma, en una ventana limpia con semáforos. Instalador propio, arrastrar y soltar, atajos de teclado y actualizaciones automáticas.",tv:"Vídeos",tm:"Música",ts:"Ajustes",d1:"Consigue ZeroPlayer.",d1s:"Gratis, sin anuncios y sin cuentas. Versión 1.1.5.",a1:"Para casi todos los móviles desde 2017 (64 bits). Android 8 o superior.",dlapk:"Descargar APK",a2:"Windows 10 y 11 (64 bits). Se instala sin permisos de administrador y se actualiza solo.",dlexe:"Descargar para Windows",old:"Móviles antiguos",a3:"Versión de 32 bits para móviles de antes de 2017. Si no sabes cuál, elige la primera.",dlapk2:"Descargar APK (32 bits)",i1:"Descarga la APK",i2:"Ábrela y permite instalar",i3:"Disfruta. Las actualizaciones llegan solas",all:"Todas las versiones y novedades →",legal:"Motor de reproducción: libVLC de VideoLAN (LGPL 2.1). ZeroPlayer no es un producto oficial de VideoLAN ni de VLC. yt-dlp, FFmpeg, Vosk y SponsorBlock pertenecen a sus autores."};
 const EN={};
 document.querySelectorAll("[data-i18n]").forEach(e=>EN[e.dataset.i18n]=e.innerHTML);
 let lang=(localStorage.getItem("zp-lang")||(navigator.language||"en")).startsWith("es")?"es":"en";
 function applyLang(){const d=lang==="es"?ES:EN;document.documentElement.lang=lang;document.querySelectorAll("[data-i18n]").forEach(e=>{const v=d[e.dataset.i18n];if(v)e.innerHTML=v});document.getElementById("lang").textContent=lang==="es"?"EN":"ES"}
 document.getElementById("lang").onclick=()=>{lang=lang==="es"?"en":"es";try{localStorage.setItem("zp-lang",lang)}catch(e){}applyLang()};
 applyLang();
+
+// Menú en móviles
+const menuBtn=document.getElementById("menuBtn");
+function setMenu(open){document.body.classList.toggle("menu-open",open);menuBtn.setAttribute("aria-expanded",open)}
+menuBtn.onclick=()=>setMenu(!document.body.classList.contains("menu-open"));
+document.querySelectorAll("#sheet a").forEach(a=>a.addEventListener("click",()=>setMenu(false)));
+addEventListener("keydown",e=>{if(e.key==="Escape")setMenu(false)});
+
+// Botón de descarga según el dispositivo
+const ua=navigator.userAgent||"",isAndroid=/Android/i.test(ua),isWin=/Windows/i.test(ua),isApple=/iPhone|iPad|Macintosh/i.test(ua);
+const REL="https://github.com/Xito-Development/ZeroPlayer/releases/latest/download/";
+function smart(){
+  const t=document.getElementById("smartTxt"),a=document.getElementById("smartDl"),es=lang==="es";
+  if(isAndroid){a.href=REL+"ZeroPlayer-arm64-v8a.apk";t.textContent=es?"Descargar para Android":"Download for Android";document.getElementById("dlAndroid").classList.add("rec")}
+  else if(isWin){a.href=REL+"ZeroPlayer-Setup.exe";t.textContent=es?"Descargar para Windows":"Download for Windows";document.getElementById("dlWindows").classList.add("rec")}
+  else if(isApple){a.href="#download";t.textContent=es?"Disponible para Android y Windows":"Available for Android and Windows"}
+}
+smart();document.getElementById("lang").addEventListener("click",smart);
+
+// Versión y tamaños reales de la última publicación
+fetch("https://api.github.com/repos/Xito-Development/ZeroPlayer/releases/latest").then(r=>r.ok?r.json():null).then(j=>{
+  if(!j)return;const v=(j.tag_name||"").replace(/^v/,"");if(v)document.querySelectorAll(".ver").forEach(e=>e.textContent=v);
+  const d=j.published_at?new Date(j.published_at):null;
+  (j.assets||[]).forEach(a=>document.querySelectorAll(`[data-size="${a.name}"]`).forEach(e=>{e.textContent=Math.round(a.size/1048576)+" MB"+(d?" · "+d.toLocaleDateString(lang==="es"?"es-ES":"en-GB",{day:"numeric",month:"short",year:"numeric"}):"")}));
+}).catch(()=>{});
 
 // Cinta de formatos
 const F1=["MKV","MP4","4K HDR","AVI","MOV","WEBM","HEVC","AV1","FLAC","SRT","ASS","DVD ISO","M3U8","RTSP","DLNA","SMB"],F2=["MP3","OPUS","AAC","OGG","WAV","ALAC","Dolby","DTS","10‑bit","60 fps","VP9","H.264","Chromecast","YouTube","Twitch","Vimeo"];
@@ -407,7 +512,10 @@ document.querySelectorAll(".step").forEach(s=>so.observe(s));
 
 // Pestañas de Windows
 const wimgs=[...document.querySelectorAll("#wincap img")];
-document.querySelectorAll(".tabbtn").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabbtn").forEach(x=>x.classList.toggle("on",x===b));wimgs.forEach((im,i)=>im.classList.toggle("on",i===+b.dataset.w))});
+let wauto=0;
+function showWin(n){document.querySelectorAll(".tabbtn").forEach(x=>x.classList.toggle("on",+x.dataset.w===n));wimgs.forEach((im,i)=>im.classList.toggle("on",i===n))}
+document.querySelectorAll(".tabbtn").forEach(b=>b.onclick=()=>{clearInterval(wtimer);showWin(+b.dataset.w)});
+const wtimer=setInterval(()=>{wauto=(wauto+1)%3;showWin(wauto)},4200);
 
 // Efectos ligados al scroll: móvil que se endereza, ventana de Windows y barra de progreso
 const hero=document.getElementById("heroPhone"),win=document.getElementById("win"),bar=document.getElementById("progress");
@@ -423,13 +531,15 @@ addEventListener("scroll",onScroll,{passive:true});onScroll();
 // Barra ondulada animada
 const wave=document.getElementById("wave"),rest=document.getElementById("rest"),thumb=document.getElementById("thumb");
 let t0=performance.now();
+let waveOn=false,waveRun=false;new IntersectionObserver(es=>{waveOn=es[0].isIntersecting;if(waveOn&&!waveRun){waveRun=true;requestAnimationFrame(frame)}}).observe(document.getElementById("wavebox"));
 function frame(t){
+  if(!waveOn){waveRun=false;return}
   const k=((t-t0)/9000)%1,x=30+540*k,ph=t/260;let d="M0 30";
   for(let i=0;i<=x-10;i+=4)d+=` L${i} ${30+7*Math.sin(i/22-ph)}`;
   wave.setAttribute("d",d);rest.setAttribute("x1",x+12);thumb.setAttribute("x1",x);thumb.setAttribute("x2",x);
   requestAnimationFrame(frame);
 }
-if(!matchMedia("(prefers-reduced-motion: reduce)").matches)requestAnimationFrame(frame);else frame(t0+3000);
+if(matchMedia("(prefers-reduced-motion: reduce)").matches){waveOn=true;frame(t0+3000);waveOn=false}
 </script>
 </body>
 </html>

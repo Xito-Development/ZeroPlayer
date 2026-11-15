@@ -15,7 +15,7 @@
 
 A video and music player for Android and Windows built on the **libVLC** engine, with a fresh
 **Material You** interface: wallpaper-based colours, a wavy progress bar,
-shape-morphing buttons and smooth transitions.
+shape-morphing buttons and smooth transitions. Design inspired by [PixelPlayer](https://github.com/PixelPlayerHQ/PixelPlayer).
 
 ## Features
 
@@ -66,6 +66,7 @@ Both apps check this page for new versions and update themselves.
 - Playback engine: [libVLC](https://www.videolan.org/vlc/libvlc.html) by VideoLAN (LGPL 2.1). ZeroPlayer is not an official VideoLAN or VLC product.
 - Internet links: [yt-dlp](https://github.com/yt-dlp/yt-dlp) (Unlicense). Segments: [SponsorBlock](https://sponsor.ajay.app). Lyrics: [LRCLIB](https://lrclib.net).
 - Windows version: [vlcj](https://github.com/caprica/vlcj) (GPL 3) and Compose Multiplatform.
+- Design inspired by [PixelPlayer](https://github.com/PixelPlayerHQ/PixelPlayer) by theovilardo.
 - Typeface: Google Sans Flex (SIL Open Font License 1.1).
 
 <p align="center"><img src="assets/logo.png" alt="" width="96"></p>
