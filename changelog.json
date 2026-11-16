@@ -1,54 +1,189 @@
 [
   {
     "date": "2026-11-16",
-    "title": {"es": "Windows a fondo", "en": "Windows, polished"},
+    "title": {
+      "es": "Más seguro",
+      "en": "Safer"
+    },
     "items": [
-      {"es": "Windows arranca mucho más rápido: VLC se carga en segundo plano y la ventana responde al momento.", "en": "Windows starts much faster: VLC loads in the background and the window responds right away."},
-      {"es": "Nueva bienvenida animada la primera vez: tema, color, carpetas, «Abrir con» y acceso directo.", "en": "New animated welcome on first launch: theme, colour, folders, “Open with” and desktop shortcut."},
-      {"es": "Instalador nuevo con colores propios y el logo girando mientras instala.", "en": "New installer with its own colours and the logo spinning while it installs."},
-      {"es": "Vídeo más fluido y barra de progreso que avanza suave, sin saltos.", "en": "Smoother video and a progress bar that moves smoothly, without jumps."},
-      {"es": "Miniaturas reales de los vídeos y carátulas de las canciones en Windows.", "en": "Real video thumbnails and song artwork on Windows."},
-      {"es": "La web enseña las novedades de cada versión.", "en": "The website now shows what's new in every version."}
+      {
+        "es": "Las actualizaciones se comprueban antes de instalarse: que vengan de GitHub, que lleguen intactas y que estén firmadas por ZeroPlayer.",
+        "en": "Updates are checked before installing: they must come from GitHub, arrive intact and be signed by ZeroPlayer."
+      },
+      {
+        "es": "Los enlaces que otras apps comparten se validan antes de abrirlos.",
+        "en": "Links shared by other apps are validated before opening them."
+      },
+      {
+        "es": "Tus datos ya no se copian en las copias de seguridad de la nube.",
+        "en": "Your data is no longer copied to cloud backups."
+      },
+      {
+        "es": "La web tiene una política de seguridad estricta.",
+        "en": "The website now has a strict security policy."
+      }
+    ]
+  },
+  {
+    "date": "2026-11-16",
+    "title": {
+      "es": "Actualizar con estilo",
+      "en": "Updating in style"
+    },
+    "items": [
+      {
+        "es": "Actualizar ahora es una experiencia animada: anillo ondulado con porcentaje, MB y velocidad, y un check con estallido al terminar.",
+        "en": "Updating is now animated: a wavy ring with percentage, MB and speed, and a check with a burst when done."
+      },
+      {
+        "es": "Antes de actualizar ves las novedades, y al abrir la versión nueva te las enseña con una pequeña celebración.",
+        "en": "You see what's new before updating, and the new version shows it with a little celebration."
+      },
+      {
+        "es": "Deslizar para actualizar con un engranaje que gira mientras tiras.",
+        "en": "Pull to refresh with a gear that spins as you pull."
+      },
+      {
+        "es": "Animación de carga más fluida: gira sin parar y cambia de forma con rebote.",
+        "en": "Smoother loading animation: it keeps spinning and morphs with a bounce."
+      },
+      {
+        "es": "En Windows, la tarjeta de actualización también enseña novedades y progreso animado.",
+        "en": "On Windows, the update card also shows what's new and animated progress."
+      }
+    ]
+  },
+  {
+    "date": "2026-11-16",
+    "title": {
+      "es": "Windows a fondo",
+      "en": "Windows, polished"
+    },
+    "items": [
+      {
+        "es": "Windows arranca mucho más rápido: VLC se carga en segundo plano y la ventana responde al momento.",
+        "en": "Windows starts much faster: VLC loads in the background and the window responds right away."
+      },
+      {
+        "es": "Nueva bienvenida animada la primera vez: tema, color, carpetas, «Abrir con» y acceso directo.",
+        "en": "New animated welcome on first launch: theme, colour, folders, “Open with” and desktop shortcut."
+      },
+      {
+        "es": "Instalador nuevo con colores propios y el logo girando mientras instala.",
+        "en": "New installer with its own colours and the logo spinning while it installs."
+      },
+      {
+        "es": "Vídeo más fluido y barra de progreso que avanza suave, sin saltos.",
+        "en": "Smoother video and a progress bar that moves smoothly, without jumps."
+      },
+      {
+        "es": "Miniaturas reales de los vídeos y carátulas de las canciones en Windows.",
+        "en": "Real video thumbnails and song artwork on Windows."
+      },
+      {
+        "es": "La web enseña las novedades de cada versión.",
+        "en": "The website now shows what's new in every version."
+      }
     ]
   },
   {
     "date": "2026-11-15",
-    "title": {"es": "Más lista que nunca", "en": "Smarter than ever"},
+    "title": {
+      "es": "Más lista que nunca",
+      "en": "Smarter than ever"
+    },
     "items": [
-      {"es": "Detecta sola la intro y los créditos de tus series comparando episodios.", "en": "Finds the intro and credits of your series by itself, comparing episodes."},
-      {"es": "Órdenes de voz con números: «Cero, ve al minuto diez», «volumen cincuenta»…", "en": "Voice commands with numbers: “Zero, go to minute ten”, “volume fifty”…"},
-      {"es": "Carpetas inteligentes que se llenan solas con tu música.", "en": "Smart folders that fill themselves with your music."},
-      {"es": "Salta silencios largos y charla en canciones, y patrocinios en archivos de YouTube.", "en": "Skips long silences and talking in songs, and sponsors in YouTube files."},
-      {"es": "Animación de carga expresiva y deslizar para actualizar.", "en": "Expressive loading animation and pull to refresh."},
-      {"es": "Diseño para tablet, tamaño de letra y ajustes con buscador.", "en": "Tablet layout, text size and searchable settings."}
+      {
+        "es": "Detecta sola la intro y los créditos de tus series comparando episodios.",
+        "en": "Finds the intro and credits of your series by itself, comparing episodes."
+      },
+      {
+        "es": "Órdenes de voz con números: «Cero, ve al minuto diez», «volumen cincuenta»…",
+        "en": "Voice commands with numbers: “Zero, go to minute ten”, “volume fifty”…"
+      },
+      {
+        "es": "Carpetas inteligentes que se llenan solas con tu música.",
+        "en": "Smart folders that fill themselves with your music."
+      },
+      {
+        "es": "Salta silencios largos y charla en canciones, y patrocinios en archivos de YouTube.",
+        "en": "Skips long silences and talking in songs, and sponsors in YouTube files."
+      },
+      {
+        "es": "Animación de carga expresiva y deslizar para actualizar.",
+        "en": "Expressive loading animation and pull to refresh."
+      },
+      {
+        "es": "Diseño para tablet, tamaño de letra y ajustes con buscador.",
+        "en": "Tablet layout, text size and searchable settings."
+      }
     ]
   },
   {
     "date": "2026-11-15",
-    "title": {"es": "Descargas que no se cortan", "en": "Downloads that keep going"},
+    "title": {
+      "es": "Descargas que no se cortan",
+      "en": "Downloads that keep going"
+    },
     "items": [
-      {"es": "Las descargas siguen aunque salgas de la app, con aviso al terminar.", "en": "Downloads continue when you leave the app, with a notice when done."},
-      {"es": "Descarga el vídeo o el MP3 desde el propio reproductor.", "en": "Download the video or MP3 right from the player."},
-      {"es": "Animación de arranque nueva.", "en": "New launch animation."}
+      {
+        "es": "Las descargas siguen aunque salgas de la app, con aviso al terminar.",
+        "en": "Downloads continue when you leave the app, with a notice when done."
+      },
+      {
+        "es": "Descarga el vídeo o el MP3 desde el propio reproductor.",
+        "en": "Download the video or MP3 right from the player."
+      },
+      {
+        "es": "Animación de arranque nueva.",
+        "en": "New launch animation."
+      }
     ]
   },
   {
     "date": "2026-11-14",
-    "title": {"es": "YouTube, Chromecast y Windows", "en": "YouTube, Chromecast and Windows"},
+    "title": {
+      "es": "YouTube, Chromecast y Windows",
+      "en": "YouTube, Chromecast and Windows"
+    },
     "items": [
-      {"es": "YouTube y más de mil webs con yt-dlp, y SponsorBlock.", "en": "YouTube and 1000+ sites with yt-dlp, plus SponsorBlock."},
-      {"es": "Envía a la tele con Chromecast.", "en": "Cast to your TV with Chromecast."},
-      {"es": "Primera versión para Windows con diseño estilo Mac.", "en": "First Windows version with a Mac-style design."},
-      {"es": "Actualizaciones que se instalan desde la app.", "en": "Updates that install from inside the app."}
+      {
+        "es": "YouTube y más de mil webs con yt-dlp, y SponsorBlock.",
+        "en": "YouTube and 1000+ sites with yt-dlp, plus SponsorBlock."
+      },
+      {
+        "es": "Envía a la tele con Chromecast.",
+        "en": "Cast to your TV with Chromecast."
+      },
+      {
+        "es": "Primera versión para Windows con diseño estilo Mac.",
+        "en": "First Windows version with a Mac-style design."
+      },
+      {
+        "es": "Actualizaciones que se instalan desde la app.",
+        "en": "Updates that install from inside the app."
+      }
     ]
   },
   {
     "date": "2026-11-14",
-    "title": {"es": "Letras, idiomas y voz", "en": "Lyrics, languages and voice"},
+    "title": {
+      "es": "Letras, idiomas y voz",
+      "en": "Lyrics, languages and voice"
+    },
     "items": [
-      {"es": "Letras sincronizadas que puedes traducir, y fundido entre canciones.", "en": "Synced lyrics you can translate, and crossfade between songs."},
-      {"es": "Reconoce qué canción suena en tus vídeos.", "en": "Recognizes the song playing in your videos."},
-      {"es": "Asistente de voz sin internet y seis idiomas.", "en": "Offline voice assistant and six languages."}
+      {
+        "es": "Letras sincronizadas que puedes traducir, y fundido entre canciones.",
+        "en": "Synced lyrics you can translate, and crossfade between songs."
+      },
+      {
+        "es": "Reconoce qué canción suena en tus vídeos.",
+        "en": "Recognizes the song playing in your videos."
+      },
+      {
+        "es": "Asistente de voz sin internet y seis idiomas.",
+        "en": "Offline voice assistant and six languages."
+      }
     ]
   }
 ]
