@@ -198,6 +198,34 @@ body.menu-open{overflow:hidden}
 footer a{color:#d2d2d7}footer a:hover{color:var(--g2)}
 .keys{display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:center;margin-top:30px;color:#a1a1a6;font-size:14px}.keys span{display:inline-flex;align-items:center;gap:6px}.keys em{font-style:normal;margin-left:4px}
 kbd{font-family:var(--text);font-size:13px;font-weight:600;min-width:30px;height:30px;padding:0 8px;display:inline-grid;place-items:center;border-radius:8px;background:linear-gradient(#2a2a2e,#1a1a1d);border:1px solid rgba(255,255,255,.12);box-shadow:0 2px 0 rgba(0,0,0,.6);color:#fff}
+.loader-card .morph{width:64px;height:64px;margin-bottom:18px;display:block}
+#pre{position:fixed;inset:0;z-index:100;background:#000;display:grid;place-items:center;transition:opacity .5s var(--ease),visibility .5s}
+#pre.out{opacity:0;visibility:hidden}
+#pre svg{width:84px;height:84px}
+.cmp{max-width:900px;margin:56px auto 0;text-align:left;border:1px solid var(--line);border-radius:28px;overflow:hidden;background:var(--card)}
+.cmp-row{display:grid;grid-template-columns:1.1fr 1.6fr 1.3fr;gap:16px;align-items:center;padding:18px 26px;border-top:1px solid var(--line)}
+.cmp-row:first-child{border-top:0}
+.cmp-head{background:rgba(255,255,255,.03);font-weight:600;font-size:14px;color:#d2d2d7}
+.cmp-head .cmp-z{display:flex;align-items:center;gap:8px;font-family:var(--display);font-size:16px;color:#fff}
+.cmp-head img{border-radius:6px}
+.cmp-f{font-family:var(--display);font-weight:600;font-size:17px}
+.cmp-z{display:flex;gap:10px;align-items:flex-start;color:#e8fff4}
+.cmp-z svg{flex:none;width:20px;height:20px;margin-top:2px;stroke:var(--g2);fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.cmp-o{color:#6e6e73;font-size:15px}
+.log{max-width:780px;margin:56px auto 0;text-align:left;position:relative}
+.log::before{content:"";position:absolute;left:11px;top:10px;bottom:10px;width:2px;background:linear-gradient(var(--g1),rgba(25,195,125,.05))}
+.rel{position:relative;padding:0 0 34px 44px}
+.rel::before{content:"";position:absolute;left:4px;top:6px;width:16px;height:16px;border-radius:50%;background:var(--bg);border:3px solid var(--g1);box-shadow:0 0 0 5px rgba(25,195,125,.12)}
+.rel.first::before{background:var(--g1);box-shadow:0 0 0 6px rgba(25,195,125,.2),0 0 18px var(--g1)}
+.rel time{font-size:13px;color:var(--muted);font-weight:500}
+.rel h3{margin:4px 0 12px;font-size:22px}
+.rel .tag{display:inline-block;margin-left:8px;font-size:11px;font-weight:700;color:#03140c;background:var(--g2);padding:3px 9px;border-radius:999px;vertical-align:middle;text-transform:uppercase;letter-spacing:.04em}
+.rel ul{list-style:none;display:grid;gap:9px}
+.rel li{color:#c7c7cc;padding-left:20px;position:relative;font-size:16px}
+.rel li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;border-radius:50%;background:var(--g1);opacity:.7}
+.rel.hidden{display:none}
+.log .more{margin:4px 0 0 44px}
+@media (max-width:700px){.cmp-row{grid-template-columns:1fr;gap:6px;padding:16px 18px}.cmp-head{display:none}.cmp-o::before{content:attr(data-usual) " "}.cmp-o{font-size:14px}.rel{padding-left:38px}.rel h3{font-size:19px}}
 .foot-links{display:flex;gap:18px;flex-wrap:wrap}
 @media (min-width:1600px){.wrap{max-width:1300px}body{font-size:18px}.phone{width:340px}.stage{height:740px}.phone.l{transform:translateX(calc(-50% - 300px)) translateY(80px) rotateY(18deg) scale(.86)}.phone.r{transform:translateX(calc(-50% + 300px)) translateY(80px) rotateY(-18deg) scale(.86)}}
 @media (min-width:901px) and (max-width:1100px){.phone.l{transform:translateX(calc(-50% - 220px)) translateY(70px) rotateY(18deg) scale(.82)}.phone.r{transform:translateX(calc(-50% + 220px)) translateY(70px) rotateY(-18deg) scale(.82)}}
@@ -217,10 +245,11 @@ kbd{font-family:var(--text);font-size:13px;font-weight:600;min-width:30px;height
 @media (max-width:420px){h1{font-size:clamp(40px,12.5vw,56px)}.cta .pill{width:100%;justify-content:center}.lead{font-size:17px}.wavebox{padding:0 16px;height:104px;gap:14px;border-radius:26px}.wavebox .play{width:52px;height:52px;border-radius:18px}.chip{font-size:16px;padding:10px 16px;border-radius:14px}.dl .pill{width:100%}.sub{font-size:18px}.stat{font-size:52px}.faq summary{font-size:17px}.win{border-radius:10px}.sheet a{font-size:28px}}
 @media (max-width:340px){.stage{height:480px}.phone{width:210px}.brand{font-size:16px}}
 @media (max-height:520px) and (orientation:landscape){.hero{min-height:auto;padding:84px 0 30px}h1{font-size:clamp(40px,7.5vw,68px);margin:14px 0}.lead{font-size:17px}h2{font-size:clamp(34px,5.5vw,56px)}.stage{height:440px;margin-top:40px}.phone{width:200px}.phone.l{transform:translateX(calc(-50% - 180px)) translateY(40px) rotateY(18deg) scale(.82)}.phone.r{transform:translateX(calc(-50% + 180px)) translateY(40px) rotateY(-18deg) scale(.82)}.story{grid-template-columns:1fr}.sticky{display:none}.step{min-height:auto;padding:28px 0;opacity:1}.step .mobile-shot{display:block!important;width:200px;margin:20px auto 0;border-radius:24px}section{padding:80px 0}}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.js .reveal{opacity:1;translate:none;filter:none}h1 .line span{transform:none}.fade-in{opacity:1}}
+@media (prefers-reduced-motion:reduce){#pre{display:none}*,*::before,*::after{animation:none!important;transition:none!important}.js .reveal{opacity:1;translate:none;filter:none}h1 .line span{transform:none}.fade-in{opacity:1}}
 </style>
 </head>
 <body>
+<div id="pre" aria-hidden="true"><svg class="morph" viewBox="-1.2 -1.2 2.4 2.4"><circle r="1.2" fill="#0b4d33"/><path class="mp" fill="#5df2b0"/></svg></div>
 <a class="skip" href="#formats">Skip</a>
 <div class="progress" id="progress"></div>
 
@@ -231,8 +260,8 @@ kbd{font-family:var(--text);font-size:13px;font-weight:600;min-width:30px;height
       <a href="#formats" data-i18n="nav1">Formats</a>
       <a href="#features" data-i18n="nav2">Features</a>
       <a href="#windows">Windows</a>
+      <a href="#changelog" data-i18n="nav4">What's new</a>
       <a href="#faq" data-i18n="nav3">Questions</a>
-      <a href="https://github.com/Xito-Development/ZeroPlayer">GitHub</a>
     </div>
     <button class="lang" id="lang" aria-label="Language">ES</button>
     <a class="pill primary small" href="#download" data-i18n="get">Download</a>
@@ -244,6 +273,8 @@ kbd{font-family:var(--text);font-size:13px;font-weight:600;min-width:30px;height
   <a href="#formats" data-i18n="nav1">Formats</a>
   <a href="#features" data-i18n="nav2">Features</a>
   <a href="#windows">Windows</a>
+  <a href="#different" data-i18n="nav5">Why ZeroPlayer</a>
+  <a href="#changelog" data-i18n="nav4">What's new</a>
   <a href="#faq" data-i18n="nav3">Questions</a>
   <a href="#download" data-i18n="get">Download</a>
   <a href="https://github.com/Xito-Development/ZeroPlayer">GitHub</a>
@@ -252,7 +283,7 @@ kbd{font-family:var(--text);font-size:13px;font-weight:600;min-width:30px;height
 <header class="hero">
   <div class="aura"></div>
   <div class="wrap" style="position:relative">
-    <span class="eyebrow fade-in" style="animation-delay:.1s"><i></i><span><span data-i18n="new">New</span> · v<span class="ver">1.1.6</span></span></span>
+    <span class="eyebrow fade-in" style="animation-delay:.1s"><i></i><span><span data-i18n="new">New</span> · v<span class="ver">1.1.7</span></span></span>
     <h1><span class="line"><span data-i18n="h1a">Watch. Listen.</span></span><span class="line"><span class="grad" data-i18n="h1b">No limits.</span></span></h1>
     <p class="lead fade-in" data-i18n="lead">A video and music player with the power of VLC and the soul of Material You. Every format, YouTube and a thousand more sites, on Android and Windows.</p>
     <div class="cta fade-in" style="animation-delay:.6s">
@@ -354,7 +385,7 @@ kbd{font-family:var(--text);font-size:13px;font-weight:600;min-width:30px;height
       <div class="card s2 reveal d1">
         <div class="ic"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5"/></svg></div>
         <h3 data-i18n="c4">Hands‑free</h3>
-        <p data-i18n="c4s">“Zero, next song”. An offline voice assistant that understands six languages.</p>
+        <p data-i18n="c4s">“Zero, go to minute ten”. An offline voice assistant that understands numbers and six languages.</p>
       </div>
       <div class="card s2 reveal d2">
         <div class="ic"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 15a4 4 0 0 1 4 4M2 11a8 8 0 0 1 8 8"/></svg></div>
@@ -363,8 +394,8 @@ kbd{font-family:var(--text);font-size:13px;font-weight:600;min-width:30px;height
       </div>
       <div class="card s3 reveal">
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-        <h3 data-i18n="c6">Skip intro, like on TV</h3>
-        <p data-i18n="c6s">Skip the intro, the credits and the silences. Next episode with a countdown.</p>
+        <h3 data-i18n="c6">Intros skipped by themselves</h3>
+        <p data-i18n="c6s">It finds the intro and credits by comparing episodes of your series, and plays the next one with a countdown.</p>
       </div>
       <div class="card s3 reveal d1">
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 21V14M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg></div>
@@ -385,6 +416,21 @@ kbd{font-family:var(--text);font-size:13px;font-weight:600;min-width:30px;height
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></svg></div>
         <h3 data-i18n="c10">Always up to date</h3>
         <p data-i18n="c10s">New versions download and install from the app itself, with no store.</p>
+      </div>
+      <div class="card s2 reveal">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 11l1 2 2 .3-1.5 1.4.4 2.1-1.9-1-1.9 1 .4-2.1L9 13.3l2-.3z"/></svg></div>
+        <h3 data-i18n="c11">Smart folders</h3>
+        <p data-i18n="c11s">By folder, artist, album, word or date added. They fill themselves with new music.</p>
+      </div>
+      <div class="card s2 reveal d1">
+        <div class="ic"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="14" height="16" rx="2"/><rect x="18" y="8" width="4" height="12" rx="1"/></svg></div>
+        <h3 data-i18n="c12">Phone, tablet and PC</h3>
+        <p data-i18n="c12s">Side bar and more columns on big screens, text size to your liking, and a Mac‑style Windows app.</p>
+      </div>
+      <div class="card s2 glow reveal d2 loader-card">
+        <svg class="morph" viewBox="-1.2 -1.2 2.4 2.4" aria-hidden="true"><circle r="1.2" fill="#0b4d33"/><path class="mp" fill="#5df2b0"/></svg>
+        <h3 data-i18n="c13">Expressive shapes</h3>
+        <p data-i18n="c13s">Loading, pull to refresh and buttons with Material 3 Expressive shapes that morph.</p>
       </div>
     </div>
   </div>
@@ -421,7 +467,7 @@ kbd{font-family:var(--text);font-size:13px;font-weight:600;min-width:30px;height
   <div class="aura" style="top:60%;opacity:.6"></div>
   <div class="wrap" style="position:relative">
     <h2 class="reveal" data-i18n="d1">Get ZeroPlayer.</h2>
-    <p class="sub reveal d1" data-i18n="d1s">Free, no ads, no accounts. Version <span class="ver">1.1.6</span>.</p>
+    <p class="sub reveal d1" data-i18n="d1s">Free, no ads, no accounts. Version <span class="ver">1.1.7</span>.</p>
     <div class="dl">
       <div class="dlc reveal" id="dlAndroid">
         <span class="badge" data-i18n="rec">For your device</span>
@@ -453,6 +499,33 @@ kbd{font-family:var(--text);font-size:13px;font-weight:600;min-width:30px;height
   </div>
 </section>
 
+<section id="different" class="center">
+  <div class="wrap">
+    <p class="kicker reveal" data-i18n="dk">Why ZeroPlayer</p>
+    <h2 class="reveal d1" data-i18n="dh">What makes it different.</h2>
+    <p class="sub reveal d2" data-i18n="ds">Things you won't find together in a typical player.</p>
+    <div class="cmp">
+      <div class="cmp-row cmp-head"><div></div><div class="cmp-z"><img src="assets/logo.png" alt="" width="22" height="22">ZeroPlayer</div><div class="cmp-o" data-i18n="dt">The usual</div></div>
+        <div class="cmp-row reveal"><div class="cmp-f" data-i18n="d_int">Intros and credits</div><div class="cmp-z"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-i18n="d_intz">Detected by itself in your own series</span></div><div class="cmp-o" data-i18n="d_into">Only on streaming platforms</div></div>
+        <div class="cmp-row reveal"><div class="cmp-f" data-i18n="d_sb">Sponsors</div><div class="cmp-z"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-i18n="d_sbz">Skipped on YouTube and in downloaded files</span></div><div class="cmp-o" data-i18n="d_sbo">Browser extensions only</div></div>
+        <div class="cmp-row reveal"><div class="cmp-f" data-i18n="d_voice">Voice</div><div class="cmp-z"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-i18n="d_voicez">Offline assistant that understands numbers</span></div><div class="cmp-o" data-i18n="d_voiceo">No voice control</div></div>
+        <div class="cmp-row reveal"><div class="cmp-f" data-i18n="d_song">What song is this?</div><div class="cmp-z"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-i18n="d_songz">Recognizes the music inside your videos</span></div><div class="cmp-o" data-i18n="d_songo">You need another app</div></div>
+        <div class="cmp-row reveal"><div class="cmp-f" data-i18n="d_web">Internet</div><div class="cmp-z"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-i18n="d_webz">Plays and downloads from 1000+ sites</span></div><div class="cmp-o" data-i18n="d_webo">Local files only</div></div>
+        <div class="cmp-row reveal"><div class="cmp-f" data-i18n="d_smart">Library</div><div class="cmp-z"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-i18n="d_smartz">Smart folders that fill themselves</span></div><div class="cmp-o" data-i18n="d_smarto">Playlists by hand</div></div>
+        <div class="cmp-row reveal"><div class="cmp-f" data-i18n="d_upd">Updates</div><div class="cmp-z"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-i18n="d_updz">Install by themselves, no store</span></div><div class="cmp-o" data-i18n="d_updo">Look for them by hand</div></div>
+        <div class="cmp-row reveal"><div class="cmp-f" data-i18n="d_design">Design</div><div class="cmp-z"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-i18n="d_designz">Material 3 Expressive, tinted by your wallpaper</span></div><div class="cmp-o" data-i18n="d_designo">Dated interfaces</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="changelog" class="center" style="padding-top:40px">
+  <div class="wrap">
+    <p class="kicker reveal" data-i18n="ck">Changelog</p>
+    <h2 class="reveal d1" data-i18n="ch">What's new.</h2>
+    <div class="log reveal d2" id="log"><p class="sub" style="margin:0 auto"><a class="credit" href="https://github.com/Xito-Development/ZeroPlayer/releases" data-i18n="cfall">See every version on GitHub →</a></p></div>
+  </div>
+</section>
+
 <section id="faq" class="center" style="padding-top:40px">
   <div class="wrap">
     <h2 class="reveal" data-i18n="q0">Questions.</h2>
@@ -462,6 +535,7 @@ kbd{font-family:var(--text);font-size:13px;font-weight:600;min-width:30px;height
       <details><summary data-i18n="q3">Windows shows “Windows protected your PC”</summary><p data-i18n="q3a">The installer isn't signed with a paid certificate. Click “More info” and then “Run anyway”. It installs only for your user, without admin rights.</p></details>
       <details><summary data-i18n="q4">Is it free? Does it have ads?</summary><p data-i18n="q4a">Free, with no ads, no accounts and no tracking. Your library stays on your device.</p></details>
       <details><summary data-i18n="q5">How does it update?</summary><p data-i18n="q5a">Both apps check this site's releases. When there is a new version they show you an animated card, download it and install it in a couple of taps.</p></details>
+      <details><summary data-i18n="q7">Does it work on tablets?</summary><p data-i18n="q7a">Yes. On tablets and large screens the app shows a side bar, more columns and two‑pane settings. You can also force the layout in Settings → Appearance.</p></details>
       <details><summary data-i18n="q6">Why does YouTube sometimes stop working?</summary><p data-i18n="q6a">YouTube changes often. ZeroPlayer updates its link engine (yt‑dlp) by itself every day, so it usually fixes itself within hours. You can also force it in Settings → Internet and YouTube.</p></details>
     </div>
   </div>
@@ -477,13 +551,42 @@ kbd{font-family:var(--text);font-size:13px;font-weight:600;min-width:30px;height
 </footer>
 
 <script>
-const ES={kb1:"Reproducir / pausa",kb2:"10 segundos",kb3:"Volumen",kb4:"Pantalla completa",kb5:"Silencio",nav3:"Preguntas",insp:"Estética inspirada en",insp2:"Diseño Material 3 expresivo, inspirado en",rec:"Para tu dispositivo",rel:"Versiones",q0:"Preguntas.",q1:"¿Qué APK descargo?",q1a:"La de 64 bits (arm64‑v8a) sirve para prácticamente todos los móviles desde 2017. Solo los muy antiguos necesitan la de 32 bits. Si te equivocas, Android simplemente no la instalará.",q2:"Android dice que es de origen desconocido",q2a:"Es normal en las apps que no vienen de Google Play. Pulsa «Ajustes», permite instalar desde esa fuente y vuelve. Solo se hace una vez: después las actualizaciones se instalan desde la propia app.",q3:"Windows muestra «Windows protegió tu PC»",q3a:"El instalador no está firmado con un certificado de pago. Pulsa «Más información» y luego «Ejecutar de todas formas». Se instala solo para tu usuario, sin permisos de administrador.",q4:"¿Es gratis? ¿Tiene anuncios?",q4a:"Gratis, sin anuncios, sin cuentas y sin rastreo. Tu biblioteca se queda en tu dispositivo.",q5:"¿Cómo se actualiza?",q5a:"Las dos apps miran las versiones de esta web. Cuando hay una nueva te enseñan una tarjeta animada, la descargan y la instalan en un par de toques.",q6:"¿Por qué a veces YouTube deja de ir?",q6a:"YouTube cambia a menudo. ZeroPlayer pone al día su motor de enlaces (yt‑dlp) solo cada día, así que normalmente se arregla en unas horas. También puedes forzarlo en Ajustes → Internet y YouTube.",nav1:"Formatos",nav2:"Funciones",get:"Descargar",new:"Nuevo",h1a:"Mira. Escucha.",h1b:"Sin límites.",lead:"Un reproductor de vídeo y música con la potencia de VLC y el alma de Material You. Todos los formatos, YouTube y mil webs más, en Android y Windows.",free:"Descargar gratis",more:"Ver qué hace",k1:"Con el motor de VLC dentro",f1:"Si existe,<br>se reproduce.",f1s:"libVLC decodifica prácticamente todo: 4K HDR, subtítulos de cualquier tipo, varias pistas de audio, emisiones por internet y discos de tu NAS.",k2:"Tu biblioteca",s1:"Todo, en su sitio.",s1s:"Vídeos que se reanudan, carpetas, música por álbumes y artistas. Fluido, con rebote y siempre rápido.",k3:"Música",s2:"Música estilo Pixel.",s2s:"Barra de progreso ondulada, botones que cambian de forma, fundido entre canciones y letras sincronizadas que puedes traducir.",k4:"Reproduciendo",s3:"Colores que siguen a la música.",s3s:"El reproductor toma los colores de la carátula, y también la notificación y la pantalla de bloqueo.",k5:"Internet",s4:"Comparte un enlace. Listo.",s4s:"Comparte desde YouTube o el navegador para verlo al momento, o descarga el vídeo o el MP3.",w1:"Detalles que se mueven.",w1s:"Animaciones expresivas en todas partes: la barra ondula mientras suena y el botón de reproducir cambia de forma.",k6:"Y mucho más",b1:"Hecho para usarse.",c1:"YouTube y mil webs más",c1s:"Gracias a yt-dlp, que se actualiza solo cada día. Hasta 4K, con el audio aparte, y descargas al móvil o al PC.",c2s:"Salta solo los patrocinios, intros y recordatorios en YouTube.",c3:"¿Qué canción es?",c3s:"Reconoce la música que suena en tus vídeos y la guarda para luego.",c4:"Manos libres",c4s:"“Zero, siguiente canción”. Un asistente de voz sin internet que entiende seis idiomas.",c5:"Envía a la tele",c5s:"Chromecast y altavoces compatibles, directamente desde el reproductor.",c6:"Saltar intro, como en la tele",c6s:"Sáltate la intro, los créditos y los silencios. Siguiente episodio con cuenta atrás.",c7:"El sonido a tu gusto",c7s:"Ecualizador con ajustes, sincronización de audio, analizador de espectro y decodificación de máxima calidad.",c8:"Gestos y zoom",c8s:"Brillo, volumen, avanzar, pellizcar para hacer zoom y ventana flotante.",c9s:"Toma los colores de tu fondo de pantalla. Claro, oscuro y negro puro para AMOLED.",c10:"Siempre al día",c10s:"Las versiones nuevas se descargan e instalan desde la propia app, sin tienda.",k7:"Ahora en Windows",x1:"Tu PC, estilo Mac.",x1s:"El mismo motor y la misma alma, en una ventana limpia con semáforos. Instalador propio, arrastrar y soltar, atajos de teclado y actualizaciones automáticas.",tv:"Vídeos",tm:"Música",ts:"Ajustes",d1:"Consigue ZeroPlayer.",d1s:"Gratis, sin anuncios y sin cuentas. Versión 1.1.6.",a1:"Para casi todos los móviles desde 2017 (64 bits). Android 8 o superior.",dlapk:"Descargar APK",a2:"Windows 10 y 11 (64 bits). Se instala sin permisos de administrador y se actualiza solo.",dlexe:"Descargar para Windows",old:"Móviles antiguos",a3:"Versión de 32 bits para móviles de antes de 2017. Si no sabes cuál, elige la primera.",dlapk2:"Descargar APK (32 bits)",i1:"Descarga la APK",i2:"Ábrela y permite instalar",i3:"Disfruta. Las actualizaciones llegan solas",all:"Todas las versiones y novedades →",legal:"Motor de reproducción: libVLC de VideoLAN (LGPL 2.1). ZeroPlayer no es un producto oficial de VideoLAN ni de VLC. yt-dlp, FFmpeg, Vosk y SponsorBlock pertenecen a sus autores."};
+const ES={nav4:"Novedades",nav5:"Por qué ZeroPlayer",d_int:"Intros y créditos",d_intz:"Los detecta solo en tus propias series",d_into:"Solo en plataformas de streaming",d_sb:"Patrocinios",d_sbz:"Los salta en YouTube y en archivos descargados",d_sbo:"Solo con extensiones del navegador",d_voice:"Voz",d_voicez:"Asistente sin internet que entiende números",d_voiceo:"Sin control por voz",d_song:"¿Qué canción es?",d_songz:"Reconoce la música dentro de tus vídeos",d_songo:"Hace falta otra app",d_web:"Internet",d_webz:"Reproduce y descarga de más de mil webs",d_webo:"Solo archivos del dispositivo",d_smart:"Biblioteca",d_smartz:"Carpetas inteligentes que se llenan solas",d_smarto:"Listas hechas a mano",d_upd:"Actualizaciones",d_updz:"Se instalan solas, sin tienda",d_updo:"Hay que buscarlas a mano",d_design:"Diseño",d_designz:"Material 3 Expressive, con los colores de tu fondo",d_designo:"Interfaces de hace años",dk:"Por qué ZeroPlayer",dh:"Lo que lo hace distinto.",ds:"Cosas que no encontrarás juntas en un reproductor normal.",dt:"Lo habitual",ck:"Novedades",ch:"Lo nuevo.",cfall:"Todas las versiones en GitHub →",c11:"Carpetas inteligentes",c11s:"Por carpeta, artista, álbum, palabra o fecha. Se llenan solas con la música nueva.",c12:"Móvil, tablet y PC",c12s:"Barra lateral y más columnas en pantallas grandes, tamaño de letra a tu gusto y app para Windows estilo Mac.",c13:"Formas expresivas",c13s:"Cargas, deslizar para actualizar y botones con las formas de Material 3 Expressive que se transforman.",q7:"¿Funciona en tablets?",q7a:"Sí. En tablets y pantallas grandes la app pone una barra lateral, más columnas y los ajustes a dos paneles. También puedes forzar el diseño en Ajustes → Apariencia.",kb1:"Reproducir / pausa",kb2:"10 segundos",kb3:"Volumen",kb4:"Pantalla completa",kb5:"Silencio",nav3:"Preguntas",insp:"Estética inspirada en",insp2:"Diseño Material 3 expresivo, inspirado en",rec:"Para tu dispositivo",rel:"Versiones",q0:"Preguntas.",q1:"¿Qué APK descargo?",q1a:"La de 64 bits (arm64‑v8a) sirve para prácticamente todos los móviles desde 2017. Solo los muy antiguos necesitan la de 32 bits. Si te equivocas, Android simplemente no la instalará.",q2:"Android dice que es de origen desconocido",q2a:"Es normal en las apps que no vienen de Google Play. Pulsa «Ajustes», permite instalar desde esa fuente y vuelve. Solo se hace una vez: después las actualizaciones se instalan desde la propia app.",q3:"Windows muestra «Windows protegió tu PC»",q3a:"El instalador no está firmado con un certificado de pago. Pulsa «Más información» y luego «Ejecutar de todas formas». Se instala solo para tu usuario, sin permisos de administrador.",q4:"¿Es gratis? ¿Tiene anuncios?",q4a:"Gratis, sin anuncios, sin cuentas y sin rastreo. Tu biblioteca se queda en tu dispositivo.",q5:"¿Cómo se actualiza?",q5a:"Las dos apps miran las versiones de esta web. Cuando hay una nueva te enseñan una tarjeta animada, la descargan y la instalan en un par de toques.",q6:"¿Por qué a veces YouTube deja de ir?",q6a:"YouTube cambia a menudo. ZeroPlayer pone al día su motor de enlaces (yt‑dlp) solo cada día, así que normalmente se arregla en unas horas. También puedes forzarlo en Ajustes → Internet y YouTube.",nav1:"Formatos",nav2:"Funciones",get:"Descargar",new:"Nuevo",h1a:"Mira. Escucha.",h1b:"Sin límites.",lead:"Un reproductor de vídeo y música con la potencia de VLC y el alma de Material You. Todos los formatos, YouTube y mil webs más, en Android y Windows.",free:"Descargar gratis",more:"Ver qué hace",k1:"Con el motor de VLC dentro",f1:"Si existe,<br>se reproduce.",f1s:"libVLC decodifica prácticamente todo: 4K HDR, subtítulos de cualquier tipo, varias pistas de audio, emisiones por internet y discos de tu NAS.",k2:"Tu biblioteca",s1:"Todo, en su sitio.",s1s:"Vídeos que se reanudan, carpetas, música por álbumes y artistas. Fluido, con rebote y siempre rápido.",k3:"Música",s2:"Música estilo Pixel.",s2s:"Barra de progreso ondulada, botones que cambian de forma, fundido entre canciones y letras sincronizadas que puedes traducir.",k4:"Reproduciendo",s3:"Colores que siguen a la música.",s3s:"El reproductor toma los colores de la carátula, y también la notificación y la pantalla de bloqueo.",k5:"Internet",s4:"Comparte un enlace. Listo.",s4s:"Comparte desde YouTube o el navegador para verlo al momento, o descarga el vídeo o el MP3.",w1:"Detalles que se mueven.",w1s:"Animaciones expresivas en todas partes: la barra ondula mientras suena y el botón de reproducir cambia de forma.",k6:"Y mucho más",b1:"Hecho para usarse.",c1:"YouTube y mil webs más",c1s:"Gracias a yt-dlp, que se actualiza solo cada día. Hasta 4K, con el audio aparte, y descargas al móvil o al PC.",c2s:"Salta solo los patrocinios, intros y recordatorios en YouTube.",c3:"¿Qué canción es?",c3s:"Reconoce la música que suena en tus vídeos y la guarda para luego.",c4:"Manos libres",c4s:"“Cero, ve al minuto diez”. Un asistente de voz sin internet que entiende números y seis idiomas.",c5:"Envía a la tele",c5s:"Chromecast y altavoces compatibles, directamente desde el reproductor.",c6:"Intros que se saltan solas",c6s:"Encuentra la intro y los créditos comparando los episodios de tu serie, y pone el siguiente con cuenta atrás.",c7:"El sonido a tu gusto",c7s:"Ecualizador con ajustes, sincronización de audio, analizador de espectro y decodificación de máxima calidad.",c8:"Gestos y zoom",c8s:"Brillo, volumen, avanzar, pellizcar para hacer zoom y ventana flotante.",c9s:"Toma los colores de tu fondo de pantalla. Claro, oscuro y negro puro para AMOLED.",c10:"Siempre al día",c10s:"Las versiones nuevas se descargan e instalan desde la propia app, sin tienda.",k7:"Ahora en Windows",x1:"Tu PC, estilo Mac.",x1s:"El mismo motor y la misma alma, en una ventana limpia con semáforos. Instalador propio, arrastrar y soltar, atajos de teclado y actualizaciones automáticas.",tv:"Vídeos",tm:"Música",ts:"Ajustes",d1:"Consigue ZeroPlayer.",d1s:"Gratis, sin anuncios y sin cuentas. Versión <span class=\"ver\">1.1.7</span>.",a1:"Para casi todos los móviles desde 2017 (64 bits). Android 8 o superior.",dlapk:"Descargar APK",a2:"Windows 10 y 11 (64 bits). Se instala sin permisos de administrador y se actualiza solo.",dlexe:"Descargar para Windows",old:"Móviles antiguos",a3:"Versión de 32 bits para móviles de antes de 2017. Si no sabes cuál, elige la primera.",dlapk2:"Descargar APK (32 bits)",i1:"Descarga la APK",i2:"Ábrela y permite instalar",i3:"Disfruta. Las actualizaciones llegan solas",all:"Todas las versiones y novedades →",legal:"Motor de reproducción: libVLC de VideoLAN (LGPL 2.1). ZeroPlayer no es un producto oficial de VideoLAN ni de VLC. yt-dlp, FFmpeg, Vosk y SponsorBlock pertenecen a sus autores."};
 const EN={};
 document.querySelectorAll("[data-i18n]").forEach(e=>EN[e.dataset.i18n]=e.innerHTML);
 let lang=(localStorage.getItem("zp-lang")||(navigator.language||"en")).startsWith("es")?"es":"en";
 function applyLang(){const d=lang==="es"?ES:EN;document.documentElement.lang=lang;document.querySelectorAll("[data-i18n]").forEach(e=>{const v=d[e.dataset.i18n];if(v)e.innerHTML=v});document.getElementById("lang").textContent=lang==="es"?"EN":"ES"}
 document.getElementById("lang").onclick=()=>{lang=lang==="es"?"en":"es";try{localStorage.setItem("zp-lang",lang)}catch(e){}applyLang()};
 applyLang();
+
+// Forma que cambia (como el indicador de carga de Material 3 Expressive): estallido → galleta → pentágono → píldora → sol → círculo.
+const SHAPES=[t=>1+.11*Math.cos(10*t),t=>1+.075*Math.cos(9*t),t=>{const k=2*Math.PI/5,a=((t%k)+k)%k-k/2;return .82*(Math.cos(Math.PI/5)/Math.cos(a))*.75+.25*.95},
+  t=>{const a=1,b=.62;return a*b/Math.sqrt((b*Math.cos(t))**2+(a*Math.sin(t))**2)},t=>1+.06*Math.cos(8*t),t=>1+.16*Math.cos(4*t),()=>.95];
+function shapePath(f,g,k,rot,scale){let d="";const N=96;for(let i=0;i<=N;i++){const t=i/N*2*Math.PI,r=(f(t)*(1-k)+g(t)*k)*scale,x=r*Math.cos(t+rot),y=r*Math.sin(t+rot);d+=(i?"L":"M")+x.toFixed(3)+" "+y.toFixed(3)}return d+"Z"}
+const morphs=[...document.querySelectorAll(".morph .mp")];
+function ease(x){return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2}
+function morphTick(t){const v=t/650,i=Math.floor(v)%SHAPES.length,k=ease(v-Math.floor(v)),d=shapePath(SHAPES[i],SHAPES[(i+1)%SHAPES.length],k,v*2.4,.62);morphs.forEach(p=>p.setAttribute("d",d));
+  if(!document.getElementById("pre").classList.contains("gone")||document.querySelector(".loader-card"))requestAnimationFrame(morphTick)}
+requestAnimationFrame(morphTick);
+function hidePre(){const p=document.getElementById("pre");p.classList.add("out");setTimeout(()=>p.classList.add("gone"),600)}
+if(document.readyState==="complete")setTimeout(hidePre,350);else addEventListener("load",()=>setTimeout(hidePre,250));
+setTimeout(hidePre,2500);
+
+// Novedades: se leen de changelog.json (el mismo archivo con el que se escriben las notas de cada versión).
+let LOG=null;
+function renderLog(showAll){
+  const box=document.getElementById("log"); if(!LOG||!box)return;
+  const es=lang==="es";
+  const fmt=d=>new Date(d+"T12:00:00").toLocaleDateString(es?"es-ES":"en-GB",{day:"numeric",month:"long",year:"numeric"});
+  box.innerHTML=LOG.map((e,i)=>`<div class="rel${i===0?" first":""}${i>2&&!showAll?" hidden":""}"><time>${fmt(e.date)}</time><h3>${es?e.title.es:e.title.en}${i===0?`<span class="tag">${es?"Última":"Latest"}</span>`:""}</h3><ul>${e.items.map(x=>`<li>${es?x.es:x.en}</li>`).join("")}</ul></div>`).join("")
+    +(LOG.length>3?`<button class="pill ghost more" id="logMore">${showAll?(es?"Ver menos":"Show less"):(es?"Ver versiones anteriores":"Show older versions")}</button>`:"");
+  const b=document.getElementById("logMore"); if(b)b.onclick=()=>renderLog(!showAll);
+}
+fetch("changelog.json").then(r=>r.ok?r.json():null).then(j=>{if(j&&j.length){LOG=j;renderLog(false)}}).catch(()=>{});
+document.getElementById("lang").addEventListener("click",()=>renderLog(false));
+// En móvil, la columna «Lo habitual» lleva su título delante
+function usualLabels(){document.querySelectorAll(".cmp-o").forEach(e=>e.dataset.usual=lang==="es"?"Lo habitual:":"The usual:")}
+usualLabels();document.getElementById("lang").addEventListener("click",usualLabels);
 
 // Menú en móviles
 const menuBtn=document.getElementById("menuBtn");
