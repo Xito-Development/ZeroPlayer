@@ -1,5 +1,19 @@
 [
  {
+  "version": "1.2.3",
+  "date": "2026-11-17",
+  "title": {
+   "es": "YouTube arreglado",
+   "en": "YouTube fixed"
+  },
+  "items": [
+   {
+    "es": "Arreglado: los vídeos de YouTube y otras webs no abrían (\"gc.e\") y el motor de YouTube no se podía actualizar. Era un fallo al preparar la versión final de la app.",
+    "en": "Fixed: YouTube and other web videos wouldn't open (\"gc.e\") and the YouTube engine couldn't update. It was a problem in how the final app was built."
+   }
+  ]
+ },
+ {
   "version": "1.2.2",
   "date": "2026-11-17",
   "title": {
