@@ -1,5 +1,35 @@
 [
  {
+  "version": "1.2.1",
+  "date": "2026-11-16",
+  "title": {
+   "es": "YouTube y actualizaciones que no fallan",
+   "en": "YouTube and updates that just work"
+  },
+  "items": [
+   {
+    "es": "YouTube vuelve a funcionar: si falla, la app prueba otras formas, actualiza su motor y, si hace falta, usa la versión diaria. Si aun así no puede, dice por qué y deja reintentar.",
+    "en": "YouTube works again: if it fails, the app tries other ways, updates its engine and, if needed, uses the nightly version. If it still can't, it says why and lets you retry."
+   },
+   {
+    "es": "Actualizar el motor de YouTube ya no falla: se baja directo de GitHub, se comprueba y, si la nueva no arranca, se queda la anterior.",
+    "en": "Updating the YouTube engine no longer fails: it downloads straight from GitHub, is verified and, if the new one doesn't start, the old one stays."
+   },
+   {
+    "es": "Las actualizaciones de la app se descargan aunque cierres el aviso, continúan si se corta la conexión y funcionan aunque GitHub esté saturado.",
+    "en": "App updates keep downloading even if you close the prompt, resume if the connection drops and work even when GitHub is busy."
+   },
+   {
+    "es": "Nueva opción: descargar sola la actualización (con wifi o siempre). Si algo falla, puedes bajarla desde la web con un toque.",
+    "en": "New option: download updates automatically (on Wi-Fi or always). If something fails, you can get it from the website in one tap."
+   },
+   {
+    "es": "Windows: YouTube funciona (incluye el motor de JavaScript que necesita), errores con botón de reintentar, la biblioteca aparece mientras se busca, volumen sin tirones y diálogos con el aspecto de Windows.",
+    "en": "Windows: YouTube works (includes the JavaScript engine it needs), errors with a retry button, the library shows up while scanning, smooth volume and native-looking dialogs."
+   }
+  ]
+ },
+ {
   "version": "1.2.0",
   "date": "2026-11-16",
   "title": {
