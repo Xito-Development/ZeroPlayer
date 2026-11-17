@@ -1,5 +1,19 @@
 [
  {
+  "version": "1.2.2",
+  "date": "2026-11-17",
+  "title": {
+   "es": "Deslizar para actualizar, más bonito",
+   "en": "Prettier pull to refresh"
+  },
+  "items": [
+   {
+    "es": "Nueva animación al deslizar para actualizar: una forma de estallido gira con tu dedo y, al soltar, va cambiando de forma mientras busca.",
+    "en": "New pull-to-refresh animation: a soft burst shape spins with your finger and, when you let go, keeps morphing while it looks for files."
+   }
+  ]
+ },
+ {
   "version": "1.2.1",
   "date": "2026-11-16",
   "title": {
