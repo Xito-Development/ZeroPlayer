@@ -1,5 +1,31 @@
 [
  {
+  "version": "1.3.1",
+  "date": "2026-11-17",
+  "title": {
+   "es": "TV en directo más fiable",
+   "en": "More reliable live TV"
+  },
+  "items": [
+   {
+    "es": "Si la señal de un canal falla, prueba sola las otras señales del mismo canal (más de 120 canales tienen señal de reserva).",
+    "en": "If a channel's stream fails, it automatically tries that channel's other streams (over 120 channels have a backup)."
+   },
+   {
+    "es": "Si se corta la emisión, se vuelve a conectar al mismo canal en vez de saltar al siguiente.",
+    "en": "If the stream drops, it reconnects to the same channel instead of jumping to the next one."
+   },
+   {
+    "es": "\"Anterior\" cambia al canal anterior, y si un canal no emite te dice por qué en vez de dar un error genérico.",
+    "en": "\"Previous\" switches to the previous channel, and if a channel isn't broadcasting it tells you why instead of a generic error."
+   },
+   {
+    "es": "La categoría elegida (por ejemplo tu comunidad) siempre queda a la vista, y la radio ya no busca letras.",
+    "en": "The chosen category (like your region) always stays in view, and radio no longer looks for lyrics."
+   }
+  ]
+ },
+ {
   "version": "1.3.0",
   "date": "2026-11-17",
   "title": {
