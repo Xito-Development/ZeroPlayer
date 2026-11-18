@@ -1,5 +1,19 @@
 [
  {
+  "version": "1.6.2",
+  "date": "2026-11-18",
+  "title": {
+   "es": "Firma de Windows",
+   "en": "Windows signature"
+  },
+  "items": [
+   {
+    "es": "Windows: ahora sí, ZeroPlayer.exe, el instalador y el desinstalador van firmados a nombre de Xito Development.",
+    "en": "Windows: ZeroPlayer.exe, the installer and the uninstaller are now really signed by Xito Development."
+   }
+  ]
+ },
+ {
   "version": "1.6.1",
   "date": "2026-11-18",
   "title": {
