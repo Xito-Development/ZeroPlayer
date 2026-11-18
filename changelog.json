@@ -1,5 +1,43 @@
 [
  {
+  "version": "1.4.0",
+  "date": "2026-11-18",
+  "title": {
+   "es": "Tu voz, tus series",
+   "en": "Your voice, your shows"
+  },
+  "items": [
+   {
+    "es": "El asistente de voz ya no confunde el diálogo de la serie con tu voz: quita del micrófono el sonido del vídeo y solo obedece cuando está seguro. Ya no baja el volumen sin motivo.",
+    "en": "The voice assistant no longer mistakes the show's dialogue for your voice: it removes the video's sound from the mic and only acts when it's sure. No more random volume drops."
+   },
+   {
+    "es": "Registra varias voces (la tuya y la de tu familia) y el asistente solo os hará caso a vosotros.",
+    "en": "Register several voices (yours and your family's) and the assistant will only listen to you."
+   },
+   {
+    "es": "Órdenes de brillo: «Cero sube el brillo», «Cero brillo cincuenta», «Cero brillo automático».",
+    "en": "Brightness commands: “Zero brightness up”, “Zero brightness fifty”, “Zero auto brightness”."
+   },
+   {
+    "es": "El icono del micrófono ahora es un botoncito en la esquina que se despliega al tocarlo.",
+    "en": "The microphone icon is now a small corner button that expands when tapped."
+   },
+   {
+    "es": "Omitir intros y créditos automáticamente, y detección de intros más fiable (prueba con el episodio anterior y el siguiente).",
+    "en": "Skip intros and credits automatically, with more reliable intro detection (it tries the previous and next episode)."
+   },
+   {
+    "es": "Carpetas: ordénalas como quieras (por episodio, fecha, duración…) y filtra por sin ver, a medias o vistos. La cola y «siguiente» siguen ese orden.",
+    "en": "Folders: sort them as you like (by episode, date, length…) and filter by unwatched, in progress or watched. The queue and “next” follow that order."
+   },
+   {
+    "es": "Las miniaturas de vídeo que salían negras ahora muestran un momento del vídeo con imagen.",
+    "en": "Video thumbnails that used to be black now show a frame with a picture."
+   }
+  ]
+ },
+ {
   "version": "1.3.1",
   "date": "2026-11-17",
   "title": {
