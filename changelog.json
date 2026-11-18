@@ -1,5 +1,35 @@
 [
  {
+  "version": "1.7.0",
+  "date": "2026-11-18",
+  "title": {
+   "es": "Tele y YouTube a lo grande",
+   "en": "TV and YouTube, bigger"
+  },
+  "items": [
+   {
+    "es": "Reproductor de TV en directo renovado: logo del canal y «EN DIRECTO», el programa de ahora con su hora y el siguiente, botones para cambiar de canal, lista de canales y programación sin salir, y «Ir al directo» si te has quedado atrás.",
+    "en": "Revamped live TV player: channel logo and “LIVE”, the current show with its times and what's next, channel up/down buttons, channel list and schedule without leaving, and “Go live” if you fall behind."
+   },
+   {
+    "es": "YouTube dentro de la app: busca vídeos y directos sin anuncios, abre listas y canales enteros, y sigue por donde ibas con «Seguir viendo».",
+    "en": "YouTube inside the app: search videos and live streams without ads, open whole playlists and channels, and pick up where you left off with “Continue watching”."
+   },
+   {
+    "es": "Más canales: Antena 3, laSexta, Neox, Nova, Mega y Atreseries (se abren en Atresplayer) y Telecinco, Cuatro, FDF, Energy, Divinity, Boing y Be Mad (en Mitele), además de canales gratis tipo Pluto TV y Rakuten TV y más canales locales y temáticos de España.",
+    "en": "More channels: Antena 3, laSexta, Neox, Nova, Mega and Atreseries (open in Atresplayer) and Telecinco, Cuatro, FDF, Energy, Divinity, Boing and Be Mad (in Mitele), plus free Pluto TV and Rakuten TV-style channels and more Spanish local and themed channels."
+   },
+   {
+    "es": "Arreglo: en Android no se veían los logos de los canales ni las imágenes de internet.",
+    "en": "Fix: channel logos and internet images didn't show on Android."
+   },
+   {
+    "es": "Se quitan de la lista mundial copias no oficiales de canales de pago.",
+    "en": "Unofficial copies of pay channels are removed from the world list."
+   }
+  ]
+ },
+ {
   "version": "1.6.2",
   "date": "2026-11-18",
   "title": {
