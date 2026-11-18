@@ -1,5 +1,23 @@
 [
  {
+  "version": "1.6.1",
+  "date": "2026-11-18",
+  "title": {
+   "es": "Tú decides cuándo actualizar",
+   "en": "You decide when to update"
+  },
+  "items": [
+   {
+    "es": "Las actualizaciones ya no se descargan ni se instalan solas: primero te pregunta si quieres descargarla y, cuando termina, si quieres instalarla ahora.",
+    "en": "Updates no longer download or install on their own: you're asked first whether to download, and when it's done, whether to install now."
+   },
+   {
+    "es": "Windows: ZeroPlayer.exe, el instalador y el desinstalador van firmados digitalmente a nombre de Xito Development.",
+    "en": "Windows: ZeroPlayer.exe, the installer and the uninstaller are digitally signed by Xito Development."
+   }
+  ]
+ },
+ {
   "version": "1.6.0",
   "date": "2026-11-18",
   "title": {
