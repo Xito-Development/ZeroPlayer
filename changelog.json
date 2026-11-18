@@ -1,5 +1,35 @@
 [
  {
+  "version": "1.6.0",
+  "date": "2026-11-18",
+  "title": {
+   "es": "Más tele, menos datos",
+   "en": "More TV, less data"
+  },
+  "items": [
+   {
+    "es": "Nueva pestaña «Mundo» en TV: más de 2.700 canales en español de todos los países (México, Argentina, Colombia…) y deportes de todo el mundo, por categorías: deportes, noticias, cine, series, música, infantil…",
+    "en": "New “World” tab in TV: over 2,700 Spanish-language channels from every country (Mexico, Argentina, Colombia…) and sports from around the world, by category: sports, news, movies, series, music, kids…"
+   },
+   {
+    "es": "Guía de programación: cada canal de España enseña lo que se emite ahora, y puedes ver lo que viene después (mantén pulsado el canal en el móvil o pulsa el calendario en Windows).",
+    "en": "TV guide: every Spanish channel shows what's on now, and you can see what's next (long-press the channel on your phone or click the calendar on Windows)."
+   },
+   {
+    "es": "En directo ya no se aplican cosas de series: nada de saltar intros o créditos, ni «siguiente episodio», ni guardar por dónde ibas. Antes, en canales con rebobinado, podía cambiar de canal solo.",
+    "en": "Series features no longer apply to live TV: no intro or credits skipping, no “next episode”, no saving where you were. Before, channels with rewind could switch channel on their own."
+   },
+   {
+    "es": "Modo ahorro de datos: apagado, solo con datos móviles o siempre. Limita la calidad (360p, 480p o 720p) en YouTube, enlaces y TV en directo, y opcionalmente solo sonido, sin imágenes de internet y sin descargas en segundo plano.",
+    "en": "Data saver mode: off, on mobile data only, or always. Caps quality (360p, 480p or 720p) on YouTube, links and live TV, with optional sound only, no internet images and no background downloads."
+   },
+   {
+    "es": "Windows: pestaña «Mundo», guía de programación y ahorro de datos en Ajustes.",
+    "en": "Windows: “World” tab, TV guide and data saver in Settings."
+   }
+  ]
+ },
+ {
   "version": "1.5.0",
   "date": "2026-11-18",
   "title": {
