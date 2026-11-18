@@ -1,5 +1,51 @@
 [
  {
+  "version": "1.5.0",
+  "date": "2026-11-18",
+  "title": {
+   "es": "Windows, a fondo",
+   "en": "Windows, polished"
+  },
+  "items": [
+   {
+    "es": "La app de Windows ahora tiene los botones de ventana de Windows 11 (minimizar, maximizar y cerrar a la derecha). Si prefieres los de Mac, se eligen en Ajustes.",
+    "en": "The Windows app now has Windows 11 window buttons (minimize, maximize and close on the right). If you prefer the Mac ones, pick them in Settings."
+   },
+   {
+    "es": "Instalador nuevo: oscuro, con bienvenida, opciones (acceso directo, «Abrir con» y carpeta) y una pantalla final para abrir la app.",
+    "en": "New installer: dark, with a welcome screen, options (shortcut, “Open with” and folder) and a final screen to open the app."
+   },
+   {
+    "es": "Vídeos: fila «Seguir viendo», vista por carpetas, orden (episodios, fecha, tamaño…), filtros Sin ver / A medias / Vistos, duración en cada vídeo y marca de visto.",
+    "en": "Videos: “Continue watching” row, folder view, sorting (episodes, date, size…), Unwatched / In progress / Watched filters, duration on every video and a watched mark."
+   },
+   {
+    "es": "Clic derecho en un vídeo: marcar como visto o no visto, ver desde el principio y mostrarlo en su carpeta.",
+    "en": "Right-click a video: mark as watched or unwatched, play from the start and show it in its folder."
+   },
+   {
+    "es": "Mini ventana flotante (siempre encima) para seguir viendo mientras haces otra cosa.",
+    "en": "Floating mini window (always on top) to keep watching while you do something else."
+   },
+   {
+    "es": "Captura del fotograma (tecla S), ecualizador con preajustes y subtítulos arrastrando un .srt sobre el vídeo.",
+    "en": "Frame screenshot (S key), equalizer with presets and subtitles by dropping an .srt onto the video."
+   },
+   {
+    "es": "Más atajos: N/P, [ ] para la velocidad, 0-9 para saltar, Ctrl+O, Ctrl+V para pegar un enlace y F1 para verlos todos. Las teclas multimedia del teclado funcionan aunque la app esté detrás.",
+    "en": "More shortcuts: N/P, [ ] for speed, 0-9 to jump, Ctrl+O, Ctrl+V to paste a link and F1 to see them all. Your keyboard's media keys work even when the app is in the background."
+   },
+   {
+    "es": "La ventana se abre con el tamaño y el sitio donde la dejaste.",
+    "en": "The window opens at the size and position you left it."
+   },
+   {
+    "es": "Arreglos: los avisos (como «Continuando donde lo dejaste») no se veían; la pantalla de música se salía por abajo en ventanas bajas; las categorías de TV ocupaban media pantalla; el acceso directo fallaba si el Escritorio está en OneDrive; títulos con «.mp4» y otros detalles.",
+    "en": "Fixes: notices (like “Resuming where you left off”) weren't shown; the music screen overflowed in short windows; TV categories took half the screen; the shortcut failed when the Desktop is in OneDrive; titles showing “.mp4” and other details."
+   }
+  ]
+ },
+ {
   "version": "1.4.0",
   "date": "2026-11-18",
   "title": {
