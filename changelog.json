@@ -1,5 +1,19 @@
 [
  {
+  "version": "1.9.1",
+  "date": "2026-11-19",
+  "title": {
+   "es": "Menús que no se levantan",
+   "en": "Menus that stay put"
+  },
+  "items": [
+   {
+    "es": "Los menús que salen desde abajo (los tres puntos de una canción, la cola, la velocidad…) ya no se levantan ni se estiran hacia arriba al deslizarlos: se quedan en su sitio, y hacia abajo se siguen cerrando como siempre. Las listas de dentro tampoco se estiran al llegar al final.",
+    "en": "Menus that slide up from the bottom (a song's three dots, the queue, speed…) no longer lift or stretch upwards when you swipe them: they stay put, and swiping down still closes them as before. Lists inside them no longer stretch at the end either."
+   }
+  ]
+ },
+ {
   "version": "1.9.0",
   "date": "2026-11-19",
   "title": {
