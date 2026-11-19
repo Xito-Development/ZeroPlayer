@@ -1,5 +1,39 @@
 [
  {
+  "version": "1.8.0",
+  "date": "2026-11-19",
+  "title": {
+   "es": "Vídeo y música a la vez",
+   "en": "Video and music together"
+  },
+  "items": [
+   {
+    "es": "Si estabas escuchando música y abres un vídeo (o al revés), lo de antes no se pierde: el vídeo queda en una barra flotante abajo, como la de música, y en el borde aparece una pestaña con lo otro. Tócala o deslízala y cambias de uno a otro, cada uno donde se quedó, con animaciones suaves. En Windows, una pestaña en el borde hace lo mismo.",
+    "en": "If you were listening to music and open a video (or the other way round), you don't lose it: the video sits in a floating bar at the bottom, like the music one, and a tab on the edge holds the other. Tap or swipe it to switch, each one right where it was, with smooth animations. On Windows, a tab on the edge does the same."
+   },
+   {
+    "es": "Órdenes de voz que entienden mejor cómo hablamos: muchas formas coloquiales y algún taco («para eso», «quita esa mierda», «pasa de esta», «más alto»…), coletillas como «oye», «porfa» o «tío», y más margen con acentos y frases largas, sin que la charla normal dispare órdenes.",
+    "en": "Voice commands that understand how people really talk: lots of casual phrasings and the odd swear word, fillers like “hey”, “please” or “now”, and more room for accents and longer phrases, without normal chatter triggering commands."
+   },
+   {
+    "es": "Botón atrás arreglado en Android: desde otra pestaña vuelve a la de inicio en vez de cerrar la app, respeta las secciones de Ajustes, y con el vídeo bloqueado ya no lo cierra (enseña «Desbloquear»). El reproductor de música se encoge siguiendo el gesto de atrás.",
+    "en": "Android back button fixed: from another tab it goes back to your home tab instead of closing the app, respects Settings sections, and no longer closes a locked video (it shows “Unlock”). The music player shrinks along with the back gesture."
+   },
+   {
+    "es": "Fondos y desplegables más limpios en móvil y tablet: las pantallas ya no se transparentan al cambiar de pestaña, y las hojas de canales y programación se abren enteras y se pueden desplazar en horizontal.",
+    "en": "Cleaner backgrounds and sheets on phone and tablet: screens no longer show through each other when switching tabs, and the channel and schedule sheets open fully and scroll in landscape."
+   },
+   {
+    "es": "Windows con más vida: las tarjetas entran escalonadas, las secciones se deslizan según hacia dónde vas, la barra lateral marca la sección con una rayita animada y el mini reproductor cambia de canción con transición.",
+    "en": "Windows feels livelier: cards come in one after another, sections slide in the direction you're going, the sidebar marks the section with an animated accent and the mini player transitions between songs."
+   },
+   {
+    "es": "Reconocer canciones funciona mejor: escucha lo que acaba de sonar y prueba otros momentos si no hay suerte, iguala el volumen de canciones de fondo bajitas, no gasta consultas en silencios, reintenta si falla la conexión y ahora también reconoce lo que suena en la tele en directo y la radio.",
+    "en": "Song recognition works better: it listens to what just played and tries other moments if needed, evens out quiet background songs, doesn't waste lookups on silence, retries on connection hiccups and now also recognises what's on live TV and radio."
+   }
+  ]
+ },
+ {
   "version": "1.7.0",
   "date": "2026-11-18",
   "title": {
