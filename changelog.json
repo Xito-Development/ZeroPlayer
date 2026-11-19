@@ -1,5 +1,31 @@
 [
  {
+  "version": "1.9.0",
+  "date": "2026-11-19",
+  "title": {
+   "es": "Listo para el coche",
+   "en": "Ready for the car"
+  },
+  "items": [
+   {
+    "es": "Al conectarte al coche por Bluetooth (Tesla y la mayoría de marcas), su pantalla enseña bien lo que suena: título y artista limpios, álbum, duración, número de pista y carátula cuadrada, también en vídeos. En la radio sale la canción que anuncia la emisora y en la TV en directo, el programa de ahora.",
+    "en": "When you connect to your car over Bluetooth (Tesla and most brands), its screen shows what's playing properly: clean title and artist, album, length, track number and a square cover, videos included. Radio shows the song the station announces and live TV shows the current programme."
+   },
+   {
+    "es": "La carátula que ve el coche lleva un logo pequeño de ZeroPlayer en blanco, sin fondo, en la esquina de abajo a la derecha (se puede quitar).",
+    "en": "The cover the car shows carries a small white ZeroPlayer logo, with no background, in the bottom-right corner (you can turn it off)."
+   },
+   {
+    "es": "Nueva sección «En el coche» en Ajustes: cómo reconocer el coche, la marca de agua, si enseñar también los vídeos y si seguir sonando al subir. El reproductor avisa con «EN TESLA» (o tu coche) cuando está conectado.",
+    "en": "New “In the car” section in Settings: how to recognise the car, the watermark, whether to show videos too and whether to resume when you get in. The player shows “IN TESLA” (or your car) while connected."
+   },
+   {
+    "es": "Nueva animación al instalar una actualización: el logo de ZeroPlayer cae y respira mientras un anillo marca el avance; mientras Android te pregunta, salen ondas de aviso, y si cierras su ventana sin querer puedes volver a abrirla o cancelar. Al terminar te avisa de que ya tienes la versión nueva.",
+    "en": "New animation while installing an update: the ZeroPlayer logo drops in and breathes while a ring shows progress; while Android asks you, ripples pulse, and if you close its window by mistake you can reopen it or cancel. When it finishes it tells you the new version is ready."
+   }
+  ]
+ },
+ {
   "version": "1.8.0",
   "date": "2026-11-19",
   "title": {
