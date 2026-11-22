@@ -1,5 +1,59 @@
 [
  {
+  "version": "2.0.0",
+  "date": "2026-11-22",
+  "title": {
+   "es": "YouTube Music y Liquid Glass",
+   "en": "YouTube Music and Liquid Glass"
+  },
+  "items": [
+   {
+    "es": "YouTube Music dentro de ZeroPlayer: busca canciones (con sugerencias mientras escribes), escúchalas como música con carátula y letra, abre álbumes, listas y artistas, y mira el inicio con sus estanterías. Al acabar la cola sigue sonando música parecida (radio), y cada canción tiene menú para ponerla a continuación, iniciar su radio, guardarla en una lista, ver su vídeo o descargarla.",
+    "en": "YouTube Music inside ZeroPlayer: search songs (with suggestions as you type), play them as music with cover art and lyrics, open albums, playlists and artists, and browse the home shelves. When the queue ends, similar music keeps playing (radio), and every song has a menu to play next, start its radio, save it to a list, watch its video or download it."
+   },
+   {
+    "es": "Conecta tu cuenta de YouTube Music para ver tus listas, tus canciones que te gustan y un inicio hecho para ti, y clónalas a ZeroPlayer. Clona también listas y álbumes de Spotify (cada canción se busca en YouTube Music) o de YouTube pegando su enlace.",
+    "en": "Connect your YouTube Music account to see your playlists, liked songs and a personalised home, and clone them into ZeroPlayer. You can also clone Spotify playlists and albums (each song is matched on YouTube Music) or YouTube ones by pasting their link."
+   },
+   {
+    "es": "Liquid Glass: la barra de navegación, el reproductor pequeño y las barras flotantes son de cristal y dejan ver, desenfocado, lo que hay detrás (en Android 12 o superior; se puede quitar en Ajustes). También en Windows.",
+    "en": "Liquid Glass: the navigation bar, mini player and floating bars are glass and show what's behind, blurred (Android 12+; can be turned off in Settings). Also on Windows."
+   },
+   {
+    "es": "En el coche: la carátula también se manda como dirección (algunos coches solo la piden así) y Tesla y otros pueden ver la cola entera en «Lista de reproducción», recorrer tus favoritas, listas y canciones, y buscar desde su pantalla.",
+    "en": "In the car: the cover is also sent as an address (some cars only ask for it that way), and Tesla and others can see the whole queue under “Playlist”, browse your favourites, lists and songs, and search from their screen."
+   },
+   {
+    "es": "One UI y la Now Bar: botones de favorita y aleatorio en los controles de música (pantalla de bloqueo, Now Bar), y las descargas salen como actualización en directo en Android 16.",
+    "en": "One UI and the Now Bar: favourite and shuffle buttons in the music controls (lock screen, Now Bar), and downloads show as a live update on Android 16."
+   },
+   {
+    "es": "Chromecast más completo: radar mientras busca, tarjeta con lo que suena en la tele, botón para volver al móvil, los botones de volumen del móvil controlan la tele, pantalla de envío con la miniatura desenfocada, y calidad de envío en Ajustes.",
+    "en": "Better Chromecast: a radar while searching, a card with what's playing on the TV, a button to bring it back to the phone, the phone's volume buttons control the TV, a casting screen with the blurred thumbnail, and casting quality in Settings."
+   },
+   {
+    "es": "Al abrir, la app vuelve a la sección donde estabas, recupera también las colas de YouTube Music y, si dejaste un vídeo a medias, te ofrece seguir viéndolo.",
+    "en": "When opening, the app returns to the section you were in, also restores YouTube Music queues and, if you left a video halfway, offers to keep watching."
+   },
+   {
+    "es": "Arreglos: la fuente se ve igual en Xiaomi/Redmi que en Samsung; el botón atrás ya no te devuelve al principio de la pestaña al salir de una carpeta (cada pestaña recuerda dónde estabas); las letras ya no se cortan ni saltan de línea y el aviso de voz no tapa «Traducir»; el título largo se desliza con calma y con bordes difuminados.",
+    "en": "Fixes: the font looks the same on Xiaomi/Redmi as on Samsung; back no longer drops you at the top of the tab when leaving a folder (each tab remembers where you were); lyrics no longer get cut off or jump lines and the voice indicator no longer covers “Translate”; long titles scroll calmly with faded edges."
+   },
+   {
+    "es": "YouTube con más calidad: si las pistas separadas fallan se usa un HLS de hasta 1080p en vez del MP4 de 360p, se prefiere imagen normal a HDR (que sale lavado) y la siguiente canción se prepara antes para empezar sin esperar.",
+    "en": "Better YouTube quality: if separate streams fail, an HLS stream up to 1080p is used instead of the 360p MP4, SDR is preferred over HDR (which looks washed out), and the next song is prepared in advance so it starts without waiting."
+   },
+   {
+    "es": "Abrir enlace: botón para pegar del portapapeles (y si ya hay un enlace copiado, se pone solo).",
+    "en": "Open link: a paste-from-clipboard button (and if a link is already copied, it's filled in)."
+   },
+   {
+    "es": "Windows: mini ventana flotante también para la música (con carátula y controles), botón en la barra de música y opción de abrirla al minimizar.",
+    "en": "Windows: floating mini window for music too (with cover and controls), a button on the music bar and an option to open it when minimising."
+   }
+  ]
+ },
+ {
   "version": "1.9.1",
   "date": "2026-11-19",
   "title": {
