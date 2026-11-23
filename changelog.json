@@ -1,5 +1,35 @@
 [
  {
+  "version": "2.2.0",
+  "date": "2026-11-23",
+  "title": {
+   "es": "Enviar archivos entre móvil y PC",
+   "en": "Send files between phone and PC"
+  },
+  "items": [
+   {
+    "es": "Nueva sección «Enviar archivos» (Android: Explorar → Enviar archivos · Windows: en el menú lateral): manda fotos, vídeos y música a otro móvil o PC por la wifi, sin cables ni internet. Los dispositivos de la misma wifi salen solos; si no, puedes añadirlos por IP.",
+    "en": "New “Send files” section (Android: Explore → Send files · Windows: in the side menu): send photos, videos and music to another phone or PC over Wi-Fi, no cables or internet needed. Devices on the same Wi-Fi show up by themselves; otherwise you can add them by IP."
+   },
+   {
+    "es": "Compatible con LocalSend: puedes enviar y recibir también desde la app LocalSend en iPhone, Mac, Linux o cualquier otro dispositivo.",
+    "en": "LocalSend compatible: you can also send to and receive from the LocalSend app on iPhone, Mac, Linux or any other device."
+   },
+   {
+    "es": "Antes de recibir te pregunta qué te quieren enviar y puedes aceptar o rechazar. Se ve el progreso y se puede cancelar. En Android se guarda en Imágenes, Películas, Música o Descargas (carpeta ZeroPlayer); en Windows, en Descargas\\ZeroPlayer. La música y los vídeos recibidos ya salen en la biblioteca.",
+    "en": "Before receiving it asks what's being sent and you can accept or decline. You see the progress and can cancel. On Android files go to Pictures, Movies, Music or Downloads (ZeroPlayer folder); on Windows, to Downloads\\ZeroPlayer. Received music and videos appear in your library right away."
+   },
+   {
+    "es": "También por Bluetooth: en Android con el botón «Enviar por Bluetooth» y en Windows con «Enviar/Recibir por Bluetooth» (abre el asistente de Windows).",
+    "en": "Bluetooth too: on Android with the “Send via Bluetooth” button and on Windows with “Send/Receive via Bluetooth” (opens the Windows wizard)."
+   },
+   {
+    "es": "Desde la galería o cualquier app de Android: Compartir → «Enviar a otro dispositivo» abre ZeroPlayer con los archivos ya elegidos.",
+    "en": "From the gallery or any Android app: Share → “Send to another device” opens ZeroPlayer with the files already picked."
+   }
+  ]
+ },
+ {
   "version": "2.1.0",
   "date": "2026-11-23",
   "title": {
