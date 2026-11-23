@@ -1,5 +1,55 @@
 [
  {
+  "version": "2.3.0",
+  "date": "2026-11-23",
+  "title": {
+   "es": "Más funciones al estilo Echo Music",
+   "en": "More Echo Music–style features"
+  },
+  "items": [
+   {
+    "es": "YouTube Music: nueva pestaña «Explorar» con Novedades, Listas de éxitos, estados de ánimo y géneros, y pódcasts. Cada estantería tiene «Ver todo».",
+    "en": "YouTube Music: new “Explore” tab with New releases, Charts, moods and genres, and podcasts. Every shelf has “See all”."
+   },
+   {
+    "es": "«Para ti» en el inicio de YouTube Music: «Tu mezcla» junta canciones nuevas parecidas a lo que más escuchas con tus favoritas (funciona sin cuenta, se calcula en el móvil), y «Escuchado hace poco».",
+    "en": "“For you” on the YouTube Music home: “Your mix” blends new songs like what you play most with your favorites (works without an account, computed on the phone), plus “Recently played”."
+   },
+   {
+    "es": "Letras palabra a palabra: la línea que suena se va encendiendo según se canta. También hay estilo «Desenfoque» (las demás líneas borrosas) o el clásico por líneas (Ajustes → Letras).",
+    "en": "Word-by-word lyrics: the current line lights up as it's sung. There's also a “Blur” style (other lines blurred) or the classic line-by-line (Settings → Lyrics)."
+   },
+   {
+    "es": "Si LRCLIB no tiene la letra, se busca la de YouTube Music.",
+    "en": "If LRCLIB doesn't have the lyrics, YouTube Music's are used."
+   },
+   {
+    "es": "Compartir canción con un enlace de song.link que abre en Spotify, Apple Music, YouTube Music, Deezer… (menú ⋮ y «Más opciones»).",
+    "en": "Share a song with a song.link link that opens in Spotify, Apple Music, YouTube Music, Deezer… (⋮ menu and “More options”)."
+   },
+   {
+    "es": "Poner una canción del móvil como tono de llamada, y «Enviar a otro dispositivo» desde su menú.",
+    "en": "Set a song on your phone as ringtone, and “Send to another device” from its menu."
+   },
+   {
+    "es": "Pausar al silenciar: si bajas el volumen del todo se pausa y al subirlo sigue. Y al volver a conectar los auriculares sigue sonando donde iba.",
+    "en": "Pause on mute: turning the volume all the way down pauses and turning it up resumes. Reconnecting your headphones resumes playback too."
+   },
+   {
+    "es": "Opción para ocultar vídeos musicales y Shorts en YouTube Music.",
+    "en": "Option to hide music videos and Shorts in YouTube Music."
+   },
+   {
+    "es": "El buscador de Ajustes ahora encuentra cada opción, no solo las secciones.",
+    "en": "Settings search now finds every option, not just sections."
+   },
+   {
+    "es": "En pantallas de 90/120 Hz la app va a la máxima fluidez.",
+    "en": "On 90/120 Hz screens the app runs at the highest refresh rate."
+   }
+  ]
+ },
+ {
   "version": "2.2.0",
   "date": "2026-11-23",
   "title": {
