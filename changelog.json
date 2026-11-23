@@ -1,5 +1,27 @@
 [
  {
+  "version": "2.1.0",
+  "date": "2026-11-23",
+  "title": {
+   "es": "Discord en Android y carga más clara",
+   "en": "Discord on Android and clearer loading"
+  },
+  "items": [
+   {
+    "es": "Estado de Discord también en Android (función oculta: toca 7 veces la versión en Ajustes → Acerca de): entras con tu cuenta de Discord y en tu perfil sale «Escuchando a YouTube Music» o a ZeroPlayer, con la canción, el artista y el tiempo que queda. Puedes cambiar el nombre y los textos, y añadir la carátula con un Application ID.",
+    "en": "Discord status on Android too (hidden feature: tap the version 7 times in Settings → About): sign in with your Discord account and your profile shows “Listening to YouTube Music” or ZeroPlayer, with the song, artist and time left. You can change the name and texts, and add the cover with an Application ID."
+   },
+   {
+    "es": "Al cargar una canción de YouTube Music (o cualquier enlace), el botón de play se convierte en una forma que gira y se ondula, la carátula late con un anillo y pone «Cargando…». Tocar play mientras carga ya no vuelve a empezar la carga: elige si empezará sola o se quedará en pausa.",
+    "en": "While a YouTube Music song (or any link) loads, the play button turns into a spinning, morphing shape, the cover pulses with a ring and it says “Loading…”. Tapping play while it loads no longer restarts loading: it chooses whether it starts by itself or stays paused."
+   },
+   {
+    "es": "La web de ZeroPlayer está preparada para salir en Google: título y descripción mejores, mapa del sitio y datos de la app para los buscadores.",
+    "en": "The ZeroPlayer website is ready to appear on Google: better title and description, a sitemap and app data for search engines."
+   }
+  ]
+ },
+ {
   "version": "2.0.0",
   "date": "2026-11-22",
   "title": {
