@@ -1,5 +1,14 @@
 [
  {
+  "version": "2.9.1",
+  "date": "2026-11-26",
+  "title": {
+   "es": "Bug fixes and some improvements",
+   "en": "Bug fixes and some improvements"
+  },
+  "items": []
+ },
+ {
   "version": "2.9.0",
   "date": "2026-11-26",
   "title": {
