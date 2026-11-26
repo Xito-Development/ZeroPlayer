@@ -1,0 +1,9 @@
+# Cloudflare Pages (zeroplayer.pages.dev): la web y el mando por internet (functions/web-player/api.js).
+name = "zeroplayer"
+pages_build_output_dir = "."
+compatibility_date = "2025-09-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "zeroplayer-relay"
+database_id = "0544ab54-1fc6-4b3a-83f8-45912616d9a2"
