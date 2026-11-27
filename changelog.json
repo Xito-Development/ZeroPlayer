@@ -1,5 +1,31 @@
 [
  {
+  "version": "2.14.1",
+  "date": "2026-11-27",
+  "title": {
+   "es": "Reconocer canciones gastando menos y estado de Discord listo",
+   "en": "Song recognition that uses less quota, and Discord status ready"
+  },
+  "items": [
+   {
+    "es": "Reconocer canciones usa Shazam primero. AudD solo se usa si Shazam no responde, al pedirlo a mano y con un límite diario por móvil (con tu propia clave de AudD no hay límite).",
+    "en": "Song recognition uses Shazam first. AudD is only used when Shazam doesn't respond, when you ask manually and with a daily limit per phone (no limit with your own AudD key)."
+   },
+   {
+    "es": "El reconocimiento automático en vídeos ya no gasta usos de AudD.",
+    "en": "Automatic recognition in videos no longer uses AudD quota."
+   },
+   {
+    "es": "Estado de Discord: la app ya trae su aplicación de Discord «ZeroPlayer», no hace falta poner ningún ID (Android y Windows).",
+    "en": "Discord status: the app now ships with its own “ZeroPlayer” Discord application, no ID needed (Android and Windows)."
+   },
+   {
+    "es": "Web: verificada en Google Search Console para aparecer mejor en el buscador.",
+    "en": "Website: verified in Google Search Console to show up better in search."
+   }
+  ]
+ },
+ {
   "version": "2.14.0",
   "date": "2026-11-27",
   "title": {
