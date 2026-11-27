@@ -227,6 +227,14 @@ body.fs .ib svg{width:34px;height:34px}
 body.fs .fsline{display:block}
 body.fs .vol{display:flex}
 @media (max-width:860px){body.fs .now{flex-direction:column;gap:18px}body.fs .art{width:min(70vw,40vh)}body.fs .meta{width:100%}}
+.grip{width:26px;align-self:stretch;display:grid;place-items:center;color:var(--muted);cursor:grab;touch-action:none;flex:none;margin-right:-4px}
+.grip svg{width:18px;height:18px;fill:currentColor}
+.row.dragging{background:rgba(255,255,255,.12);box-shadow:0 8px 24px rgba(0,0,0,.4);position:relative;z-index:2}
+.hmeta{color:var(--muted);font-size:13px;font-weight:500}
+.qsep{margin:14px 10px 6px;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.6px}
+.qfoot{display:flex;gap:8px;flex-wrap:wrap;margin:14px 6px 4px}
+.qpast{width:calc(100% - 12px);text-align:left;cursor:pointer;color:var(--fg)}
+.dim .row{opacity:.6}
 .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 #ytwrap{display:none;width:100%;height:100%}#ytwrap iframe{width:100%;height:100%;border:0;display:block}.art.web #ytwrap{display:block}.art.web #artnote,.art:not(.empty) #artnote{display:none}.art.web{background:#000 !important;overflow:hidden;transform:none}
 </style>
@@ -468,8 +476,54 @@ async function cmd(a, extra) { try { const r = await api('/api/cmd', Object.assi
 
 // ================================================================ Motor del navegador (YouTube Music en el propio navegador)
 const W = Object.assign({ q: [], i: -1, shuffle: false, repeat: 0, vol: 80 }, (() => { try { return JSON.parse(ls.get('zpWeb', '{}')); } catch (e) { return {}; } })());
-W.yt = null; W.state = -1; W.loaded = null;
-function saveWeb() { ls.set('zpWeb', JSON.stringify({ q: W.q.slice(-300), i: W.i, shuffle: W.shuffle, repeat: W.repeat, vol: W.vol })); }
+W.yt = null; W.state = -1; W.loaded = null; W.hist = W.hist || []; if (W.auto === undefined) W.auto = true;
+function saveWeb() {
+  // Se guardan como mucho 60 ya sonadas y 300 por sonar (el índice se ajusta).
+  const cut = Math.max(0, W.i - 60);
+  if (cut) { W.q = W.q.slice(cut); W.i -= cut; }
+  if (W.q.length > W.i + 301) W.q = W.q.slice(0, W.i + 301);
+  ls.set('zpWeb', JSON.stringify({ q: W.q, i: W.i, shuffle: W.shuffle, repeat: W.repeat, vol: W.vol, auto: W.auto, hist: W.hist.slice(-200) }));
+}
+
+// ================================================================ Cerebro de la cola (igual que en la app)
+const plain = s => (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
+const NOISE = /\s*[([][^)\]]*(official|video|audio|lyric|letra|remaster|visualizer|hd|4k|live|en vivo|en directo|version|versión|explicit|clean|mono|stereo)[^)\]]*[)\]]/ig;
+const FEAT = /\s+(feat\.?|ft\.?|with|con|x)\s+.*$/i;
+const mainArtist = a => plain((a || '').split(/[,&·]/)[0].replace(/\s*-\s*Topic$/i, '').replace(FEAT, ''));
+const songKey = t => plain((t.t || t.title || '').replace(NOISE, '').replace(FEAT, '').split(' - ')[0]) + '|' + mainArtist(t.a ?? t.artist);
+/** Aleatorio que reparte los artistas: no salen dos del mismo seguidas si se puede evitar. */
+function smartShuffle(items) {
+  const pool = items.slice().sort(() => Math.random() - .5), out = [], last = [];
+  while (pool.length) {
+    const counts = {}; pool.forEach(x => { const a = mainArtist(x.a ?? x.artist); counts[a] = (counts[a] || 0) + 1; });
+    let ok = pool.map((x, i) => i).filter(i => !last.includes(mainArtist(pool[i].a ?? pool[i].artist)));
+    if (!ok.length) ok = pool.map((x, i) => i);
+    const weighted = []; ok.forEach(i => { for (let k = 0; k < Math.min(4, counts[mainArtist(pool[i].a ?? pool[i].artist)]); k++) weighted.push(i); });
+    const x = pool.splice(weighted[Math.floor(Math.random() * weighted.length)], 1)[0];
+    out.push(x); last.push(mainArtist(x.a ?? x.artist)); if (last.length > 2) last.shift();
+  }
+  return out;
+}
+/**
+ * Junta varias radios en una tanda: sin repetidas (ni otras versiones de la misma), sin lo que ya está en la cola ni
+ * lo escuchado hace poco (si hay alternativas), sin vídeos ni cortes raros, y repartiendo artistas.
+ */
+function radioBatch(lists, limit = 20, maxPerArtist = 3) {
+  const merged = [], pos = lists.map(() => 0);
+  while (lists.some((l, i) => pos[i] < l.length)) lists.forEach((l, li) => { for (let k = 0; k < (li === 0 ? 2 : 1); k++) { if (l[pos[li]]) merged.push(l[pos[li]]); pos[li]++; } });
+  const ids = new Set(W.q.map(x => x.id)), keys = new Set(W.q.map(songKey)), recent = new Set(W.hist.slice(-80));
+  const good = merged.filter(t => !t.v && (!t.d || (t.d >= 60 && t.d <= 720)) && !ids.has(t.id) && ids.add(t.id) && !keys.has(songKey(t)) && keys.add(songKey(t)));
+  const pool = good.filter(t => !recent.has(t.id)).concat(good.filter(t => recent.has(t.id)));
+  const per = {}, out = [], tail = W.q.slice(-2).map(x => mainArtist(x.a));
+  while (out.length < limit && pool.length) {
+    let i = pool.findIndex(t => { const a = mainArtist(t.a); return !tail.includes(a) && (per[a] || 0) < maxPerArtist; });
+    if (i < 0) i = pool.findIndex(t => (per[mainArtist(t.a)] || 0) < maxPerArtist);
+    if (i < 0) break;
+    const t = pool.splice(i, 1)[0], a = mainArtist(t.a);
+    per[a] = (per[a] || 0) + 1; out.push(t); tail.push(a); if (tail.length > 2) tail.shift();
+  }
+  return out;
+}
 const webTrack = () => W.q[W.i];
 let ytLoading = null;
 function loadYT() {
@@ -508,27 +562,39 @@ async function ensurePlayer() {
 }
 async function webPlay(i) {
   if (!W.q[i]) return;
-  W.i = i; saveWeb();
+  W.i = i;
+  W.hist.push(W.q[i].id); if (W.hist.length > 300) W.hist = W.hist.slice(-200);
+  saveWeb();
+  // Cuando quedan 2, se prepara ya la siguiente tanda (así no hay espera al acabar la cola).
+  if (W.auto && W.i >= W.q.length - 2 && !W.repeat) setTimeout(() => fillRadio(), 4000);
   try { await ensurePlayer(); } catch (e) { toast(T('No se pudo cargar el reproductor de YouTube', 'Could not load the YouTube player')); return; }
   W.yt.loadVideoById(W.q[i].id); W.loaded = W.q[i].id;
   mediaSession(); render(); onTrackChange();
 }
-async function fillRadio() {
-  const t = webTrack(); if (!t) return;
-  try {
-    const r = await api('/api/ytm/radio?id=' + encodeURIComponent(t.id));
-    const have = new Set(W.q.map(x => x.id));
-    const more = (r.tracks || []).filter(x => !have.has(x.id));
-    if (more.length) { W.q = W.q.concat(more); saveWeb(); if (tab === 'queue') showQueue(true); }
-    return more.length;
-  } catch (e) { return 0; }
+let filling = null;
+/** Añade canciones parecidas al final: radio de la última, de otra reciente de la cola y de una ya escuchada. */
+function fillRadio(limit = 20) {
+  if (filling) return filling;
+  const last = W.q[W.q.length - 1] || webTrack(); if (!last) return Promise.resolve(0);
+  const other = W.q.slice(Math.max(0, W.q.length - 9), -1).filter(x => x.id !== last.id);
+  const seeds = [last.id, other.length ? other[Math.floor(Math.random() * other.length)].id : null];
+  const heard = W.hist.slice(-40).filter(id => !seeds.includes(id));
+  if (heard.length) seeds.push(heard[Math.floor(Math.random() * heard.length)]);
+  filling = Promise.allSettled(seeds.filter(Boolean).map(id => api('/api/ytm/radio?id=' + encodeURIComponent(id))))
+    .then(rs => {
+      const lists = rs.map(r => r.status === 'fulfilled' ? (r.value.tracks || []) : []);
+      const more = radioBatch(lists, limit);
+      if (more.length) { W.q = W.q.concat(more.map(x => Object.assign({}, x, { auto: true }))); saveWeb(); if (tab === 'queue') showQueue(true); }
+      return more.length;
+    }).catch(() => 0).finally(() => { filling = null; });
+  return filling;
 }
 async function webNext(auto) {
   if (auto && W.repeat === 2) { W.yt.seekTo(0, true); W.yt.playVideo(); return; }
   if (W.i < W.q.length - 1) return webPlay(W.i + 1);
   if (W.repeat === 1 && W.q.length) return webPlay(0);
   // Al acabar la cola, sigue con canciones parecidas (radio), como en la app.
-  if (await fillRadio()) return webPlay(W.i + 1);
+  if (W.auto && await fillRadio()) return webPlay(W.i + 1);
   render();
 }
 function webPrev() { if (W.yt && W.yt.getCurrentTime() > 4) W.yt.seekTo(0, true); else if (W.i > 0) webPlay(W.i - 1); }
@@ -540,10 +606,17 @@ function webToggle() {
 /** Añade canciones a la cola del navegador: reproducir, a continuación, al final o radio. */
 async function webAdd(list, i, mode) {
   const t = list[i]; if (!t) return;
-  if (mode === 'next') { W.q.splice(W.i + 1, 0, t); saveWeb(); toast(T('Se reproducirá a continuación', 'Will play next')); }
-  else if (mode === 'queue') { W.q.push(t); saveWeb(); toast(T('Añadida a la cola', 'Added to queue')); }
+  const at = W.q.findIndex((x, k) => k > W.i && x.id === t.id);
+  if (mode === 'next') { if (at >= 0) W.q.splice(at, 1); W.q.splice(W.i + 1, 0, t); saveWeb(); toast(T('Se reproducirá a continuación', 'Will play next')); }
+  else if (mode === 'queue') { if (at >= 0) return toast(T('Ya está en la cola', 'Already in the queue')); W.q.splice(firstAutoIndex(), 0, t); saveWeb(); toast(T('Añadida a la cola', 'Added to queue')); }
   else if (mode === 'radio') { W.q = [t]; W.i = 0; await webPlay(0); fillRadio(); toast(T('Radio iniciada', 'Radio started')); }
-  else { W.q = list.slice(); if (W.shuffle) { const first = W.q.splice(i, 1)[0]; W.q = [first].concat(W.q.sort(() => Math.random() - .5)); i = 0; } await webPlay(i); if (list.length === 1) fillRadio(); }
+  else {
+    // Sin repetidas (la misma canción en otra versión tampoco).
+    const seen = new Set(); W.q = list.filter((x, k) => k === i || !seen.has(songKey(x)) && seen.add(songKey(x)));
+    i = W.q.indexOf(list[i]);
+    if (W.shuffle) { const first = W.q.splice(i, 1)[0]; W.q = [first].concat(smartShuffle(W.q)); i = 0; }
+    await webPlay(i); if (W.q.length === 1) fillRadio();
+  }
   if (tab === 'queue') showQueue(true);
   if (W.i < 0 && W.q.length) render();
 }
@@ -568,7 +641,7 @@ const ctl = {
   shuffle() {
     if (MODE !== 'web') return cmd('shuffle');
     W.shuffle = !W.shuffle;
-    if (W.shuffle && W.i >= 0) { const head = W.q.slice(0, W.i + 1), rest = W.q.slice(W.i + 1).sort(() => Math.random() - .5); W.q = head.concat(rest); }
+    if (W.shuffle && W.i >= 0) W.q = W.q.slice(0, W.i + 1).concat(smartShuffle(W.q.slice(W.i + 1)));
     saveWeb(); render(); if (tab === 'queue') showQueue(true);
   },
   repeat() { if (MODE !== 'web') return cmd('repeat'); W.repeat = (W.repeat + 1) % 3; saveWeb(); render(); },
@@ -651,30 +724,94 @@ const reg = o => { const k = 'k' + Math.random().toString(36).slice(2, 9); REG[k
 
 function rowHtml(o, i, extra) {
   const th = o.art || o.th;
-  return `<div class="row ${extra?.cur ? 'cur' : ''}" data-i="${i}"${extra?.list ? ` data-l="${extra.list}"` : ''}><div class="th" ${th ? `style='${bgImg(th)}'` : ''}>${th ? '' : '♪'}</div><div class="tx"><div class="t1">${esc(o.title ?? o.t)}</div><div class="t2">${esc([o.artist ?? o.a, o.album ?? o.al].filter(Boolean).join(' · '))}</div></div>${extra?.acts || ''}${(o.dur || o.d) ? `<div class="du">${fmt(o.dur || o.d * 1000)}</div>` : ''}</div>`;
+  return `<div class="row ${extra?.cur ? 'cur' : ''}" data-i="${i}"${extra?.list ? ` data-l="${extra.list}"` : ''}>${extra?.grip ? grip : ''}<div class="th" ${th ? `style='${bgImg(th)}'` : ''}>${th ? '' : '♪'}</div><div class="tx"><div class="t1">${esc(o.title ?? o.t)}</div><div class="t2">${esc([o.artist ?? o.a, o.album ?? o.al].filter(Boolean).join(' · '))}</div></div>${extra?.acts || ''}${(o.dur || o.d) ? `<div class="du">${fmt(o.dur || o.d * 1000)}</div>` : ''}</div>`;
 }
 
 // ---------------------------------------------------------------- Cola
+/** Las que añades tú van antes de las que puso la radio automática. */
+function firstAutoIndex() { const k = W.q.findIndex((x, j) => j > W.i && x.auto); return k < 0 ? W.q.length : k; }
+let QV = { items: [], index: -1 }, showPast = false;
+const qActs = () => `<div class="acts"><button class="ib" data-act="playnext" title="${T('Poner a continuación', 'Play next')}">${svg('next')}</button><button class="ib" data-act="remove" title="${T('Quitar', 'Remove')}">${svg('del')}</button></div>`;
+const grip = '<div class="grip" title="Arrastrar"><svg viewBox="0 0 24 24"><path d="M9 5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 7a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm-1.5 8.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM18 5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm-1.5 8.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Zm1.5 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/></svg></div>';
 async function showQueue(keep) {
   const p = $('pane'); if (!keep) p.innerHTML = spin();
-  const acts = `<div class="acts"><button class="ib" data-act="remove" title="${T('Quitar', 'Remove')}">${svg('del')}</button></div>`;
   let items, index;
   if (MODE === 'web') { items = W.q; index = W.i; }
   else { try { const q = await api('/api/queue'); items = q.items; index = q.index; } catch (e) { if (tab === 'queue') p.innerHTML = `<div class="empty">${T('El móvil no está conectado', 'The phone is offline')}</div>`; return; } }
-  if (tab !== 'queue') return;
+  if (tab !== 'queue' || drag) return;
+  QV = { items, index };
   if (!items.length) { p.innerHTML = `<div class="empty">${MODE === 'web' ? T('La cola del navegador está vacía. Busca algo en YouTube Music.', 'The browser queue is empty. Search YouTube Music.') : T('La cola está vacía. Elige canciones en YouTube Music o en tu biblioteca.', 'The queue is empty. Pick songs from YouTube Music or your library.')}</div>`; return; }
-  p.innerHTML = `<div class="h">${MODE === 'web' ? T('En este navegador', 'In this browser') : T('En el móvil', 'On the phone')}<span class="sp"></span><span style="color:var(--muted);font-size:13px;font-weight:500">${items.length} ${T('canciones', 'songs')}</span></div>` + items.map((o, i) => rowHtml(o, i, { cur: i === index, acts })).join('');
-  p.onclick = e => {
-    const r = e.target.closest('.row'); if (!r) return; const i = +r.dataset.i;
-    if (e.target.closest('[data-act=remove]')) {
-      if (MODE === 'web') { if (i === W.i) return; W.q.splice(i, 1); if (i < W.i) W.i--; saveWeb(); showQueue(true); }
-      else { cmd('remove', { i }); r.remove(); }
+  const cur = items[index], next = items.slice(index + 1), past = items.slice(0, Math.max(0, index));
+  const mins = Math.round(next.reduce((a, x) => a + (x.dur || (x.d || 0) * 1000), 0) / 60000);
+  const autoAt = MODE === 'web' ? next.findIndex(x => x.auto) : -1;
+  const sc = p.scrollTop;
+  p.innerHTML =
+    (cur ? `<div class="h">${MODE === 'web' ? T('Sonando en este navegador', 'Playing in this browser') : T('Sonando en el móvil', 'Playing on the phone')}</div>` + rowHtml(cur, index, { cur: true }) : '') +
+    `<div class="h">${T('A continuación', 'Up next')} <span class="hmeta">${next.length ? next.length + ' · ' + (mins >= 60 ? Math.floor(mins / 60) + ' h ' + (mins % 60) + ' min' : mins + ' min') : ''}</span><span class="sp"></span>` +
+    (next.length > 1 ? `<button class="pill" data-q="shuffle">${T('Mezclar', 'Shuffle')}</button>` : '') + (next.length ? `<button class="pill" data-q="clear">${T('Vaciar', 'Clear')}</button>` : '') + `</div>` +
+    `<div id="qnext">` + next.map((o, k) => (k === autoAt ? `<div class="qsep">${T('Puestas por la radio automática', 'Added by autoplay radio')}</div>` : '') + rowHtml(o, index + 1 + k, { acts: qActs(), grip: true })).join('') + `</div>` +
+    (!next.length ? `<div class="empty" style="padding:18px">${T('No hay nada más en la cola.', 'Nothing else in the queue.')}</div>` : '') +
+    `<div class="qfoot">` +
+      (MODE === 'web' ? `<button class="chip ${W.auto ? 'on' : ''}" data-q="auto">${T('Radio automática', 'Autoplay radio')}: ${W.auto ? T('sí', 'on') : T('no', 'off')}</button>` : '') +
+      `<button class="chip" data-q="fill">+ ${T('Añadir canciones parecidas', 'Add similar songs')}</button></div>` +
+    (past.length ? `<button class="h qpast" data-q="past">${T('Ya sonaron', 'Played')} <span class="hmeta">${past.length}</span><span class="sp"></span>${showPast ? '▾' : '▸'}</button>` + (showPast ? `<div class="dim">` + past.map((o, k) => rowHtml(o, k)).reverse().join('') + `</div>` : '') : '');
+  if (keep) p.scrollTop = sc;
+  p.onclick = async e => {
+    const q = e.target.closest('[data-q]')?.dataset.q;
+    if (q === 'past') { showPast = !showPast; return showQueue(true); }
+    if (q === 'auto') { W.auto = !W.auto; saveWeb(); return showQueue(true); }
+    if (q === 'shuffle') { if (MODE === 'web') { W.q = W.q.slice(0, W.i + 1).concat(smartShuffle(W.q.slice(W.i + 1))); saveWeb(); showQueue(true); } else { await cmd('shufflenext'); setTimeout(() => showQueue(true), 400); } return toast(T('Mezclado, repartiendo artistas', 'Shuffled, spreading artists')); }
+    if (q === 'clear') { if (MODE === 'web') { W.q = W.q.slice(0, W.i + 1); saveWeb(); showQueue(true); } else { await cmd('clearnext'); setTimeout(() => showQueue(true), 400); } return; }
+    if (q === 'fill') {
+      toast(T('Buscando canciones parecidas…', 'Finding similar songs…'));
+      if (MODE === 'web') { const n = await fillRadio(15); toast(n ? T(`${n} canciones añadidas`, `${n} songs added`) : T('No he encontrado más', 'No more found')); }
+      else { await cmd('fill'); setTimeout(() => showQueue(true), 2500); }
       return;
+    }
+    const r = e.target.closest('.row'); if (!r || e.target.closest('.grip')) return; const i = +r.dataset.i;
+    const act = e.target.closest('[data-act]')?.dataset.act;
+    if (act === 'remove') {
+      if (MODE === 'web') { if (i === W.i) return; W.q.splice(i, 1); if (i < W.i) W.i--; saveWeb(); showQueue(true); }
+      else { r.remove(); await cmd('remove', { i }); setTimeout(() => showQueue(true), 300); }
+      return;
+    }
+    if (act === 'playnext') {
+      if (MODE === 'web') { const [x] = W.q.splice(i, 1); if (i < W.i) W.i--; delete x.auto; W.q.splice(W.i + 1, 0, x); saveWeb(); showQueue(true); }
+      else { await cmd('playnext', { i }); setTimeout(() => showQueue(true), 300); }
+      return toast(T('Se reproducirá a continuación', 'Will play next'));
     }
     MODE === 'web' ? webPlay(i) : cmd('jump', { i });
   };
-  const cur = p.querySelector('.row.cur'); if (cur && !keep) cur.scrollIntoView({ block: 'center' });
+  const c = p.querySelector('.row.cur'); if (c && !keep) c.scrollIntoView({ block: 'start' });
 }
+// Arrastrar para ordenar (con el dedo o el ratón, desde el asa de la izquierda).
+let drag = null;
+$('pane').addEventListener('pointerdown', e => {
+  const g = e.target.closest('.grip'); if (!g || tab !== 'queue') return;
+  const row = g.closest('.row'); e.preventDefault();
+  drag = { row, from: +row.dataset.i, y: e.clientY, id: e.pointerId };
+  row.classList.add('dragging'); g.setPointerCapture(e.pointerId);
+});
+$('pane').addEventListener('pointermove', e => {
+  if (!drag || e.pointerId !== drag.id) return;
+  const pane = $('pane'), box = pane.getBoundingClientRect();
+  if (e.clientY < box.top + 50) pane.scrollTop -= 12; else if (e.clientY > box.bottom - 50) pane.scrollTop += 12;
+  const rows = [...document.querySelectorAll('#qnext .row')].filter(r => r !== drag.row);
+  const after = rows.find(r => { const b = r.getBoundingClientRect(); return e.clientY < b.top + b.height / 2; });
+  const list = $('qnext');
+  if (after) list.insertBefore(drag.row, after); else list.appendChild(drag.row);
+});
+const endDrag = async e => {
+  if (!drag || e.pointerId !== drag.id) return;
+  const d = drag; drag = null; d.row.classList.remove('dragging');
+  const order = [...document.querySelectorAll('#qnext .row')].map(r => +r.dataset.i);
+  const to = QV.index + 1 + order.indexOf(d.from);
+  if (to === d.from) return;
+  if (MODE === 'web') { const [x] = W.q.splice(d.from, 1); W.q.splice(to, 0, x); saveWeb(); showQueue(true); }
+  else { await cmd('move', { i: d.from, to }); setTimeout(() => showQueue(true), 300); }
+};
+$('pane').addEventListener('pointerup', endDrag);
+$('pane').addEventListener('pointercancel', endDrag);
 
 // ---------------------------------------------------------------- Letra (del móvil o de LRCLIB en modo navegador)
 let LY = null;
