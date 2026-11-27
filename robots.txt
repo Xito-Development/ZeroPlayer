@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /web-player/api
+Disallow: /functions/
 
-Sitemap: https://xito-development.github.io/ZeroPlayer/sitemap.xml
+Sitemap: https://zeroplayer.pages.dev/sitemap.xml
