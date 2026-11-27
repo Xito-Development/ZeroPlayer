@@ -1,5 +1,43 @@
 [
  {
+  "version": "2.14.0",
+  "date": "2026-11-27",
+  "title": {
+   "es": "Tu resumen, carátula viva y Liquid Glass con más detalle",
+   "en": "Your stats, living artwork and more detailed Liquid Glass"
+  },
+  "items": [
+   {
+    "es": "«Tu resumen» (al estilo de Echo Music): minutos escuchados, racha de días, tu artista nº 1, canciones y artistas más escuchados y a qué horas escuchas, por 7 días, 30 días, este año o siempre. En Android (YouTube Music), Windows y el Web Player.",
+    "en": "“Your stats” (Echo Music style): minutes listened, day streak, your #1 artist, top songs and artists and the hours you listen most, for 7 days, 30 days, this year or all time. On Android (YouTube Music), Windows and the Web Player."
+   },
+   {
+    "es": "«Olvidadas favoritas»: las canciones que ponías mucho y llevas semanas sin oír, en el inicio de YouTube Music y en el resumen.",
+    "en": "“Forgotten favorites”: songs you used to play a lot and haven't heard in weeks, on the YouTube Music home and in your stats."
+   },
+   {
+    "es": "Compartir la letra como imagen: mantén pulsada una línea (o toca el botón de compartir), elige hasta 5 líneas y el estilo, y compártela o guárdala en la galería.",
+    "en": "Share lyrics as an image: long-press a line (or tap the share button), pick up to 5 lines and a style, then share it or save it to your gallery."
+   },
+   {
+    "es": "Fondo «Carátula viva» en el reproductor: la carátula enorme, difuminada y girando despacio mientras suena (Android y Windows). Se puede volver al degradado en Ajustes.",
+    "en": "“Living artwork” player background: the artwork, huge and blurred, slowly turning while music plays (Android and Windows). You can switch back to the gradient in Settings."
+   },
+   {
+    "es": "Liquid Glass con más detalle: reflejo que se mueve al inclinar el móvil (o sigue al ratón en Windows y en la web), borde doble, grosor, dispersión de color en el canto y botones de cristal que rebotan al pulsarlos.",
+    "en": "More detailed Liquid Glass: a reflection that moves when you tilt the phone (or follows the mouse on Windows and the web), double edge, thickness, a hint of color dispersion on the rim and glass buttons that bounce when pressed."
+   },
+   {
+    "es": "Web Player: fondo vivo con los colores de la carátula, letra palabra a palabra (karaoke), temporizador de apagado también en «Este navegador» y nueva pestaña «Resumen».",
+    "en": "Web Player: living background with the artwork colors, word-by-word lyrics (karaoke), sleep timer also in “This browser” and a new “Stats” tab."
+   },
+   {
+    "es": "Windows: la letra se va iluminando palabra a palabra y los paneles de la cola y la letra son de cristal.",
+    "en": "Windows: lyrics light up word by word and the queue and lyrics panels are now glass."
+   }
+  ]
+ },
+ {
   "version": "2.13.0",
   "date": "2026-11-27",
   "title": {

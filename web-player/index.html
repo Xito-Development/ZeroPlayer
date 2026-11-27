@@ -248,10 +248,64 @@ body.fs .vol{display:flex}
 .hist button{padding:7px 12px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid var(--line);font-size:13px;color:var(--muted)}
 .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 #ytwrap{display:none;width:100%;height:100%}#ytwrap iframe{width:100%;height:100%;border:0;display:block}.art.web #ytwrap{display:block}.art.web #artnote,.art:not(.empty) #artnote{display:none}.art.web{background:#000 !important;overflow:hidden;transform:none}
+
+/* 2.14 · Fondo vivo: malla de colores de la carátula que se mueve despacio (solo mientras suena) */
+#mesh{position:fixed;inset:-25%;z-index:0;pointer-events:none;opacity:.5;filter:blur(70px) saturate(1.3);will-change:transform;background:radial-gradient(38% 38% at 22% 28%,var(--dyn,rgba(25,195,125,.45)),transparent 70%),radial-gradient(32% 32% at 78% 22%,var(--dyn3,rgba(80,90,255,.3)),transparent 70%),radial-gradient(42% 42% at 62% 82%,var(--dyn4,rgba(255,80,140,.22)),transparent 70%);animation:mesh 32s ease-in-out infinite alternate}
+@keyframes mesh{0%{transform:rotate(0deg) scale(1)}35%{transform:rotate(28deg) scale(1.18) translate(4%,-3%)}70%{transform:rotate(-12deg) scale(1.06) translate(-4%,3%)}100%{transform:rotate(18deg) scale(1.12) translate(2%,4%)}}
+#bg{animation:breathe 26s ease-in-out infinite alternate;will-change:transform}
+@keyframes breathe{from{transform:scale(1) rotate(0deg)}to{transform:scale(1.14) rotate(5deg)}}
+body.paused #mesh,body.paused #bg{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){#mesh,#bg{animation:none}}
+/* 2.14 · Liquid Glass con más detalle: borde que capta la luz (sigue al ratón), reflejo, grosor y relieve */
+.glass{position:relative;isolation:isolate;background:linear-gradient(180deg,rgba(255,255,255,.11),rgba(255,255,255,.035) 45%,rgba(255,255,255,.06));border-color:rgba(255,255,255,.06);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(255,255,255,.06),0 24px 70px rgba(0,0,0,.38);backdrop-filter:blur(34px) saturate(1.7) brightness(1.04);-webkit-backdrop-filter:blur(34px) saturate(1.7) brightness(1.04)}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.2px;background:linear-gradient(var(--la,135deg),rgba(255,255,255,.6),rgba(255,255,255,.07) 38%,rgba(255,255,255,.03) 62%,rgba(255,255,255,.3));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;z-index:2}
+.glass::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(55% 38% at var(--gx,25%) 0%,rgba(255,255,255,.12),transparent 72%),linear-gradient(180deg,transparent 88%,rgba(255,255,255,.05));pointer-events:none;z-index:2}
+.modes,.tabs,.search,#toast,.heard,.dev,.stat,.sleepmenu,.topart{box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 -1px 0 rgba(0,0,0,.18),0 8px 24px rgba(0,0,0,.16)}
+.mode.on,.tab.on{background:linear-gradient(180deg,rgba(255,255,255,.24),rgba(255,255,255,.09));box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(0,0,0,.15),0 4px 14px rgba(0,0,0,.2)}
+.chip,.pill,.hist button,.sugg button{box-shadow:inset 0 1px 0 rgba(255,255,255,.16),inset 0 -1px 0 rgba(0,0,0,.12)}
+.ib,.chip,.pill,.mode,.tab,.btn,.mic,#go{transition:transform .38s cubic-bezier(.3,1.7,.45,1),background .2s,color .2s,opacity .2s,box-shadow .2s}
+.ib:active,.chip:active,.pill:active,.mode:active,.tab:active,.btn:active,.mic:active,#go:active{transform:scale(.92)}
+.ib.big{box-shadow:inset 0 -3px 8px rgba(0,0,0,.14),inset 0 2px 0 rgba(255,255,255,.9),0 10px 30px rgba(0,0,0,.35),0 0 44px color-mix(in srgb,var(--dyn,#ffffff) 38%,transparent)}
+.art{box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 60px color-mix(in srgb,var(--dyn,#000) 30%,transparent),inset 0 0 0 1px rgba(255,255,255,.08)}
+/* Letra palabra a palabra (karaoke) */
+.lyr p .w{transition:color .25s,text-shadow .25s}
+.lyr p.on{color:var(--fg)}
+.lyr p.on .w{color:rgba(255,255,255,.4)}
+.lyr p.on .w.lit{color:var(--dyn2,#fff);text-shadow:0 0 22px color-mix(in srgb,var(--dyn2,#fff) 50%,transparent)}
+.lyr p.on .w.sing{color:transparent;background:linear-gradient(90deg,var(--dyn2,#fff) var(--p,0%),rgba(255,255,255,.4) calc(var(--p,0%) + 6%));-webkit-background-clip:text;background-clip:text}
+.lyr p.r{text-align:right;transform-origin:right center}
+.lyr p small{display:block;font-size:.6em;font-weight:600;font-style:italic;opacity:.75;margin-top:2px}
+/* Temporizador */
+.trow{position:relative}
+#sleepb{position:relative}#sleepb.on{color:var(--dyn2,var(--accent2))}
+#sleepb i{position:absolute;top:0;right:-2px;font-style:normal;font-size:10px;font-weight:800;background:var(--dyn2,var(--accent2));color:#000;border-radius:8px;padding:0 4px;display:none}
+#sleepb.on i{display:block}
+.sleepmenu{position:absolute;z-index:5;right:0;top:46px;display:none;flex-wrap:wrap;gap:8px;width:270px;padding:12px;border-radius:18px;background:rgba(24,24,28,.92);border:1px solid var(--line);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.sleepmenu.on{display:flex}
+.sleepmenu .k{width:100%;color:var(--muted);font-size:12px;font-weight:600}
+/* Tu resumen */
+.hero{margin:4px 4px 14px;padding:22px;border-radius:26px;position:relative;overflow:hidden;background:linear-gradient(135deg,color-mix(in srgb,var(--dyn,#19c37d) 78%,#000),color-mix(in srgb,var(--dyn3,#5b4bff) 68%,#000));box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 18px 50px rgba(0,0,0,.35)}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 20% 0%,rgba(255,255,255,.22),transparent 70%);pointer-events:none}
+.hero .k{opacity:.85;font-weight:600}
+.hero .big{font-size:clamp(44px,7vw,72px);font-weight:900;line-height:1;letter-spacing:-1px;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+.hpills{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.hpills span{padding:8px 12px;border-radius:14px;background:rgba(255,255,255,.16);font-size:12px}
+.hpills b{display:block;font-size:17px}
+.streak{margin-top:12px;font-weight:600}
+.topart{display:flex;align-items:center;gap:16px;margin:0 4px 14px;padding:14px;border-radius:22px;background:rgba(255,255,255,.06);border:1px solid var(--line);cursor:pointer}
+.topart .im{width:84px;height:84px;border-radius:50%;background:var(--card2) center/cover;flex:none}
+.topart small{color:var(--dyn2,var(--accent2));font-weight:700}
+.topart b{display:block;font-size:22px}
+.rank{width:28px;text-align:center;font-weight:900;font-size:18px;color:var(--muted);flex:none}
+.rank.top{color:var(--dyn2,var(--accent2))}
+.hours{display:flex;align-items:flex-end;gap:3px;height:96px;margin:0 6px}
+.hours i{flex:1;border-radius:6px 6px 2px 2px;background:color-mix(in srgb,var(--dyn2,#5df2b0) 40%,transparent);min-height:4px;transition:height .6s}
+.hours i.pk{background:var(--dyn2,#5df2b0)}
+.hlab{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin:4px 6px 0}
 </style>
 </head>
 <body>
-<div id="bg"></div><div id="shade"></div>
+<div id="bg"></div><div id="mesh"></div><div id="shade"></div>
 
 <!-- Para buscadores y lectores de pantalla -->
 <div class="sr">
@@ -292,7 +346,9 @@ body.fs .vol{display:flex}
     <div class="meta">
       <div class="trow"><div class="tcol"><div class="title" id="title"></div><div class="artist" id="artist"></div></div>
         <a class="ib small" id="ytlink" target="_blank" rel="noopener" title="Abrir en YouTube Music" aria-label="YouTube Music"><svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7ZM14 3v2h3.6l-9.8 9.8 1.4 1.4L19 6.4V10h2V3h-7Z"/></svg></a>
-        <button class="ib small" id="fav" title="Me gusta" aria-label="Me gusta"><svg viewBox="0 0 24 24"><path d="m12 21.4-1.5-1.3C5.4 15.4 2 12.3 2 8.5 2 5.4 4.4 3 7.5 3c1.7 0 3.4.8 4.5 2.1A6 6 0 0 1 16.5 3C19.6 3 22 5.4 22 8.5c0 3.8-3.4 6.9-8.5 11.6L12 21.4Z"/></svg></button></div>
+        <button class="ib small" id="fav" title="Me gusta" aria-label="Me gusta"><svg viewBox="0 0 24 24"><path d="m12 21.4-1.5-1.3C5.4 15.4 2 12.3 2 8.5 2 5.4 4.4 3 7.5 3c1.7 0 3.4.8 4.5 2.1A6 6 0 0 1 16.5 3C19.6 3 22 5.4 22 8.5c0 3.8-3.4 6.9-8.5 11.6L12 21.4Z"/></svg></button>
+        <button class="ib small" id="sleepb" title="Temporizador" aria-label="Temporizador"><svg viewBox="0 0 24 24"><path d="M12.3 2a10 10 0 1 0 9.7 12.4A8 8 0 0 1 12.3 2Z"/></svg><i id="sleepn"></i></button>
+        <div class="sleepmenu" id="sleepmenu"></div></div>
       <div class="upnext" id="upnext"></div>
       <div class="bar" id="bar"><div class="track"></div><div class="fill" id="fill"></div><div class="knob" id="knob"></div></div>
       <div class="times"><span id="tpos">0:00</span><span id="tdur">0:00</span></div>
@@ -572,7 +628,7 @@ async function ensurePlayer() {
           W.state = e.data;
           if (e.data === 1) W.errs = 0;
           if (e.data === 1 && W.resumeAt) { const at = W.resumeAt; W.resumeAt = 0; if (at > 3000) W.yt.seekTo(at / 1000, true); }
-          if (e.data === 0) webNext(true);
+          if (e.data === 0) { if (SLEEP.end) { SLEEP.end = false; toast(T('Temporizador: música parada. ¡Buenas noches!', 'Sleep timer: music stopped. Good night!')); } else webNext(true); }
           render();
         },
         onError: () => {
@@ -716,6 +772,8 @@ function render() {
     ? T('Busca en YouTube Music y sonará en este navegador', 'Search YouTube Music and it will play in this browser')
     : T('Elige algo de tu biblioteca o de YouTube Music', 'Pick something from your library or YouTube Music');
   $('playicon').innerHTML = N.playing ? ICONS.pause : ICONS.play;
+  document.body.classList.toggle('paused', !N.playing);
+  drawSleep();
   $('shuffle').classList.toggle('on', !!N.shuffle);
   $('repeat').classList.toggle('on', N.repeat > 0);
   $('repicon').innerHTML = N.repeat === 2 ? ICONS.rep1 : ICONS.rep;
@@ -728,7 +786,7 @@ function tick() {
   syncLyrics();
   requestAnimationFrame(tick);
 }
-setInterval(() => { if (MODE === 'web') render(); }, 1000);
+setInterval(() => { if (MODE === 'web') { render(); webLogTick(); } sleepTick(); }, 1000);
 (() => {
   const bar = $('bar');
   const at = e => { const r = bar.getBoundingClientRect(); return Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)); };
@@ -747,13 +805,13 @@ document.addEventListener('keydown', e => {
 });
 
 // ================================================================ Pestañas
-const TABS = [['queue', T('Cola', 'Queue')], ['lyrics', T('Letra', 'Lyrics')], ['ytm', 'YouTube Music'], ['lib', T('Biblioteca', 'Library')], ['phone', T('Móvil', 'Phone')]];
+const TABS = [['queue', T('Cola', 'Queue')], ['lyrics', T('Letra', 'Lyrics')], ['ytm', 'YouTube Music'], ['lib', T('Biblioteca', 'Library')], ['stats', T('Resumen', 'Stats')], ['phone', T('Móvil', 'Phone')]];
 let tab = ls.get('zpTab', 'ytm');
 if (!TABS.some(t => t[0] === tab)) tab = 'ytm';
 function drawTabs() { $('tabs').innerHTML = TABS.map(([k, n]) => `<button class="tab ${k === tab ? 'on' : ''}" data-k="${k}">${esc(n)}</button>`).join(''); }
 $('tabs').onclick = e => { const k = e.target.closest('.tab')?.dataset.k; if (k) goTab(k); };
 function goTab(k) { tab = k; ls.set('zpTab', k); drawTabs(); showTab(); }
-function showTab() { const p = $('pane'); p.scrollTop = 0; p.onclick = null; p.classList.toggle('lm', tab === 'lyrics'); ({ queue: showQueue, lyrics: showLyrics, ytm: showYtm, lib: showLib, phone: showPhone })[tab](); }
+function showTab() { const p = $('pane'); p.scrollTop = 0; p.onclick = null; p.classList.toggle('lm', tab === 'lyrics'); ({ queue: showQueue, lyrics: showLyrics, ytm: showYtm, lib: showLib, stats: showStats, phone: showPhone })[tab](); }
 function onTrackChange() { if (tab === 'queue') showQueue(true); if (tab === 'lyrics') showLyrics(); }
 const spin = () => '<div class="spin"></div>';
 let REG = {};
@@ -876,13 +934,15 @@ async function showLyrics() {
   if (tab !== 'lyrics') return;
   if (!r.lines || !r.lines.length) { p.innerHTML = `<div class="empty">${T('No hay letra para esta canción', 'No lyrics for this song')}</div>`; return; }
   LY = r; LY.cur = -2;
-  p.innerHTML = `<div class="lyr ${r.synced ? '' : 'plain'}">` + r.lines.map((l, i) => `<p data-i="${i}">${esc(l.x || '♪')}</p>`).join('') + `<p class="src">${T('Letra', 'Lyrics')}: ${esc(r.source)}</p></div>`;
+  if (r.synced) r.lines.forEach((l, i) => { l.ws = wordTimes(l, r.lines[i + 1]); });
+  p.innerHTML = `<div class="lyr ${r.synced ? '' : 'plain'}">` + r.lines.map((l, i) => `<p data-i="${i}" class="${l.r ? 'r' : ''}">${r.synced && l.ws && l.ws.length ? l.ws.map(w => `<span class="w">${esc(w[2])}</span>`).join('') : esc(l.x || '♪')}${l.bg ? `<small>${esc(l.bg)}</small>` : ''}</p>`).join('') + `<p class="src">${T('Letra', 'Lyrics')}: ${esc(r.source)}</p></div>`;
   p.onclick = e => { const el = e.target.closest('p[data-i]'); if (el && LY?.synced) ctl.seek(LY.lines[+el.dataset.i].t); };
 }
 function syncLyrics() {
   if (tab !== 'lyrics' || !LY?.synced) return;
   const t = pos() + 250; let c = -1;
   for (let i = 0; i < LY.lines.length; i++) { if (LY.lines[i].t <= t) c = i; else break; }
+  karaoke(c, t - 250);
   if (c === LY.cur) return; LY.cur = c;
   const ps = $('pane').querySelectorAll('.lyr p[data-i]');
   ps.forEach((el, i) => { el.classList.toggle('on', i === c); el.classList.toggle('past', i < c); });
@@ -1069,25 +1129,196 @@ if (RELAY) {
 
 
 
+
+// ================================================================ 2.14 · Letra palabra a palabra
+/** Tiempos de cada palabra [inicio, fin, texto]: los reales si los hay; si no, se reparte la línea por letras. */
+function wordTimes(l, next) {
+  if (!l.x || !l.x.trim()) return null;
+  if (l.w && l.w.length) return l.w.map((w, i) => [w[0], w[1] > 0 ? w[1] : (l.w[i + 1] ? l.w[i + 1][0] : w[0] + 400), w[2]]);
+  const words = l.x.split(/(\s+)/).filter(Boolean);
+  const end = Math.min(next && next.t > l.t ? next.t : l.t + 5000, l.t + 9000);
+  const span = Math.max(400, (end - l.t) * .88), total = words.reduce((n, w) => n + w.length, 0) || 1;
+  let acc = 0;
+  return words.map(w => { const a = l.t + span * acc / total; acc += w.length; return [a, l.t + span * acc / total, w]; });
+}
+let karLine = -1;
+function karaoke(c, t) {
+  const ps = $('pane').querySelectorAll('.lyr p[data-i]');
+  if (karLine >= 0 && karLine !== c && ps[karLine]) ps[karLine].querySelectorAll('.w').forEach(w => { w.classList.remove('lit', 'sing'); w.style.removeProperty('--p'); });
+  karLine = c;
+  const l = LY.lines[c]; if (!l || !l.ws || !ps[c]) return;
+  const spans = ps[c].querySelectorAll('.w');
+  l.ws.forEach((w, i) => {
+    const el = spans[i]; if (!el) return;
+    if (t >= w[1]) { if (!el.classList.contains('lit')) { el.classList.add('lit'); el.classList.remove('sing'); } }
+    else if (t >= w[0]) { el.classList.add('sing'); el.classList.remove('lit'); el.style.setProperty('--p', Math.round((t - w[0]) / Math.max(1, w[1] - w[0]) * 100) + '%'); }
+    else if (el.classList.contains('lit') || el.classList.contains('sing')) { el.classList.remove('lit', 'sing'); }
+  });
+}
+
+// ================================================================ 2.14 · La luz del cristal sigue al puntero
+(() => {
+  let raf = 0, x = .25, y = 0;
+  addEventListener('pointermove', e => {
+    x = e.clientX / innerWidth; y = e.clientY / innerHeight;
+    if (raf) return;
+    raf = requestAnimationFrame(() => { raf = 0; const r = document.documentElement.style; r.setProperty('--gx', Math.round(x * 100) + '%'); r.setProperty('--la', Math.round(110 + (x - .5) * 70 + (y - .5) * 30) + 'deg'); });
+  }, { passive: true });
+})();
+
+// ================================================================ 2.14 · Temporizador (también en «Este navegador»)
+let SLEEP = { until: 0, end: false };
+function sleepLeft() {
+  if (MODE === 'web') return SLEEP.until ? Math.max(0, SLEEP.until - Date.now()) : 0;
+  return S && S.sleepUntil ? Math.max(0, S.sleepUntil - (S.t || Date.now())) : 0;
+}
+function drawSleep() {
+  const on = MODE === 'web' ? (SLEEP.until > 0 || SLEEP.end) : !!(S && (S.sleepUntil || S.sleepEnd));
+  const b = $('sleepb'); if (!b) return;
+  b.classList.toggle('on', on);
+  const left = sleepLeft();
+  $('sleepn').textContent = left ? Math.ceil(left / 60000) + "'" : (on ? '⏹' : '');
+}
+function sleepTick() {
+  if (MODE !== 'web' || !SLEEP.until) return;
+  const left = SLEEP.until - Date.now();
+  // Los últimos 10 segundos baja el volumen poco a poco.
+  if (left <= 10000 && left > 0 && W.yt) try { W.yt.setVolume(Math.round(W.vol * left / 10000)); } catch (e) {}
+  if (left <= 0) {
+    SLEEP.until = 0;
+    if (W.yt) try { W.yt.pauseVideo(); setTimeout(() => { try { W.yt.setVolume(W.vol); } catch (e) {} }, 800); } catch (e) {}
+    toast(T('Temporizador: música parada. ¡Buenas noches!', 'Sleep timer: music stopped. Good night!'));
+  }
+  drawSleep();
+}
+$('sleepb').onclick = e => {
+  e.stopPropagation();
+  const m = $('sleepmenu');
+  if (m.classList.contains('on')) { m.classList.remove('on'); return; }
+  const opts = [[15, '15 min'], [30, '30 min'], [45, '45 min'], [60, '1 h'], [90, '1 h 30'], [-1, T('Al acabar la canción', 'End of song')], [0, T('Apagar', 'Off')]];
+  m.innerHTML = `<div class="k">${T('Parar la música dentro de…', 'Stop the music in…')}</div>` + opts.map(([v, n]) => `<button class="chip" data-m="${v}">${n}</button>`).join('');
+  m.classList.add('on');
+};
+$('sleepmenu').onclick = async e => {
+  const b = e.target.closest('[data-m]'); if (!b) return;
+  e.stopPropagation(); $('sleepmenu').classList.remove('on');
+  const m = +b.dataset.m;
+  if (MODE === 'web') {
+    SLEEP = { until: m > 0 ? Date.now() + m * 60000 : 0, end: m === -1 };
+    if (W.yt) try { W.yt.setVolume(W.vol); } catch (er) {}
+    toast(m > 0 ? T(`Se parará dentro de ${m} min`, `Stops in ${m} min`) : m === -1 ? T('Se parará al acabar la canción', 'Stops at the end of the song') : T('Temporizador apagado', 'Sleep timer off'));
+    drawSleep(); return;
+  }
+  try { await api('/api/cmd', { a: 'sleep', m }); toast(m > 0 ? T(`Se parará dentro de ${m} min`, `Stops in ${m} min`) : m === -1 ? T('Se parará al acabar la canción', 'Stops at the end of the song') : T('Temporizador apagado', 'Sleep timer off')); poll1(); } catch (er) { needPhone(er); }
+};
+document.addEventListener('click', e => { if (!e.target.closest('#sleepmenu')) $('sleepmenu').classList.remove('on'); });
+
+// ================================================================ 2.14 · Tu resumen
+/** Lo que suena en «Este navegador» (al menos 30 s), para el resumen. */
+const WLOG = (() => { try { return JSON.parse(ls.get('zpLog', '[]')); } catch (e) { return []; } })();
+let wlogCur = null, wlogSec = 0;
+function webLogTick() {
+  const t = webTrack();
+  if (!t) return;
+  if (wlogCur !== t.id) { wlogCur = t.id; wlogSec = 0; }
+  if (W.state !== 1 || wlogSec < 0) return;
+  if (++wlogSec >= 30) {
+    wlogSec = -1;
+    WLOG.push({ id: t.id, t: t.t, a: t.a, al: t.al, d: t.d || 0, th: t.th, at: Date.now() });
+    if (WLOG.length > 3000) WLOG.splice(0, WLOG.length - 3000);
+    ls.set('zpLog', JSON.stringify(WLOG));
+  }
+}
+function webStats(days) {
+  const from = days > 0 ? Date.now() - days * 86400000 : 0, log = WLOG.filter(x => x.at >= from);
+  const by = {}; log.forEach(x => { (by[x.id] = by[x.id] || { tr: x, n: 0 }).n++; });
+  const topSongs = Object.values(by).sort((a, b) => b.n - a.n).slice(0, 15).map(o => Object.assign({}, o.tr, { n: o.n }));
+  const ar = {}; log.forEach(x => { const k = mainArtist(x.a); if (!k) return; const o = (ar[k] = ar[k] || { name: (x.a || '').split(/[,&·]/)[0].replace(/\s*-\s*Topic$/i, '').trim(), n: 0, min: 0, songs: {} }); o.n++; o.min += (x.d || 200) / 60; o.songs[x.id] = (o.songs[x.id] || 0) + 1; o.last = o.last || x; if (o.songs[x.id] >= (o.songs[o.last.id] || 0)) o.last = x; });
+  const topArtists = Object.values(ar).sort((a, b) => b.n - a.n).slice(0, 10).map(o => ({ name: o.name, n: o.n, min: Math.round(o.min), th: o.last.th, top: o.last }));
+  const hours = Array(24).fill(0); log.forEach(x => hours[new Date(x.at).getHours()]++);
+  const day = ms => { const d = new Date(ms); return d.getFullYear() * 400 + Math.floor((d - new Date(d.getFullYear(), 0, 0)) / 86400000); };
+  const days2 = new Set(WLOG.map(x => day(x.at))); let streak = 0, c = Date.now();
+  if (!days2.has(day(c))) c -= 86400000;
+  while (days2.has(day(c))) { streak++; c -= 86400000; }
+  const last = {}; WLOG.forEach(x => { last[x.id] = x; });
+  const cnt = {}; WLOG.forEach(x => { cnt[x.id] = (cnt[x.id] || 0) + 1; });
+  const forgotten = Object.values(last).filter(x => cnt[x.id] >= 3 && Date.now() - x.at > 14 * 86400000).sort((a, b) => cnt[b.id] - cnt[a.id]).slice(0, 12);
+  return { minutes: Math.round(log.reduce((n, x) => n + (x.d || 200), 0) / 60), plays: log.length, songs: Object.keys(by).length, artists: Object.keys(ar).length, streak, hours, topSongs, topArtists: topArtists.map(a => Object.assign(a, { thumb: a.th })), forgotten };
+}
+let statsDays = +ls.get('zpStatsDays', '7');
+async function showStats() {
+  const p = $('pane'); p.innerHTML = spin();
+  let d;
+  if (MODE === 'web') d = webStats(statsDays);
+  else try { d = await api('/api/stats?days=' + statsDays); } catch (e) { if (tab === 'stats') p.innerHTML = `<div class="empty">${T('El móvil no está conectado', 'The phone is offline')}</div>`; return; }
+  if (tab !== 'stats') return;
+  const per = [[7, T('7 días', '7 days')], [30, T('30 días', '30 days')], [365, T('Este año', 'This year')], [0, T('Siempre', 'All time')]];
+  const nf = n => Number(n || 0).toLocaleString(es ? 'es-ES' : undefined);
+  const times = n => n === 1 ? T('1 vez', '1 play') : T(`${n} veces`, `${n} plays`);
+  const head = `<div class="chips" id="sper">${per.map(([v, n]) => `<button class="chip ${v === statsDays ? 'on' : ''}" data-d="${v}">${n}</button>`).join('')}</div>`;
+  if (!d.plays) {
+    p.innerHTML = head + `<div class="empty">${MODE === 'web' ? T('Aún no hay nada en este periodo. Escucha música en este navegador y aquí verás tu resumen.', 'Nothing in this period yet. Listen to music in this browser to see your stats.') : T('Aún no hay nada en este periodo. Escucha YouTube Music en ZeroPlayer y aquí verás tu resumen.', 'Nothing in this period yet. Listen to YouTube Music in ZeroPlayer to see your stats.')}</div>`;
+  } else {
+    const songs = (d.topSongs || []).map(x => ({ id: x.id, t: x.t, a: x.a, al: x.al, d: x.d, th: x.th }));
+    const kS = reg(songs), A = d.topArtists || [], F = (d.forgotten || []).map(x => ({ id: x.id, t: x.t, a: x.a, al: x.al, d: x.d, th: x.th })), kF = reg(F);
+    const max = Math.max(1, ...d.hours), peak = d.hours.indexOf(Math.max(...d.hours));
+    const when = peak >= 6 && peak < 12 ? T(`Sobre todo por la mañana (a las ${peak}:00)`, `Mostly in the morning (${peak}:00)`) : peak >= 12 && peak < 20 ? T(`Sobre todo por la tarde (a las ${peak}:00)`, `Mostly in the afternoon (${peak}:00)`) : T(`Sobre todo por la noche (a las ${peak}:00)`, `Mostly at night (${peak}:00)`);
+    p.innerHTML = head
+      + `<div class="hero"><div class="k">${T('Has escuchado', 'You listened to')}</div><div class="big" id="smin">0</div><div class="k">${T('minutos de música', 'minutes of music')}</div>`
+      + `<div class="hpills"><span><b>${nf(d.plays)}</b>${T('escuchas', 'plays')}</span><span><b>${nf(d.songs)}</b>${T('canciones', 'songs')}</span><span><b>${nf(d.artists)}</b>${T('artistas', 'artists')}</span></div>`
+      + (d.streak > 1 ? `<div class="streak">🔥 ${T(`Racha de ${d.streak} días seguidos escuchando`, `${d.streak}-day listening streak`)}</div>` : '') + `</div>`
+      + (A[0] ? `<div class="topart" data-a="0"><div class="im" style='${bgImg(A[0].thumb || A[0].th)}'></div><div><small>${T('Tu artista nº 1', 'Your top artist')}</small><b>${esc(A[0].name)}</b><span class="hmeta">${times(A[0].n)} · ${nf(A[0].min)} min</span></div></div>` : '')
+      + `<div class="h">${T('Canciones más escuchadas', 'Top songs')}<span class="sp"></span><button class="pill acc" id="splay">▶ ${T('Reproducir', 'Play')}</button></div>`
+      + songs.slice(0, 10).map((t, i) => `<div class="row" data-s="${i}"><span class="rank ${i < 3 ? 'top' : ''}">${i + 1}</span><div class="th" style='${bgImg(big(t.th, t.id))}'></div><div class="tx"><div class="t1">${esc(t.t)}</div><div class="t2">${esc(t.a)}</div></div><span class="du">${times(d.topSongs[i].n)}</span></div>`).join('')
+      + (A.length > 1 ? `<div class="h">${T('Tus artistas', 'Your artists')}</div><div class="shelf">${A.map((a, i) => `<div class="card round" data-a="${i}"><div class="im" style='${bgImg(a.thumb || a.th)}'></div><div class="c1">${i + 1}. ${esc(a.name)}</div><div class="c2">${times(a.n)}</div></div>`).join('')}</div>` : '')
+      + `<div class="h">${T('Cuándo escuchas', 'When you listen')}<span class="sp"></span><span class="hmeta">${when}</span></div><div class="hours">${d.hours.map((n, h) => `<i class="${h === peak ? 'pk' : ''}" style="height:${Math.round(6 + 94 * n / max)}%" title="${h}:00 · ${n}"></i>`).join('')}</div><div class="hlab"><span>0h</span><span>6h</span><span>12h</span><span>18h</span><span>24h</span></div>`
+      + (F.length >= 3 ? `<div class="h">${T('Olvidadas favoritas', 'Forgotten favorites')}<span class="sp"></span><button class="pill" id="sforg">▶ ${T('Reproducir', 'Play')}</button></div><div class="shelf">${F.map((t, i) => `<div class="card" data-f="${i}"><div class="im" style='${bgImg(big(t.th, t.id))}'></div><div class="c1">${esc(t.t)}</div><div class="c2">${esc(t.a)}</div></div>`).join('')}</div>` : '')
+      + `<p class="hmeta" style="margin:18px 8px">${MODE === 'web' ? T('Se calcula en este navegador con lo que suena aquí.', 'Calculated in this browser from what plays here.') : T('Se calcula en tu móvil con lo que suena en ZeroPlayer.', 'Calculated on your phone from what plays in ZeroPlayer.')}</p>`;
+    // El número sube contando.
+    const el = $('smin'), goal = d.minutes, t0 = performance.now();
+    const step = now => { const f = Math.min(1, (now - t0) / 900); el.textContent = nf(Math.round(goal * (1 - Math.pow(1 - f, 3)))); if (f < 1 && tab === 'stats') requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+    p.onclick = e => {
+      const s = e.target.closest('[data-s]'), a = e.target.closest('[data-a]'), f = e.target.closest('[data-f]'), per2 = e.target.closest('[data-d]');
+      if (per2) return;
+      if (e.target.closest('#splay')) return playYtm(REG[kS], 0);
+      if (e.target.closest('#sforg')) return playYtm(smartShuffle(REG[kF]), 0);
+      if (s) return playYtm(REG[kS], +s.dataset.s);
+      if (f) return playYtm(REG[kF], +f.dataset.f);
+      if (a) { const x = A[+a.dataset.a]; const top = x.top ? { id: x.top.id, t: x.top.t, a: x.top.a, al: x.top.al, d: x.top.d, th: x.top.th } : null; if (top) playYtm([top], 0, 'radio'); }
+    };
+  }
+  $('sper').onclick = e => { const b = e.target.closest('[data-d]'); if (!b) return; statsDays = +b.dataset.d; ls.set('zpStatsDays', String(statsDays)); showStats(); };
+}
+
 // ================================================================ Color de la carátula (acento dinámico)
 function accentFrom(url) {
   const root = document.documentElement.style;
-  if (!url) { root.removeProperty('--dyn'); root.removeProperty('--dyn2'); return; }
+  const clear = () => ['--dyn', '--dyn2', '--dyn3', '--dyn4'].forEach(k => root.removeProperty(k));
+  if (!url) { clear(); return; }
   const img = new Image(); img.crossOrigin = 'anonymous';
   img.onload = () => {
     try {
       const c = document.createElement('canvas'); c.width = c.height = 24; const g = c.getContext('2d'); g.drawImage(img, 0, 0, 24, 24);
-      const d = g.getImageData(0, 0, 24, 24).data; let best = null, bs = -1;
+      const d = g.getImageData(0, 0, 24, 24).data; let best = null, bs = -1; const px = []; let ar = 0, ag = 0, ab = 0;
       // El color más vivo (saturado y no muy oscuro) de la carátula.
       for (let i = 0; i < d.length; i += 4) {
         const r = d[i] / 255, gg = d[i + 1] / 255, b = d[i + 2] / 255, mx = Math.max(r, gg, b), mn = Math.min(r, gg, b), sat = mx ? (mx - mn) / mx : 0, sc = sat * (0.4 + mx);
         if (mx > .35 && sc > bs) { bs = sc; best = [d[i], d[i + 1], d[i + 2]]; }
+        px.push([d[i], d[i + 1], d[i + 2], sc]); ar += d[i]; ag += d[i + 1]; ab += d[i + 2];
       }
+      // Para el fondo vivo: otro color de tono distinto y el color medio.
+      const hue = c => { const r = c[0] / 255, g2 = c[1] / 255, b = c[2] / 255, mx = Math.max(r, g2, b), mn = Math.min(r, g2, b), dl = mx - mn; if (!dl) return 0; let h = mx === r ? ((g2 - b) / dl) % 6 : mx === g2 ? (b - r) / dl + 2 : (r - g2) / dl + 4; return (h * 60 + 360) % 360; };
+      const n = px.length || 1, avg = [ar / n, ag / n, ab / n].map(Math.round);
+      let second = null, s2 = -1;
+      if (best) px.forEach(c => { const dh = Math.abs(hue(c) - hue(best)); if (Math.min(dh, 360 - dh) > 35 && c[3] > s2) { s2 = c[3]; second = c.slice(0, 3); } });
+      root.setProperty('--dyn3', `rgb(${(second || avg.map(v => Math.min(255, v + 40))).join(',')})`);
+      root.setProperty('--dyn4', `rgb(${avg.join(',')})`);
       if (!best || bs < .25) { root.removeProperty('--dyn'); root.removeProperty('--dyn2'); return; }
       // Más claro para que se lea sobre el fondo oscuro.
       const light = best.map(v => Math.round(v + (255 - v) * .35));
       root.setProperty('--dyn', `rgb(${best.join(',')})`); root.setProperty('--dyn2', `rgb(${light.join(',')})`);
-    } catch (e) { root.removeProperty('--dyn'); root.removeProperty('--dyn2'); }
+    } catch (e) { clear(); }
   };
   img.onerror = () => {};
   img.src = artUrl(url);
