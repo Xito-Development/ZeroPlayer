@@ -235,6 +235,17 @@ body.fs .vol{display:flex}
 .qfoot{display:flex;gap:8px;flex-wrap:wrap;margin:14px 6px 4px}
 .qpast{width:calc(100% - 12px);text-align:left;cursor:pointer;color:var(--fg)}
 .dim .row{opacity:.6}
+.pane{padding-bottom:96px}
+.trow{display:flex;align-items:center;gap:6px}.tcol{flex:1;min-width:0}
+#fav svg{fill:none;stroke:currentColor;stroke-width:2}#fav.on{color:#ff5a7a}#fav.on svg{fill:currentColor}
+#ytlink{color:var(--muted)}
+.upnext{margin-top:6px;color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:18px}
+.upnext b{color:var(--fg);font-weight:600}
+.bar .fill{background:var(--dyn2,#fff)}
+.row.cur{background:color-mix(in srgb,var(--dyn,#19c37d) 22%,transparent)}
+.lyr p.on{color:var(--dyn2,#fff)}
+.hist{display:flex;gap:8px;flex-wrap:wrap;margin:-4px 4px 12px}
+.hist button{padding:7px 12px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid var(--line);font-size:13px;color:var(--muted)}
 .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 #ytwrap{display:none;width:100%;height:100%}#ytwrap iframe{width:100%;height:100%;border:0;display:block}.art.web #ytwrap{display:block}.art.web #artnote,.art:not(.empty) #artnote{display:none}.art.web{background:#000 !important;overflow:hidden;transform:none}
 </style>
@@ -279,8 +290,10 @@ body.fs .vol{display:flex}
     </div>
     <div class="art empty paused" id="art"><span id="artnote">♪</span><div id="ytwrap"><div id="ytp"></div></div></div>
     <div class="meta">
-      <div class="title" id="title"></div>
-      <div class="artist" id="artist"></div>
+      <div class="trow"><div class="tcol"><div class="title" id="title"></div><div class="artist" id="artist"></div></div>
+        <a class="ib small" id="ytlink" target="_blank" rel="noopener" title="Abrir en YouTube Music" aria-label="YouTube Music"><svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7ZM14 3v2h3.6l-9.8 9.8 1.4 1.4L19 6.4V10h2V3h-7Z"/></svg></a>
+        <button class="ib small" id="fav" title="Me gusta" aria-label="Me gusta"><svg viewBox="0 0 24 24"><path d="m12 21.4-1.5-1.3C5.4 15.4 2 12.3 2 8.5 2 5.4 4.4 3 7.5 3c1.7 0 3.4.8 4.5 2.1A6 6 0 0 1 16.5 3C19.6 3 22 5.4 22 8.5c0 3.8-3.4 6.9-8.5 11.6L12 21.4Z"/></svg></button></div>
+      <div class="upnext" id="upnext"></div>
       <div class="bar" id="bar"><div class="track"></div><div class="fill" id="fill"></div><div class="knob" id="knob"></div></div>
       <div class="times"><span id="tpos">0:00</span><span id="tdur">0:00</span></div>
       <div class="controls">
@@ -465,14 +478,26 @@ async function setMode(m, handoff) {
 }
 
 // ================================================================ Motor del móvil
-let S = null, lastAt = 0, dragging = false, lastKey = '', volTouch = 0;
+let S = null, lastAt = 0, dragging = false, lastKey = '', volTouch = 0, lastArt = '';
+/**
+ * Se queda con el estado más nuevo (por la hora del móvil) y compensa lo que tardó en llegar: así la barra y la
+ * letra van a la par aunque la conexión tenga retraso.
+ */
+function takeState(n) {
+  if (!n || n.has === undefined) return false;
+  if (S && S.t && n.t && n.t < S.t) return false;
+  S = n;
+  const drift = n.t ? Date.now() - n.t : 0;
+  lastAt = performance.now() - (drift > 0 && drift < 4000 ? drift : 0);
+  return true;
+}
 async function poll() {
-  try { S = await api('/api/state'); lastAt = performance.now(); if (MODE === 'phone') render(); }
+  try { if (takeState(await api('/api/state')) && MODE === 'phone') render(); }
   catch (e) { if (e.message !== 'pin' && e.message !== 'offline') $('dot').className = 'dot off'; }
   setTimeout(poll, document.hidden ? 5000 : MODE === 'web' ? 5000 : 1000);
 }
-async function poll1() { try { S = await api('/api/state'); lastAt = performance.now(); render(); } catch (e) {} }
-async function cmd(a, extra) { try { const r = await api('/api/cmd', Object.assign({ a }, extra || {})); if (r && r.has !== undefined) { S = r; lastAt = performance.now(); } render(); setTimeout(poll1, 350); } catch (e) { needPhone(e); } }
+async function poll1() { try { takeState(await api('/api/state')); render(); } catch (e) {} }
+async function cmd(a, extra) { try { const r = await api('/api/cmd', Object.assign({ a }, extra || {})); takeState(r); render(); } catch (e) { needPhone(e); } }
 
 // ================================================================ Motor del navegador (YouTube Music en el propio navegador)
 const W = Object.assign({ q: [], i: -1, shuffle: false, repeat: 0, vol: 80 }, (() => { try { return JSON.parse(ls.get('zpWeb', '{}')); } catch (e) { return {}; } })());
@@ -635,8 +660,8 @@ function mediaSession() {
 // ================================================================ Mandos (valen para los dos modos)
 const ctl = {
   toggle() { if (MODE === 'web') return webToggle(); if (S) { S.playing = !S.playing; render(); } cmd('toggle'); },
-  next() { MODE === 'web' ? webNext(false) : cmd('next'); },
-  prev() { MODE === 'web' ? webPrev() : cmd('prev'); },
+  next() { if (MODE === 'web') return webNext(false); if (S) { S.loading = true; render(); } cmd('next'); },
+  prev() { if (MODE === 'web') return webPrev(); cmd('prev'); },
   seek(ms) { if (MODE === 'web') { W.yt && W.yt.seekTo(ms / 1000, true); return; } if (S) { S.pos = ms; lastAt = performance.now(); } cmd('seek', { ms }); },
   shuffle() {
     if (MODE !== 'web') return cmd('shuffle');
@@ -670,9 +695,21 @@ function pos() {
 function render() {
   const N = nowInfo();
   const art = $('art');
-  if (MODE === 'web') { art.style.backgroundImage = ''; $('bg').style.cssText = bgImg(N.art); }
-  else if (N.art) { art.style.cssText = bgImg(N.art); art.classList.remove('empty'); $('bg').style.cssText = bgImg(N.art); }
-  else { art.style.cssText = ''; art.classList.add('empty'); $('bg').style.cssText = ''; }
+  const artKey = MODE + '|' + (N.art || '');
+  if (artKey !== lastArt) {
+    lastArt = artKey;
+    if (MODE === 'web') { art.style.backgroundImage = ''; $('bg').style.cssText = bgImg(N.art); }
+    else if (N.art) { art.style.cssText = bgImg(N.art); art.classList.remove('empty'); $('bg').style.cssText = bgImg(N.art); }
+    else { art.style.cssText = ''; art.classList.add('empty'); $('bg').style.cssText = ''; }
+    accentFrom(N.art);
+  }
+  // Lo siguiente que va a sonar y botones de la canción.
+  const nx = MODE === 'web' ? W.q[W.i + 1] : S?.upnext?.[0];
+  $('upnext').innerHTML = nx ? `${T('Siguiente', 'Next')}: <b>${esc(nx.t || nx.title)}</b>${(nx.a || nx.artist) ? ' · ' + esc(nx.a || nx.artist) : ''}` : '';
+  const fav = MODE === 'web' ? !!(webTrack() && W.favs?.some(x => x.id === webTrack().id)) : !!S?.fav;
+  $('fav').classList.toggle('on', fav); $('fav').style.visibility = N.has ? 'visible' : 'hidden';
+  const ytid = MODE === 'web' ? webTrack()?.id : S?.ytm;
+  $('ytlink').style.display = ytid ? 'grid' : 'none'; if (ytid) $('ytlink').href = 'https://music.youtube.com/watch?v=' + ytid;
   art.classList.toggle('paused', !N.playing && MODE !== 'web');
   $('title').textContent = N.has ? N.title : T('Nada sonando', 'Nothing playing');
   $('artist').textContent = N.has ? (N.artist || (N.loading ? T('Cargando…', 'Loading…') : '')) : MODE === 'web'
@@ -867,9 +904,16 @@ async function playYtm(list, start, mode) {
 }
 function showYtm() {
   const p = $('pane');
-  p.innerHTML = `<div class="search">${svg('search')}<input id="yq" placeholder="${T('Busca canciones, artistas, álbumes…', 'Search songs, artists, albums…')}" value="${esc(ytmQ)}" enterkeyhint="search"></div><div class="sugg" id="ysug"></div>${MODE === 'web' ? `<div class="note">${T('Las canciones suenan en este navegador. Para oír la música del móvil por Bluetooth, cambia arriba a «Móvil · Bluetooth».', 'Songs play in this browser. To hear the phone’s music over Bluetooth, switch to “Phone · Bluetooth” above.')}</div>` : ''}<div id="yres">${spin()}</div>`;
+  const hist = (() => { try { return JSON.parse(ls.get('zpSearches', '[]')); } catch (e) { return []; } })();
+  p.innerHTML = `<div class="search">${svg('search')}<input id="yq" placeholder="${T('Busca canciones, artistas, álbumes…', 'Search songs, artists, albums…')}" value="${esc(ytmQ)}" enterkeyhint="search"></div><div class="sugg" id="ysug"></div>${!ytmQ && hist.length ? `<div class="hist" id="yhist">${hist.map(h => `<button data-s="${esc(h)}">↺ ${esc(h)}</button>`).join('')}</div>` : ''}${MODE === 'web' ? `<div class="note">${T('Las canciones suenan en este navegador. Para oír la música del móvil por Bluetooth, cambia arriba a «Móvil · Bluetooth».', 'Songs play in this browser. To hear the phone’s music over Bluetooth, switch to “Phone · Bluetooth” above.')}</div>` : ''}<div id="yres">${spin()}</div>`;
   const yq = $('yq'); let st;
-  const go = q => { ytmQ = q.trim(); yq.value = ytmQ; $('ysug').innerHTML = ''; ytmStack = ytmQ ? [{ type: 'search', q: ytmQ }] : []; ytmView(); yq.blur(); };
+  const go = q => {
+    ytmQ = q.trim(); yq.value = ytmQ; $('ysug').innerHTML = ''; $('yhist') && $('yhist').remove();
+    // Búsquedas recientes (las 8 últimas, sin repetir).
+    if (ytmQ) ls.set('zpSearches', JSON.stringify([ytmQ].concat(hist.filter(h => h.toLowerCase() !== ytmQ.toLowerCase())).slice(0, 8)));
+    ytmStack = ytmQ ? [{ type: 'search', q: ytmQ }] : []; ytmView(); yq.blur();
+  };
+  $('yhist') && ($('yhist').onclick = e => { const b = e.target.closest('[data-s]'); if (b) go(b.dataset.s); });
   yq.addEventListener('keydown', e => { if (e.key === 'Enter') go(yq.value); });
   yq.addEventListener('input', () => {
     clearTimeout(st); const v = yq.value.trim();
@@ -878,7 +922,7 @@ function showYtm() {
   });
   $('ysug').onclick = e => { const b = e.target.closest('[data-s]'); if (b) go(b.dataset.s); };
   p.onclick = async e => {
-    if (e.target.closest('#ysug') || e.target.closest('.search')) return;
+    if (e.target.closest('#ysug') || e.target.closest('#yhist') || e.target.closest('.search')) return;
     if (e.target.closest('.back')) { ytmStack.pop(); ytmView(); return; }
     const card = e.target.closest('.card'); if (card) { const c = REG[card.dataset.k]; if (c.tracks) playYtm(c.tracks, c.i); else { ytmStack.push({ type: 'page', c }); ytmView(); } return; }
     const row = e.target.closest('.row[data-l]'); if (row) { const list = REG[row.dataset.l], i = +row.dataset.i; playYtm(list, i, e.target.closest('[data-act]')?.dataset.act); return; }
@@ -903,7 +947,7 @@ async function ytmView() {
       MINE = mine; HOME = home;
       if (tab !== 'ytm' || ytmStack.length) return;
       const [recent, mix] = mine;
-      box.innerHTML = (mix.tracks.length ? shelfHtml(T('Tu mix', 'Your mix'), mix.tracks) : '') + (recent.tracks.length ? shelfHtml(T('Escuchado hace poco', 'Recently played'), recent.tracks) : '') +
+      box.innerHTML = (W.favs.length ? shelfHtml(T('Tus favoritas (en este navegador)', 'Your favorites (this browser)'), W.favs.slice(0, 40)) : '') + (mix.tracks.length ? shelfHtml(T('Tu mix', 'Your mix'), mix.tracks) : '') + (recent.tracks.length ? shelfHtml(T('Escuchado hace poco', 'Recently played'), recent.tracks) : '') +
         (home.shelves.length ? home.shelves.map(s => shelfHtml(s.title, s.tracks, s.collections)).join('') : `<div class="empty">${T('YouTube Music no responde ahora', 'YouTube Music is not responding')}</div>`);
     } else if (top.type === 'search') {
       const r = await api('/api/ytm/search?q=' + encodeURIComponent(top.q));
@@ -995,10 +1039,15 @@ async function showPhone() {
     </div>
     <div class="h">${T('Temporizador', 'Sleep timer')}<span class="sp"></span><span style="color:var(--muted);font-size:13px;font-weight:500">${sleepTxt}</span></div>
     <div class="chips" id="sleep">${chips.map(([m, n]) => `<button class="chip ${(m === 0 && !left && !d.sleepEnd) || (m === -1 && d.sleepEnd) ? 'on' : ''}" data-m="${m}">${n}</button>`).join('')}</div>
+    <div class="h">${T('Velocidad', 'Speed')}<span class="sp"></span><span class="hmeta">${(S?.speed || 1).toFixed(2).replace(/\.?0+$/, '')}×</span></div>
+    <div class="chips" id="speed">${[0.75, 1, 1.25, 1.5, 2].map(v => `<button class="chip ${Math.abs((S?.speed || 1) - v) < .01 ? 'on' : ''}" data-v="${v}">${v}×</button>`).join('')}</div>
     <div class="h">${T('Volumen del móvil', 'Phone volume')}</div>
     <div class="vol" style="display:flex;margin:0 6px 14px"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3Zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4Z"/></svg><input type="range" id="pvol" min="0" max="100" value="${S?.volume ?? 50}"></div>
+    <div class="h">${T('Atajos y voz', 'Shortcuts & voice')}</div>
+    <div class="note" style="background:rgba(255,255,255,.06);color:var(--fg)">${T('Teclado: <b>Espacio</b> reproducir/pausa · <b>← →</b> 10 s · <b>Mayús + ← →</b> anterior/siguiente · <b>V</b> voz.<br>Voz: «pausa», «siguiente», «sube el volumen», «adelanta 30 segundos», «qué suena», «pon Rosalía», «radio de Bad Bunny», «pon mi mix», «pantalla completa».', 'Keyboard: <b>Space</b> play/pause · <b>← →</b> 10 s · <b>Shift + ← →</b> previous/next · <b>V</b> voice.<br>Voice: “pause”, “next”, “volume up”, “forward 30 seconds”, “what’s playing”, “play Rosalía”, “Bad Bunny radio”, “play my mix”, “full screen”.')}</div>
     ${d.bluetooth ? '' : `<div class="note">${T('Para oír la música del móvil en el coche, conecta el móvil al coche por Bluetooth y elige arriba «Móvil · Bluetooth».', 'To hear the phone’s music in the car, pair the phone with the car over Bluetooth and choose “Phone · Bluetooth” above.')}</div>`}`;
   $('sleep').onclick = async e => { const b = e.target.closest('[data-m]'); if (!b) return; try { await api('/api/cmd', { a: 'sleep', m: +b.dataset.m }); toast(T('Temporizador cambiado', 'Sleep timer set')); showPhone(); } catch (er) { needPhone(er); } };
+  $('speed').onclick = async e => { const b = e.target.closest('[data-v]'); if (!b) return; await cmd('speed', { v: +b.dataset.v }); showPhone(); };
   $('pvol').oninput = e => { clearTimeout(window._pv); window._pv = setTimeout(() => cmd('volume', { v: +e.target.value }), 80); };
   phoneT = setTimeout(() => { if (tab === 'phone') showPhone(); }, 15000);
 }
@@ -1018,6 +1067,58 @@ if (RELAY) {
   $('out').onclick = forget;
 } else $('offweb').style.display = 'none';
 
+
+
+// ================================================================ Color de la carátula (acento dinámico)
+function accentFrom(url) {
+  const root = document.documentElement.style;
+  if (!url) { root.removeProperty('--dyn'); root.removeProperty('--dyn2'); return; }
+  const img = new Image(); img.crossOrigin = 'anonymous';
+  img.onload = () => {
+    try {
+      const c = document.createElement('canvas'); c.width = c.height = 24; const g = c.getContext('2d'); g.drawImage(img, 0, 0, 24, 24);
+      const d = g.getImageData(0, 0, 24, 24).data; let best = null, bs = -1;
+      // El color más vivo (saturado y no muy oscuro) de la carátula.
+      for (let i = 0; i < d.length; i += 4) {
+        const r = d[i] / 255, gg = d[i + 1] / 255, b = d[i + 2] / 255, mx = Math.max(r, gg, b), mn = Math.min(r, gg, b), sat = mx ? (mx - mn) / mx : 0, sc = sat * (0.4 + mx);
+        if (mx > .35 && sc > bs) { bs = sc; best = [d[i], d[i + 1], d[i + 2]]; }
+      }
+      if (!best || bs < .25) { root.removeProperty('--dyn'); root.removeProperty('--dyn2'); return; }
+      // Más claro para que se lea sobre el fondo oscuro.
+      const light = best.map(v => Math.round(v + (255 - v) * .35));
+      root.setProperty('--dyn', `rgb(${best.join(',')})`); root.setProperty('--dyn2', `rgb(${light.join(',')})`);
+    } catch (e) { root.removeProperty('--dyn'); root.removeProperty('--dyn2'); }
+  };
+  img.onerror = () => {};
+  img.src = artUrl(url);
+}
+
+// ================================================================ Me gusta
+W.favs = W.favs || (() => { try { return JSON.parse(ls.get('zpFavs', '[]')); } catch (e) { return []; } })();
+$('fav').onclick = async () => {
+  if (MODE === 'web') {
+    const t = webTrack(); if (!t) return;
+    const k = W.favs.findIndex(x => x.id === t.id);
+    if (k >= 0) { W.favs.splice(k, 1); toast(T('Quitada de tus favoritas', 'Removed from favorites')); }
+    else { W.favs.unshift(Object.assign({}, t, { auto: undefined })); toast(T('Añadida a tus favoritas', 'Added to favorites')); }
+    ls.set('zpFavs', JSON.stringify(W.favs.slice(0, 500))); render(); return;
+  }
+  if (!S?.has) return;
+  S.fav = !S.fav; render();
+  toast(S.fav ? T('Añadida a favoritas del móvil', 'Added to phone favorites') : T('Quitada de favoritas', 'Removed from favorites'));
+  cmd('like');
+};
+
+// ================================================================ Pantalla siempre encendida (modo coche y mientras suena en el navegador)
+let wakeLock = null;
+async function keepAwake(on) {
+  try {
+    if (on && !wakeLock && 'wakeLock' in navigator) { wakeLock = await navigator.wakeLock.request('screen'); wakeLock.addEventListener('release', () => { wakeLock = null; }); }
+    else if (!on && wakeLock) { await wakeLock.release(); wakeLock = null; }
+  } catch (e) {}
+}
+setInterval(() => keepAwake(isFs() || (MODE === 'web' && W.state === 1)), 5000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) wakeLock = null; });
 
 // ================================================================ Pantalla completa (modo coche)
 function isFs() { return document.body.classList.contains('fs'); }
@@ -1091,6 +1192,9 @@ async function handleVoice(raw) {
   if (has(/(aleatorio|mezcla|shuffle)/)) return ctl.shuffle();
   if (has(/(repite|repetir|repeat)/)) return ctl.repeat();
   if (has(/(que suena|que cancion es|what.?s playing|what song)/)) { const N = nowInfo(); return say(N.has ? (N.title + (N.artist ? T(', de ', ', by ') + N.artist.split(' · ')[0] : '')) : T('No suena nada', 'Nothing is playing')); }
+  if (has(/^(me gusta|me encanta|favorita|i like this|i love this|like this)/)) return $('fav').click();
+  if (has(/(apaga en|para en|temporizador|sleep in|sleep timer)/) && n) { try { await api('/api/cmd', { a: 'sleep', m: has(/hora|hour/) ? n * 60 : n }); return toast(T(`Se parará dentro de ${has(/hora|hour/) ? n * 60 : n} min`, `Stops in ${has(/hora|hour/) ? n * 60 : n} min`)); } catch (e) { return needPhone(e); } }
+  if (has(/(velocidad|speed)/)) { const v = has(/doble|double/) ? 2 : has(/normal/) ? 1 : has(/media|half/) ? .5 : null; if (v) return cmd('speed', { v }); }
   if (has(/^(letra|lyrics|muestra la letra)/)) return goTab('lyrics');
   if (has(/^(cola|queue)/)) return goTab('queue');
   if (has(/pantalla completa|full ?screen|modo coche/)) return toggleFs();

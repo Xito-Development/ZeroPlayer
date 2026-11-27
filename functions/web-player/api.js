@@ -104,9 +104,10 @@ async function tunnel(db, s, path, body) {
   const id = hex(8);
   await db.prepare('INSERT INTO reqs (id, sid, path, body, t) VALUES (?, ?, ?, ?, ?)').bind(id, s.sid, path, body == null ? null : JSON.stringify(body), now()).run();
   const end = Date.now() + CALL_TIMEOUT * 1000;
-  let wait = 60;
+  // Se mira a menudo al principio (la respuesta suele llegar en unas décimas) y luego algo menos.
+  let wait = 25;
   while (Date.now() < end) {
-    await sleep(wait); wait = Math.min(250, wait + 40);
+    await sleep(wait); wait = Math.min(150, wait + 15);
     const r = await db.prepare('SELECT * FROM res WHERE id = ?').bind(id).first();
     if (r) { await db.prepare('DELETE FROM res WHERE id = ?').bind(id).run(); return r; }
   }
@@ -208,7 +209,7 @@ const actions = {
         if (reqs.length) break;
       }
       if (Date.now() >= end) break;
-      await sleep(watching ? 150 : 500);
+      await sleep(watching ? 70 : 400);
       // Si aparece alguien mirando mientras se espera, se contesta antes para refrescar el estado.
       if (!watching) { const v = await db.prepare('SELECT viewer FROM sessions WHERE sid = ?').bind(sid).first(); if (v && now() - v.viewer < 3) break; }
     }
@@ -305,6 +306,8 @@ const actions = {
       if (s.state && now() - s.state_at < 30) { const x = JSON.parse(s.state); x.age = now() - s.state_at; return json(x); }
     }
     const r = await tunnel(db, s, path, b.body ?? null);
+    // Una orden devuelve el estado ya cambiado: se guarda para que la siguiente consulta no enseñe el de antes.
+    if (path === '/api/cmd' && r.status === 200 && r.body) { try { const st = JSON.parse(r.body); if (st && st.has !== undefined) await db.prepare('UPDATE sessions SET state = ?, state_at = ? WHERE sid = ?').bind(r.body, now(), s.sid).run(); } catch (e) {} }
     const headers = { 'Content-Type': r.type || 'application/json; charset=utf-8', 'Cache-Control': 'no-store' };
     return new Response(r.b64 != null ? b64ToBytes(r.b64) : (r.body ?? ''), { status: r.status || 200, headers });
   },

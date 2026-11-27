@@ -1,147 +1,349 @@
 [
  {
+  "version": "2.13.0",
+  "date": "2026-11-27",
+  "title": {
+   "es": "«Cero» siempre atento y Web Player más rápido",
+   "en": "“Zero” always listening and a faster Web Player"
+  },
+  "items": [
+   {
+    "es": "Asistente de voz: nueva opción «Escuchar siempre», también con la app cerrada o la pantalla apagada.",
+    "en": "Voice assistant: new “Always listen” option, even with the app closed or the screen off."
+   },
+   {
+    "es": "Nuevas órdenes: «Cero pon…» y el nombre de una canción o artista, «Cero qué suena», «Cero pon mi mix», «Cero me gusta», «Cero pon la radio» y «Cero apaga en treinta minutos».",
+    "en": "New commands: “Zero put on…” plus a song or artist, “Zero what is playing”, “Zero play my mix”, “Zero I like this”, “Zero start radio” and “Zero sleep in thirty minutes”."
+   },
+   {
+    "es": "Web Player: responde más rápido y la barra y la letra van a la par aunque la conexión tenga retraso.",
+    "en": "Web Player: faster responses, and the progress bar and lyrics stay in sync even with a laggy connection."
+   },
+   {
+    "es": "Web Player: «Me gusta», enlace a YouTube Music, qué suena después, búsquedas recientes, velocidad, colores según la carátula y la pantalla no se apaga en modo coche.",
+    "en": "Web Player: Like, YouTube Music link, what plays next, recent searches, speed, colors from the artwork, and the screen stays on in car mode."
+   },
+   {
+    "es": "Web Player: más órdenes de voz y arreglos (el estado ya no salta hacia atrás tras una orden, el botón del micrófono no tapa la lista).",
+    "en": "Web Player: more voice commands and fixes (the status no longer jumps back after a command, the microphone button no longer covers the list)."
+   }
+  ]
+ },
+ {
   "version": "2.12.0",
   "date": "2026-11-27",
   "title": {
-   "es": "Bug fixes and some improvements",
-   "en": "Bug fixes and some improvements"
+   "es": "Colas mejores",
+   "en": "Better queues"
   },
-  "items": []
+  "items": [
+   {
+    "es": "Mezclar reparte los artistas y la radio evita repetidas, otras versiones de la misma canción y lo que escuchaste hace poco.",
+    "en": "Shuffle spreads artists out and radio avoids repeats, other versions of the same song and what you heard recently."
+   },
+   {
+    "es": "Web Player: arrastra para ordenar la cola, pon a continuación, mezcla, vacía y añade canciones parecidas.",
+    "en": "Web Player: drag to reorder the queue, play next, shuffle, clear and add similar songs."
+   }
+  ]
  },
  {
   "version": "2.11.0",
   "date": "2026-11-27",
   "title": {
-   "es": "Bug fixes and some improvements",
-   "en": "Bug fixes and some improvements"
+   "es": "Web Player: voz, pantalla completa y más seguridad",
+   "en": "Web Player: voice, full screen and more security"
   },
-  "items": []
+  "items": [
+   {
+    "es": "Órdenes de voz desde el micrófono del navegador.",
+    "en": "Voice commands from the browser’s microphone."
+   },
+   {
+    "es": "Pantalla completa / modo coche, con la letra debajo.",
+    "en": "Full screen / car mode, with lyrics below."
+   },
+   {
+    "es": "Captcha al emparejar, lista de navegadores conectados y aviso de los nuevos.",
+    "en": "Captcha when pairing, list of connected browsers and alerts for new ones."
+   },
+   {
+    "es": "El mando se apaga solo tras 10 minutos sin música.",
+    "en": "The remote turns itself off after 10 minutes without music."
+   }
+  ]
  },
  {
   "version": "2.10.0",
   "date": "2026-11-27",
   "title": {
-   "es": "Bug fixes and some improvements",
-   "en": "Bug fixes and some improvements"
+   "es": "Web Player: dos formas de escuchar",
+   "en": "Web Player: two ways to listen"
   },
-  "items": []
+  "items": [
+   {
+    "es": "Escucha YouTube Music en el propio navegador (por ejemplo, el del coche) o la música del móvil por Bluetooth, y pasa de uno a otro.",
+    "en": "Listen to YouTube Music in the browser itself (e.g. the car’s) or to the phone’s music over Bluetooth, and switch between them."
+   },
+   {
+    "es": "Biblioteca del móvil por álbumes, artistas y listas, tu mix, escuchado hace poco y sugerencias al buscar.",
+    "en": "Phone library by albums, artists and playlists, your mix, recently played and search suggestions."
+   },
+   {
+    "es": "Pestaña «Móvil»: batería, red, Bluetooth, temporizador y volumen.",
+    "en": "“Phone” tab: battery, network, Bluetooth, sleep timer and volume."
+   },
+   {
+    "es": "Arreglado: en algunas pantallas no se podía deslizar.",
+    "en": "Fixed: some screens couldn’t be scrolled."
+   }
+  ]
  },
  {
   "version": "2.9.2",
   "date": "2026-11-27",
   "title": {
-   "es": "Bug fixes and some improvements",
-   "en": "Bug fixes and some improvements"
+   "es": "Mando por internet, funcionando",
+   "en": "Internet remote working"
   },
-  "items": []
+  "items": [
+   {
+    "es": "Arreglado: el mando por internet no se conectaba.",
+    "en": "Fixed: the internet remote couldn’t connect."
+   }
+  ]
  },
  {
   "version": "2.9.1",
   "date": "2026-11-26",
   "title": {
-   "es": "Bug fixes and some improvements",
-   "en": "Bug fixes and some improvements"
+   "es": "Arreglo de la web",
+   "en": "Website fix"
   },
-  "items": []
+  "items": [
+   {
+    "es": "Arreglada la publicación de la web.",
+    "en": "Fixed publishing the website."
+   }
+  ]
  },
  {
   "version": "2.9.0",
   "date": "2026-11-26",
   "title": {
-   "es": "Bug fixes and some improvements",
-   "en": "Bug fixes and some improvements"
+   "es": "Web Player en zeroplayer.pages.dev",
+   "en": "Web Player at zeroplayer.pages.dev"
   },
-  "items": []
+  "items": [
+   {
+    "es": "El mando por internet pasa a zeroplayer.pages.dev/web-player.",
+    "en": "The internet remote moves to zeroplayer.pages.dev/web-player."
+   },
+   {
+    "es": "El navegador se queda emparejado, avisa si el móvil no está conectado y puede pedir que se encienda.",
+    "en": "The browser stays paired, warns when the phone is offline and can ask it to turn on."
+   },
+   {
+    "es": "El mando se vuelve a encender si Android lo cierra o al reiniciar el móvil.",
+    "en": "The remote turns back on if Android closes it or after a reboot."
+   }
+  ]
  },
  {
   "version": "2.8.0",
   "date": "2026-11-26",
   "title": {
-   "es": "Bug fixes and some improvements",
-   "en": "Bug fixes and some improvements"
+   "es": "Mando por internet",
+   "en": "Remote over the internet"
   },
-  "items": []
+  "items": [
+   {
+    "es": "El mando web funciona también por internet, con un código de 6 cifras.",
+    "en": "The web remote also works over the internet, with a 6-digit code."
+   }
+  ]
  },
  {
   "version": "2.7.1",
   "date": "2026-11-26",
   "title": {
-   "es": "Bug fixes and some improvements",
-   "en": "Bug fixes and some improvements"
+   "es": "Mando web con el punto de acceso",
+   "en": "Web remote over hotspot"
   },
-  "items": []
+  "items": [
+   {
+    "es": "El mando web sigue funcionando con la app cerrada y detecta el punto de acceso del móvil.",
+    "en": "The web remote keeps working with the app closed and detects the phone’s hotspot."
+   },
+   {
+    "es": "Dirección especial para navegadores de coche.",
+    "en": "Special address for car browsers."
+   }
+  ]
  },
  {
   "version": "2.7.0",
   "date": "2026-11-26",
   "title": {
-   "es": "Bug fixes and some improvements",
-   "en": "Bug fixes and some improvements"
+   "es": "YouTube Music en Windows y mando web",
+   "en": "YouTube Music on Windows and web remote"
   },
-  "items": []
+  "items": [
+   {
+    "es": "Windows: selector de archivos de Windows y arrastrar y soltar archivos, carpetas, subtítulos y enlaces.",
+    "en": "Windows: native file picker and drag and drop of files, folders, subtitles and links."
+   },
+   {
+    "es": "Windows: sección YouTube Music (inicio, explorar, búsqueda, álbumes, artistas y radio), letras sincronizadas y «¿Qué suena?».",
+    "en": "Windows: YouTube Music section (home, explore, search, albums, artists and radio), synced lyrics and “What’s playing?”."
+   },
+   {
+    "es": "Android: control remoto web para manejar la música desde una tablet, el ordenador o la tele.",
+    "en": "Android: web remote to control the music from a tablet, computer or TV."
+   }
+  ]
  },
  {
   "version": "2.6.3",
   "date": "2026-11-25",
   "title": {
-   "es": "Bug fixes and some improvements",
-   "en": "Bug fixes and some improvements"
+   "es": "Reproducir desde Compartir y arreglos",
+   "en": "Play from Share and fixes"
   },
-  "items": []
+  "items": [
+   {
+    "es": "«Reproducir con ZeroPlayer» en el menú Compartir de Android, también con varios archivos.",
+    "en": "“Play with ZeroPlayer” in Android’s Share menu, also with several files."
+   },
+   {
+    "es": "Arreglado: el reproductor se quedaba a medio abrir encima de la página del artista.",
+    "en": "Fixed: the player got stuck half-open over the artist page."
+   },
+   {
+    "es": "Los títulos cortos ya no se cortan; las canciones de YouTube Music muestran su álbum.",
+    "en": "Short titles are no longer clipped; YouTube Music songs show their album."
+   }
+  ]
  },
  {
   "version": "2.6.2",
   "date": "2026-11-25",
   "title": {
-   "es": "Bug fixes and some improvements",
-   "en": "Bug fixes and some improvements"
+   "es": "Ir al artista, álbum o canal",
+   "en": "Go to artist, album or channel"
   },
-  "items": []
+  "items": [
+   {
+    "es": "Toca el artista o el álbum en el reproductor para ir a su página; también en «Más opciones» y en el menú de cada canción.",
+    "en": "Tap the artist or album in the player to open its page; also in “More options” and in each song’s menu."
+   },
+   {
+    "es": "En los vídeos de YouTube, el nombre del canal lleva a su canal.",
+    "en": "In YouTube videos, the channel name opens the channel."
+   }
+  ]
  },
  {
   "version": "2.6.1",
   "date": "2026-11-25",
   "title": {
-   "es": "Bug fixes and some improvements",
-   "en": "Bug fixes and some improvements"
+   "es": "Ajustes recuerda dónde estabas",
+   "en": "Settings remembers where you were"
   },
-  "items": []
+  "items": [
+   {
+    "es": "Al volver a la app sigues en la sección de Ajustes que tenías abierta, y cada lista se queda deslizada donde la dejaste.",
+    "en": "When you come back you’re still in the Settings section you had open, and every list keeps its scroll position."
+   }
+  ]
  },
  {
   "version": "2.6.0",
   "date": "2026-11-25",
   "title": {
-   "es": "Bug fixes and some improvements",
-   "en": "Bug fixes and some improvements"
+   "es": "YouTube y YouTube Music, mucho más rápidos",
+   "en": "Much faster YouTube and YouTube Music"
   },
-  "items": []
+  "items": [
+   {
+    "es": "Las canciones y vídeos de YouTube empiezan en menos de un segundo.",
+    "en": "YouTube songs and videos start in under a second."
+   },
+   {
+    "es": "Menos espera antes de empezar y la siguiente canción se prepara antes.",
+    "en": "Less buffering before playback and the next song is prepared earlier."
+   }
+  ]
  },
  {
   "version": "2.5.1",
   "date": "2026-11-25",
   "title": {
-   "es": "Bug fixes and some improvements",
-   "en": "Bug fixes and some improvements"
+   "es": "Entrar con Discord, arreglado",
+   "en": "Discord sign-in fixed"
   },
-  "items": []
+  "items": [
+   {
+    "es": "Entrar con Discord se abre en su propia pantalla dentro de la app (antes se quedaba gris en algunos móviles).",
+    "en": "Discord sign-in opens in its own in-app screen (it stayed grey on some phones)."
+   }
+  ]
  },
  {
   "version": "2.5.0",
   "date": "2026-11-25",
   "title": {
-   "es": "Bug fixes and some improvements",
-   "en": "Bug fixes and some improvements"
+   "es": "Shazam, letras palabra a palabra y Music Flow",
+   "en": "Shazam, word-by-word lyrics and Music Flow"
   },
-  "items": []
+  "items": [
+   {
+    "es": "«¿Qué suena?» ahora usa Shazam y es mucho más certero; también como mosaico de Ajustes rápidos.",
+    "en": "“What’s playing?” now uses Shazam and is much more accurate; also as a Quick Settings tile."
+   },
+   {
+    "es": "Letras palabra a palabra, con segundas voces y coros.",
+    "en": "Word-by-word lyrics, with second voices and backing vocals."
+   },
+   {
+    "es": "Music Flow: descubre canciones deslizando, como en TikTok.",
+    "en": "Music Flow: discover songs by swiping, TikTok style."
+   },
+   {
+    "es": "Más ajustes de YouTube Music y bloqueo de artistas.",
+    "en": "More YouTube Music settings and artist blocking."
+   }
+  ]
  },
  {
   "version": "2.4.0",
   "date": "2026-11-25",
   "title": {
-   "es": "Bug fixes and some improvements",
-   "en": "Bug fixes and some improvements"
+   "es": "Discord como en Echo Music",
+   "en": "Discord like Echo Music"
   },
-  "items": []
+  "items": [
+   {
+    "es": "Discord: perfil con foto, estado, plataforma, textos personalizables, imágenes y botones «Escuchar en YouTube Music» e «Ir a ZeroPlayer».",
+    "en": "Discord: profile picture, status, platform, custom texts, images and “Listen on YouTube Music” and “Go to ZeroPlayer” buttons."
+   },
+   {
+    "es": "Entrar con Discord ya no se queda en una pantalla en blanco.",
+    "en": "Signing in with Discord no longer gets stuck on a blank screen."
+   },
+   {
+    "es": "«¿Qué suena?»: reconoce la canción que suena a tu alrededor.",
+    "en": "“What’s playing?”: recognizes the song playing around you."
+   },
+   {
+    "es": "Cola inteligente: antes de que acabe, se añaden canciones parecidas para que la música no pare.",
+    "en": "Smart queue: similar songs are added before it ends so the music never stops."
+   },
+   {
+    "es": "Las versiones se publican más rápido.",
+    "en": "Releases are published faster."
+   }
+  ]
  },
  {
   "version": "2.3.0",
