@@ -22,7 +22,7 @@ async function sha256(s) { const d = await crypto.subtle.digest('SHA-256', new T
 
 class Fail extends Error { constructor(status, why) { super(why); this.status = status; } }
 const json = (data, status = 200, headers = {}) => new Response(JSON.stringify(data), {
-  status, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', ...headers },
+  status, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'no-referrer', 'X-Frame-Options': 'DENY', ...headers },
 });
 
 async function readBody(req, max = MAX_BODY) {
@@ -55,6 +55,8 @@ async function cleanup(db) {
     db.prepare('DELETE FROM res WHERE t < ?').bind(t - 120),
     db.prepare('DELETE FROM art WHERE t < ?').bind(t - 86400),
     db.prepare('DELETE FROM rate WHERE t < ?').bind(t - 7200),
+    db.prepare('DELETE FROM captcha WHERE t < ?').bind(t - 600),
+    db.prepare('DELETE FROM tokens WHERE COALESCE(NULLIF(used, 0), created) < ?').bind(t - 90 * 86400),
     db.prepare('DELETE FROM tokens WHERE sid IN (SELECT sid FROM sessions WHERE seen < ?)').bind(t - 60 * 86400),
     db.prepare('DELETE FROM sessions WHERE seen < ?').bind(t - 60 * 86400),
   ]);
@@ -69,6 +71,13 @@ async function phone(db, b, extra = '') {
   return { sid, s };
 }
 
+/** Nombre corto del navegador y del sistema, para que el móvil sepa quién se ha conectado. */
+function describeUa(ua) {
+  const b = /Tesla/i.test(ua) ? 'Tesla' : /Edg\//.test(ua) ? 'Edge' : /OPR\//.test(ua) ? 'Opera' : /SamsungBrowser/.test(ua) ? 'Samsung Internet' : /Firefox\//.test(ua) ? 'Firefox' : /Chrome\//.test(ua) ? 'Chrome' : /Safari\//.test(ua) ? 'Safari' : 'Navegador';
+  const o = /Tesla|QtCarBrowser/i.test(ua) ? 'coche' : /iPad/.test(ua) ? 'iPad' : /iPhone/.test(ua) ? 'iPhone' : /Android/.test(ua) ? 'Android' : /Windows/.test(ua) ? 'Windows' : /Mac OS X/.test(ua) ? 'Mac' : /CrOS/.test(ua) ? 'ChromeOS' : /Linux/.test(ua) ? 'Linux' : '';
+  return (b + (o ? ' · ' + o : '')).slice(0, 60);
+}
+
 function cookieToken(req) {
   const m = (req.headers.get('Cookie') || '').match(/(?:^|;\s*)zp_t=([0-9a-f]{32})/);
   return m ? m[1] : '';
@@ -77,10 +86,13 @@ function cookieToken(req) {
 async function viewer(db, req, token) {
   const t = isHex(token, 32) ? token : cookieToken(req);
   if (!isHex(t, 32)) throw new Fail(401, 'pair');
-  const r = await db.prepare('SELECT s.* FROM tokens k JOIN sessions s ON s.sid = k.sid WHERE k.token = ?').bind(t).first();
+  const r = await db.prepare('SELECT s.*, k.used AS tused FROM tokens k JOIN sessions s ON s.sid = k.sid WHERE k.token = ?').bind(t).first();
   if (!r) throw new Fail(401, 'pair');
-  // Marca que hay alguien mirando (como mucho una vez cada 5 s, para escribir poco).
-  if (now() - (r.viewer || 0) > 5) await db.prepare('UPDATE sessions SET viewer = ? WHERE sid = ?').bind(now(), r.sid).run();
+  // Marca que hay alguien mirando (como mucho una vez cada 5 s, para escribir poco) y cuándo se usó este navegador.
+  const w = [];
+  if (now() - (r.viewer || 0) > 5) w.push(db.prepare('UPDATE sessions SET viewer = ? WHERE sid = ?').bind(now(), r.sid));
+  if (now() - (r.tused || 0) > 3600) w.push(db.prepare('UPDATE tokens SET used = ? WHERE token = ?').bind(now(), t));
+  if (w.length) await db.batch(w);
   return r;
 }
 
@@ -103,6 +115,48 @@ async function tunnel(db, s, path, body) {
 }
 
 function b64ToBytes(b64) { const s = atob(b64); const a = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) a[i] = s.charCodeAt(i); return a; }
+
+// ------------------------------------------------------------ Captcha propio (cifras deformadas en SVG, de un solo uso)
+const GLYPHS = {
+  0: [[[.2, 0], [.8, 0], [1, .2], [1, .8], [.8, 1], [.2, 1], [0, .8], [0, .2], [.2, 0]]],
+  1: [[[.25, .2], [.6, 0], [.6, 1]], [[.25, 1], [.95, 1]]],
+  2: [[[0, .2], [.2, 0], [.8, 0], [1, .2], [1, .4], [0, 1], [1, 1]]],
+  3: [[[0, 0], [1, 0], [.45, .42], [.8, .48], [1, .7], [.8, 1], [.2, 1], [0, .85]]],
+  4: [[[.7, 1], [.7, 0], [0, .7], [1, .7]]],
+  5: [[[1, 0], [.1, 0], [0, .45], [.7, .4], [1, .6], [1, .8], [.8, 1], [0, 1]]],
+  6: [[[.9, 0], [.3, .1], [0, .5], [0, .85], [.2, 1], [.8, 1], [1, .8], [1, .62], [.8, .45], [.2, .45], [0, .6]]],
+  7: [[[0, 0], [1, 0], [.4, 1]], [[.3, .5], [.85, .5]]],
+  8: [[[.5, .45], [.15, .35], [.15, .1], [.35, 0], [.65, 0], [.85, .1], [.85, .35], [.5, .45], [.1, .6], [0, .85], [.25, 1], [.75, 1], [1, .85], [.9, .6], [.5, .45]]],
+  9: [[[1, .5], [.8, .58], [.2, .58], [0, .4], [0, .15], [.2, 0], [.8, 0], [1, .15], [1, .5], [.8, .9], [.3, 1]]],
+};
+function captchaSvg(text) {
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const W = 220, H = 80;
+  let g = '';
+  for (let i = 0; i < 7; i++) g += `<path d="M${rnd(0, W)} ${rnd(0, H)} Q ${rnd(0, W)} ${rnd(0, H)} ${rnd(0, W)} ${rnd(0, H)}" stroke="hsl(${rnd(0, 360) | 0},70%,65%)" stroke-width="${rnd(1, 2.5).toFixed(1)}" fill="none" opacity=".7"/>`;
+  for (let i = 0; i < 40; i++) g += `<circle cx="${rnd(0, W).toFixed(0)}" cy="${rnd(0, H).toFixed(0)}" r="${rnd(.5, 2).toFixed(1)}" fill="#fff" opacity="${rnd(.2, .6).toFixed(2)}"/>`;
+  // Cifras dibujadas a trazos (no como texto, para que un programa no las lea directamente del SVG).
+  [...text].forEach((ch, i) => {
+    const w = rnd(22, 30), h = rnd(36, 44), x0 = 24 + i * 46 + rnd(-5, 5), y0 = 20 + rnd(-6, 6);
+    const cx = x0 + w / 2, cy = y0 + h / 2, r = rnd(-22, 22);
+    const d = GLYPHS[ch].map(st => 'M' + st.map(([u, v]) => `${(x0 + u * w + rnd(-2, 2)).toFixed(1)} ${(y0 + v * h + rnd(-2, 2)).toFixed(1)}`).join(' L')).join(' ');
+    g += `<path d="${d}" transform="rotate(${r.toFixed(0)} ${cx.toFixed(0)} ${cy.toFixed(0)})" stroke="hsl(${rnd(120, 200) | 0},80%,${rnd(65, 85) | 0}%)" stroke-width="${rnd(3.5, 5).toFixed(1)}" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`;
+  });
+  for (let i = 0; i < 3; i++) g += `<line x1="0" y1="${rnd(10, H - 10)}" x2="${W}" y2="${rnd(10, H - 10)}" stroke="#fff" stroke-width="1.5" opacity=".45"/>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><rect width="100%" height="100%" rx="14" fill="#16161a"/>${g}</svg>`;
+}
+async function checkCaptcha(db, id, answer) {
+  if (!isHex(String(id || ''), 16)) return false;
+  const r = await db.prepare('DELETE FROM captcha WHERE id = ? RETURNING h, t').bind(id).first();
+  if (!r || now() - r.t > 600) return false;
+  return r.h === await sha256((await salt(db)) + ':cap:' + String(answer || '').replace(/\D/g, ''));
+}
+
+/** Solo desde nuestra propia página (o la app): otra web no puede usar la cookie para dar órdenes. */
+function sameOrigin(req, url) {
+  const o = req.headers.get('Origin');
+  if (o && o !== url.origin) throw new Fail(403, 'origin');
+}
 
 const actions = {
   // ------------------------------------------------------------ Móvil
@@ -158,7 +212,8 @@ const actions = {
       // Si aparece alguien mirando mientras se espera, se contesta antes para refrescar el estado.
       if (!watching) { const v = await db.prepare('SELECT viewer FROM sessions WHERE sid = ?').bind(sid).first(); if (v && now() - v.viewer < 3) break; }
     }
-    return json({ reqs, viewer: watching });
+    const last = await db.prepare('SELECT MAX(created) AS c, COUNT(*) AS n FROM tokens WHERE sid = ?').bind(sid).first();
+    return json({ reqs, viewer: watching, devices: last?.n || 0, lastPair: last?.c || 0 });
   },
 
   /** Respuestas del móvil a las peticiones del navegador. */
@@ -172,6 +227,22 @@ const actions = {
     return json({ ok: true });
   },
 
+  /** Navegadores emparejados con este móvil (para verlos y quitarlos desde Ajustes). */
+  async devices(db, req) {
+    const { sid } = await phone(db, await readBody(req));
+    const r = await db.prepare('SELECT substr(token, 1, 8) AS id, ua, created, used FROM tokens WHERE sid = ? ORDER BY created DESC').bind(sid).all();
+    return json({ items: r.results });
+  },
+
+  async revoke(db, req) {
+    const b = await readBody(req);
+    const { sid } = await phone(db, b);
+    const id = String(b.id || '');
+    if (id === 'all') await db.prepare('DELETE FROM tokens WHERE sid = ?').bind(sid).run();
+    else if (isHex(id, 8)) await db.prepare('DELETE FROM tokens WHERE sid = ? AND substr(token, 1, 8) = ?').bind(sid, id).run();
+    return json({ ok: true });
+  },
+
   /** El móvil (con la app cerrada) pregunta de vez en cuando si alguien ha pedido encenderlo desde la web. */
   async wakecheck(db, req) {
     const { s } = await phone(db, await readBody(req));
@@ -179,15 +250,29 @@ const actions = {
   },
 
   // ------------------------------------------------------------ Navegador
+  /** Captcha nuevo para la pantalla de emparejar. */
+  async captcha(db, req) {
+    await limit(db, req, 'captcha', 40, 600);
+    const text = String(crypto.getRandomValues(new Uint32Array(1))[0] % 10000).padStart(4, '0');
+    const id = hex(8);
+    await db.prepare('INSERT INTO captcha (id, h, t) VALUES (?, ?, ?)').bind(id, await sha256((await salt(db)) + ':cap:' + text), now()).run();
+    return json({ id, svg: captchaSvg(text) });
+  },
+
   async pair(db, req) {
     await limit(db, req, 'pair', 12, 600);
+    // Freno general: si alguien prueba códigos a lo loco desde muchas direcciones, se cierra un rato para todos.
+    const g = await db.prepare("INSERT INTO rate (k, n, t) VALUES (?, 1, ?) ON CONFLICT(k) DO UPDATE SET n = n + 1 RETURNING n").bind('pairall:' + Math.floor(now() / 3600), now()).first();
+    if (g && g.n > 400) throw new Fail(429, 'slow_down');
     const b = await readBody(req);
+    if (!(await checkCaptcha(db, b.cid, b.cans))) throw new Fail(403, 'captcha');
     const code = String(b.code || '').replace(/\D/g, '');
     if (code.length !== 6) throw new Fail(400, 'code');
     const s = await db.prepare('SELECT sid, name FROM sessions WHERE code_h = ?').bind(await codeHash(db, code)).first();
     if (!s) throw new Fail(404, 'code');
     const token = hex(16);
-    await db.prepare('INSERT INTO tokens (token, sid, created) VALUES (?, ?, ?)').bind(token, s.sid, now()).run();
+    const ua = describeUa(req.headers.get('User-Agent') || '');
+    await db.prepare('INSERT INTO tokens (token, sid, created, used, ua) VALUES (?, ?, ?, ?, ?)').bind(token, s.sid, now(), now(), ua).run();
     // Cookie de un año: el navegador se queda emparejado con este móvil.
     return json({ token, device: s.name || 'ZeroPlayer' }, 200, { 'Set-Cookie': `${COOKIE}=${token}; Path=/web-player; Max-Age=31536000; Secure; HttpOnly; SameSite=Lax` });
   },
@@ -249,6 +334,7 @@ export async function onRequest({ request, env }) {
   if (!env.DB) return json({ error: 'no_db' }, 500);
   if (a !== 'art' && request.method !== 'POST') return json({ error: 'method' }, 405);
   try {
+    if (['pair', 'forget', 'wake', 'call', 'art', 'captcha'].includes(a)) sameOrigin(request, url);
     const res = await fn(env.DB, request, url);
     try { await cleanup(env.DB); } catch {}
     return res;

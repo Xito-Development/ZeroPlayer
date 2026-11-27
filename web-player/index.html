@@ -194,6 +194,39 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
 .batt{height:8px;border-radius:8px;background:rgba(255,255,255,.12);margin-top:8px;overflow:hidden}
 .batt i{display:block;height:100%;background:var(--accent);border-radius:8px}
 .note{margin:0 6px 12px;padding:12px 14px;border-radius:14px;background:rgba(25,195,125,.12);color:#c9f7e2;font-size:13px;line-height:1.45}
+.capt{margin:16px 0 8px !important;font-size:14px}
+.caprow{display:flex;gap:10px;align-items:center;justify-content:center}
+.capimg{width:220px;height:80px;border-radius:14px;overflow:hidden;background:#16161a}
+.capimg svg{display:block;width:100%;height:100%}
+.capnew{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);font-size:20px}
+#capin{width:100%;height:52px;margin-top:10px;text-align:center;font-size:24px;letter-spacing:10px;border-radius:16px;border:1px solid var(--line);background:rgba(0,0,0,.35);outline:none}
+#capin:focus{border-color:var(--accent)}
+/* Voz */
+.mic{position:fixed;right:22px;bottom:22px;z-index:3;width:64px;height:64px;border-radius:50%;background:var(--accent);color:#03140c;display:grid;place-items:center;box-shadow:0 10px 30px rgba(0,0,0,.45);transition:transform .2s}
+.mic svg{width:30px;height:30px;fill:currentColor}
+.mic.on{animation:pulse 1.1s ease-in-out infinite;background:#ff5a5f;color:#fff}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.heard{position:fixed;right:96px;bottom:34px;z-index:3;max-width:min(70vw,520px);padding:10px 16px;border-radius:16px;background:rgba(20,20,22,.92);border:1px solid var(--line);font-size:15px;display:none}
+/* Pantalla completa / modo coche: carátula grande, mandos grandes y la línea de la letra */
+.fsb{flex:none;width:40px;border-radius:10px;display:grid;place-items:center;color:var(--muted)}
+.fsb:hover{background:rgba(255,255,255,.1);color:var(--fg)}
+.fsb svg{width:22px;height:22px;fill:currentColor}
+body.fs .side{display:none}
+body.fs .app{grid-template-columns:1fr;max-width:1100px;margin:0 auto}
+body.fs .now{flex-direction:row;gap:5vw;align-items:center;justify-content:center;padding-top:72px}
+body.fs .modes{position:absolute;top:70px;left:50%;transform:translateX(-50%)}
+body.fs .art{width:min(44vw,70vh,620px)}
+body.fs .meta{width:min(46vw,620px);margin-top:0}
+body.fs .title{font-size:clamp(28px,3.6vw,48px)}
+body.fs .artist{font-size:22px}
+body.fs .ib.big{width:96px;height:96px}
+body.fs .ib.big svg{width:46px;height:46px}
+body.fs .ib{width:64px;height:64px}
+body.fs .ib svg{width:34px;height:34px}
+.fsline{display:none;margin-top:18px;min-height:2.6em;font-size:clamp(20px,2.4vw,30px);font-weight:700;line-height:1.3;opacity:.9}
+body.fs .fsline{display:block}
+body.fs .vol{display:flex}
+@media (max-width:860px){body.fs .now{flex-direction:column;gap:18px}body.fs .art{width:min(70vw,40vh)}body.fs .meta{width:100%}}
 .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 #ytwrap{display:none;width:100%;height:100%}#ytwrap iframe{width:100%;height:100%;border:0;display:block}.art.web #ytwrap{display:block}.art.web #artnote,.art:not(.empty) #artnote{display:none}.art.web{background:#000 !important;overflow:hidden;transform:none}
 </style>
@@ -218,6 +251,11 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
     <h1>ZeroPlayer</h1>
     <p id="lp"></p>
     <input id="pin" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="••••••" aria-label="Código">
+    <div id="cap" style="display:none">
+      <p id="capt" class="capt"></p>
+      <div class="caprow"><div id="capimg" class="capimg"></div><button id="capnew" class="capnew" aria-label="Otra imagen">↻</button></div>
+      <input id="capin" inputmode="numeric" maxlength="4" placeholder="····" aria-label="Captcha">
+    </div>
     <button id="go"></button>
     <div id="err"></div>
   </div>
@@ -229,6 +267,7 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
     <div class="modes" id="modes">
       <button class="mode" data-m="phone"><svg viewBox="0 0 24 24"><path d="M17 1H7a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm0 18H7V5h10v14Z"/></svg><span id="mPhone"></span></button>
       <button class="mode" data-m="web"><svg viewBox="0 0 24 24"><path d="M21 3H3a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h5v2h8v-2h5a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Zm0 14H3V5h18v12Z"/></svg><span id="mWeb"></span></button>
+      <button class="fsb" id="fsb" aria-label="Pantalla completa"><svg viewBox="0 0 24 24" id="fsicon"><path d="M7 14H5v5h5v-2H7v-3Zm-2-4h2V7h3V5H5v5Zm12 7h-3v2h5v-5h-2v3ZM14 5v2h3v3h2V5h-5Z"/></svg></button>
     </div>
     <div class="art empty paused" id="art"><span id="artnote">♪</span><div id="ytwrap"><div id="ytp"></div></div></div>
     <div class="meta">
@@ -243,6 +282,7 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
         <button class="ib" id="next" aria-label="Siguiente"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg></button>
         <button class="ib small" id="repeat" aria-label="Repetir"><svg viewBox="0 0 24 24" id="repicon"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7Zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4Z"/></svg></button>
       </div>
+      <div class="fsline" id="fsline"></div>
       <div class="vol"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3Zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4Z"/></svg><input type="range" id="vol" min="0" max="100" value="50" aria-label="Volumen"></div>
     </div>
   </section>
@@ -253,6 +293,8 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
   </section>
 </div>
 <div id="toast"></div>
+<button class="mic" id="mic" aria-label="Órdenes de voz"><svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-3.1A7 7 0 0 0 19 11h-2Z"/></svg></button>
+<div class="heard" id="heard"></div>
 <div id="off" class="overlay">
   <div class="box glass">
     <div class="offic">📴</div>
@@ -344,15 +386,28 @@ $('lp').textContent = RELAY
   ? T('Escribe el código que aparece en ZeroPlayer › Ajustes › Control remoto web › Desde internet', 'Enter the code shown in ZeroPlayer › Settings › Web remote › From the internet')
   : T('Escribe el PIN que aparece en Ajustes › Control remoto web de tu móvil', 'Enter the PIN shown in Settings › Web remote on your phone');
 $('go').textContent = T('Conectar', 'Connect');
-function showLogin(msg) { $('login').style.display = 'grid'; $('err').textContent = msg || ''; setTimeout(() => $('pin').focus(), 50); }
+function showLogin(msg) { $('login').style.display = 'grid'; $('err').textContent = msg || ''; if (RELAY) loadCaptcha(); setTimeout(() => ($('pin').value.length === 6 && RELAY ? $('capin') : $('pin')).focus(), 50); }
+// Captcha (solo por internet): unas cifras deformadas que hay que copiar para poder emparejar.
+let CAPID = '';
+async function loadCaptcha() {
+  $('cap').style.display = 'block'; $('capin').value = '';
+  $('capt').textContent = T('Escribe las 4 cifras de la imagen', 'Type the 4 digits in the picture');
+  try { const r = await fetch(RELAY + '?a=captcha', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' }); const j = await r.json(); CAPID = j.id || ''; $('capimg').innerHTML = j.svg || ''; }
+  catch (e) { $('capimg').textContent = ''; }
+}
+$('capnew').onclick = () => loadCaptcha();
+$('capin').addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
+$('pin').addEventListener('input', () => { if (RELAY && $('pin').value.replace(/\D/g, '').length === 6) $('capin').focus(); });
 async function tryLogin() {
   const typed = $('pin').value.replace(/\D/g, '');
   if (RELAY) {
     try {
-      const r = await fetch(RELAY + '?a=pair', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: typed }) });
+      if (typed.length !== 6) { $('err').textContent = T('El código tiene 6 cifras', 'The code has 6 digits'); return; }
+      const r = await fetch(RELAY + '?a=pair', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: typed, cid: CAPID, cans: $('capin').value }) });
       const j = await r.json().catch(() => ({}));
-      if (r.ok && j.token) { PIN = j.token; ls.set(KEY, PIN); $('login').style.display = 'none'; start(); }
-      else $('err').textContent = r.status === 429 ? T('Demasiados intentos. Espera unos minutos', 'Too many attempts. Wait a few minutes') : T('Código incorrecto', 'Wrong code');
+      if (r.ok && j.token) { PIN = j.token; ls.set(KEY, PIN); $('login').style.display = 'none'; start(); return; }
+      $('err').textContent = r.status === 429 ? T('Demasiados intentos. Espera unos minutos', 'Too many attempts. Wait a few minutes') : j.error === 'captcha' ? T('Las cifras de la imagen no coinciden', 'The picture digits don’t match') : T('Código incorrecto', 'Wrong code');
+      loadCaptcha();
     } catch (e) { $('err').textContent = T('Sin conexión a internet', 'No internet connection'); }
     return;
   }
@@ -826,6 +881,154 @@ if (RELAY) {
   $('out').onclick = forget;
 } else $('offweb').style.display = 'none';
 
+
+// ================================================================ Pantalla completa (modo coche)
+function isFs() { return document.body.classList.contains('fs'); }
+async function toggleFs() {
+  const on = !isFs();
+  document.body.classList.toggle('fs', on);
+  $('fsicon').innerHTML = on ? '<path d="M5 16h3v3h2v-5H5v2Zm3-8H5v2h5V5H8v3Zm6 11h2v-3h3v-2h-5v5Zm2-11V5h-2v5h5V8h-3Z"/>' : '<path d="M7 14H5v5h5v-2H7v-3Zm-2-4h2V7h3V5H5v5Zm12 7h-3v2h5v-5h-2v3ZM14 5v2h3v3h2V5h-5Z"/>';
+  const el = document.documentElement;
+  try {
+    if (on && !document.fullscreenElement) await (el.requestFullscreen || el.webkitRequestFullscreen || (() => Promise.reject())).call(el, { navigationUI: 'hide' });
+    else if (!on && document.fullscreenElement) await (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+  } catch (e) { /* Sin pantalla completa del navegador: queda la vista grande igualmente. */ }
+  if (on) loadFsLyrics();
+}
+$('fsb').onclick = toggleFs;
+document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && isFs()) toggleFs(); });
+let FSLY = null, fsKey = '';
+async function loadFsLyrics() {
+  const N = nowInfo(); if (!N.has || fsKey === N.key) return;
+  fsKey = N.key; FSLY = null; $('fsline').textContent = '';
+  try { const r = MODE === 'web' ? await webLyrics(webTrack()) : await api('/api/lyrics'); if (fsKey === N.key && r.synced) FSLY = r; } catch (e) {}
+}
+setInterval(() => {
+  if (!isFs()) return;
+  const N = nowInfo(); if (N.key !== fsKey) loadFsLyrics();
+  if (!FSLY) return;
+  const t = pos() + 250; let c = -1;
+  for (let i = 0; i < FSLY.lines.length; i++) { if (FSLY.lines[i].t <= t) c = i; else break; }
+  const txt = c >= 0 ? FSLY.lines[c].x : '';
+  if ($('fsline').textContent !== txt) $('fsline').textContent = txt;
+}, 300);
+
+// ================================================================ Órdenes de voz (micrófono del navegador)
+const strip = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[¿?¡!.,]/g, ' ').replace(/\s+/g, ' ').trim();
+const NUMW = { cero: 0, uno: 1, una: 1, un: 1, dos: 2, tres: 3, cuatro: 4, cinco: 5, seis: 6, siete: 7, ocho: 8, nueve: 9, diez: 10, once: 11, doce: 12, quince: 15, veinte: 20, treinta: 30, cuarenta: 40, cincuenta: 50, sesenta: 60, setenta: 70, ochenta: 80, noventa: 90, cien: 100, ciento: 100,
+  zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, fifteen: 15, twenty: 20, thirty: 30, forty: 40, fifty: 50, sixty: 60, seventy: 70, eighty: 80, ninety: 90, hundred: 100 };
+function numIn(s) {
+  const d = s.match(/\d+/); if (d) return +d[0];
+  let total = null;
+  s.split(' ').forEach(w => { if (w in NUMW) total = (total || 0) + NUMW[w]; });
+  return total;
+}
+function heard(text) { const h = $('heard'); h.textContent = '“' + text + '”'; h.style.display = 'block'; clearTimeout(window._hd); window._hd = setTimeout(() => h.style.display = 'none', 3500); }
+function say(text) { try { const u = new SpeechSynthesisUtterance(text); u.lang = es ? 'es-ES' : 'en-US'; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (e) {} }
+function curVol() { return MODE === 'web' ? W.vol : (S?.volume ?? 50); }
+async function playQuery(q, radio) {
+  toast(T('Buscando «', 'Searching “') + q + T('»…', '”…'));
+  try {
+    const r = await api('/api/ytm/search?q=' + encodeURIComponent(q));
+    const t = (r.tracks || []).find(x => !x.v) || (r.tracks || [])[0];
+    if (!t) return toast(T('No he encontrado nada', 'Nothing found'));
+    await playYtm([t], 0, 'radio');
+  } catch (e) { needPhone(e); }
+}
+/** Entiende una frase («pausa», «siguiente», «volumen cincuenta», «pon Bad Bunny», «radio de Rosalía»…). */
+async function handleVoice(raw) {
+  heard(raw);
+  let s = strip(raw).replace(/^(oye |hey |ok )?(cero|zero|zeroplayer|zero player)( |$)/, '').trim();
+  if (!s) return;
+  const n = numIn(s);
+  const has = re => re.test(s);
+  if (has(/^(pausa|para|parar|deten|detente|stop|pause|silencio)/)) { if (nowInfo().playing) ctl.toggle(); return; }
+  if (has(/^(play|reproduce$|reanuda|continua|sigue|dale|resume|continue)$/) || s === 'reproducir') { if (!nowInfo().playing) ctl.toggle(); return; }
+  if (has(/^(siguiente|la siguiente|pasa|salta|next|skip)( cancion| song)?$/)) return ctl.next();
+  if (has(/^(anterior|la anterior|atras|previous|back|go back)( cancion| song)?$/)) return ctl.prev();
+  if (has(/(sube|subir|mas alto|turn up|volume up|louder)/)) return ctl.volume(Math.min(100, curVol() + (n || 10)));
+  if (has(/(baja|bajar|mas bajo|turn down|volume down|quieter)/)) return ctl.volume(Math.max(0, curVol() - (n || 10)));
+  if (has(/^(volumen|volume)/) && n != null) return ctl.volume(Math.max(0, Math.min(100, n)));
+  if (has(/(adelanta|avanza|forward|skip ahead)/)) return ctl.seek(Math.round(pos() + (n || 10) * (has(/minuto|minute/) ? 60000 : 1000)));
+  if (has(/(atrasa|retrocede|rewind|go back)/)) return ctl.seek(Math.max(0, Math.round(pos() - (n || 10) * (has(/minuto|minute/) ? 60000 : 1000))));
+  if (has(/(aleatorio|mezcla|shuffle)/)) return ctl.shuffle();
+  if (has(/(repite|repetir|repeat)/)) return ctl.repeat();
+  if (has(/(que suena|que cancion es|what.?s playing|what song)/)) { const N = nowInfo(); return say(N.has ? (N.title + (N.artist ? T(', de ', ', by ') + N.artist.split(' · ')[0] : '')) : T('No suena nada', 'Nothing is playing')); }
+  if (has(/^(letra|lyrics|muestra la letra)/)) return goTab('lyrics');
+  if (has(/^(cola|queue)/)) return goTab('queue');
+  if (has(/pantalla completa|full ?screen|modo coche/)) return toggleFs();
+  if (has(/(en el navegador|en este navegador|in the browser|in this browser)$/)) return setMode('web', true);
+  if (has(/(en el movil|por bluetooth|on the phone|over bluetooth)$/)) return setMode('phone', true);
+  if (has(/(mi mix|my mix|algo de musica|pon musica|play music|pon algo)/)) { try { const r = await api('/api/ytm/mix'); if (r.tracks?.length) return playYtm(r.tracks, 0); } catch (e) { return needPhone(e); } }
+  let m = s.match(/^(?:pon|ponme|reproduce|escuchar|escucha|quiero escuchar|play|listen to)\s+(?:la\s+)?radio\s+(?:de\s+)?(.+)$/) || s.match(/^radio\s+(?:de\s+)?(.+)$/);
+  if (m) return playQuery(m[1], true);
+  m = s.match(/^(?:pon|ponme|reproduce|reproducir|escucha|escuchar|quiero escuchar|busca|play|put on|listen to)\s+(.+)$/);
+  if (m) return playQuery(m[1].replace(/^(la cancion|el tema|la musica de|musica de|canciones de|the song|songs by|music by)\s+/, ''));
+  toast(T('No te he entendido. Prueba «pon» y el nombre de una canción', 'Didn’t get that. Try “play” and a song name'));
+}
+let rec = null, voiceFallback = false, listening = false;
+function micOn(v) { listening = v; $('mic').classList.toggle('on', v); }
+async function startVoice() {
+  if (listening) { try { rec && rec.stop(); } catch (e) {} stopRecording && stopRecording(); return; }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (SR && !voiceFallback) {
+    rec = new SR(); rec.lang = es ? 'es-ES' : 'en-US'; rec.interimResults = true; rec.maxAlternatives = 1;
+    let done = false;
+    rec.onresult = e => { const r = e.results[e.results.length - 1]; heard(r[0].transcript); if (r.isFinal && !done) { done = true; handleVoice(r[0].transcript); } };
+    rec.onerror = e => {
+      micOn(false);
+      if (e.error === 'not-allowed') return toast(T('Permite el micrófono para usar la voz', 'Allow the microphone to use voice'));
+      if (e.error === 'no-speech' || e.error === 'aborted') return;
+      // El navegador no sabe pasar voz a texto (pasa en coches y navegadores sin Google): lo hace el móvil.
+      voiceFallback = true; startVoice();
+    };
+    rec.onend = () => micOn(false);
+    try { rec.start(); micOn(true); } catch (e) { voiceFallback = true; startVoice(); }
+    return;
+  }
+  recordAndSend();
+}
+let stopRecording = null;
+async function recordAndSend() {
+  if (!navigator.mediaDevices?.getUserMedia) return toast(T('Este navegador no deja usar el micrófono aquí', 'This browser doesn’t allow the microphone here'));
+  let stream;
+  try { stream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true } }); }
+  catch (e) { return toast(T('Permite el micrófono para usar la voz', 'Allow the microphone to use voice')); }
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const src = ctx.createMediaStreamSource(stream);
+  const proc = ctx.createScriptProcessor(4096, 1, 1);
+  const chunks = []; let spoke = false, quietSince = 0; const t0 = performance.now();
+  micOn(true); heard(T('Te escucho…', 'Listening…'));
+  const finish = async () => {
+    if (!stopRecording) return; stopRecording = null;
+    proc.disconnect(); src.disconnect(); stream.getTracks().forEach(t => t.stop()); ctx.close(); micOn(false);
+    // A 16 kHz y 16 bits, que es lo que entiende el reconocedor del móvil.
+    const all = new Float32Array(chunks.reduce((a, c) => a + c.length, 0)); let o = 0; chunks.forEach(c => { all.set(c, o); o += c.length; });
+    const ratio = ctx.sampleRate / 16000, n = Math.floor(all.length / ratio), pcm = new Int16Array(n);
+    for (let i = 0; i < n; i++) { const v = Math.max(-1, Math.min(1, all[Math.floor(i * ratio)])); pcm[i] = v < 0 ? v * 0x8000 : v * 0x7fff; }
+    let bin = ''; const bytes = new Uint8Array(pcm.buffer); for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+    heard(T('Entendiendo…', 'Understanding…'));
+    try {
+      const r = await api('/api/voice', { pcm: btoa(bin) });
+      if (r.error === 'no_model') return toast(T('El móvil está preparando el reconocedor de voz (unos 40 MB). Prueba en un par de minutos.', 'The phone is getting the voice recognizer ready (about 40 MB). Try again in a couple of minutes.'));
+      if (!r.text) return toast(T('No te he oído bien', 'I didn’t catch that'));
+      handleVoice(r.text);
+    } catch (e) { needPhone(e); }
+  };
+  stopRecording = finish;
+  proc.onaudioprocess = e => {
+    const d = e.inputBuffer.getChannelData(0); chunks.push(new Float32Array(d));
+    let sum = 0; for (let i = 0; i < d.length; i++) sum += d[i] * d[i];
+    const rms = Math.sqrt(sum / d.length), t = performance.now();
+    if (rms > 0.02) { spoke = true; quietSince = 0; } else if (spoke && !quietSince) quietSince = t;
+    // Para al callarse 1 s, o a los 6 s como mucho.
+    if ((spoke && quietSince && t - quietSince > 1000) || t - t0 > 6000) finish();
+  };
+  src.connect(proc); proc.connect(ctx.destination);
+}
+$('mic').onclick = startVoice;
+document.addEventListener('keydown', e => { if (e.target.tagName !== 'INPUT' && (e.key === 'v' || e.key === 'V')) startVoice(); });
+
 // ================================================================ Arranque
 let started = false;
 function start() {
@@ -834,7 +1037,7 @@ function start() {
   if (MODE === 'web') setMode('web', false); else showTab();
   poll(); requestAnimationFrame(tick); mediaSession();
 }
-if (QCODE) { $('pin').value = QCODE; tryLogin(); }
+if (QCODE) { $('pin').value = QCODE; showLogin(); }
 else if (RELAY) {
   // Sin token guardado se prueba con la cookie (si el navegador la conserva, sigue emparejado).
   api('/api/check').then(j => {

@@ -1,0 +1,10 @@
+/web-player/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: microphone=(self), camera=(), geolocation=(), autoplay=(self "https://www.youtube.com"), fullscreen=(self)
+  Strict-Transport-Security: max-age=31536000
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.youtube.com https://s.ytimg.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com; img-src 'self' data: blob: https:; connect-src 'self' https://lrclib.net; style-src 'self' 'unsafe-inline'; media-src 'self' blob: https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+
+/functions/*
+  X-Robots-Tag: noindex
