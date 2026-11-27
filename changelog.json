@@ -1,5 +1,27 @@
 [
  {
+  "version": "2.14.2",
+  "date": "2026-11-27",
+  "title": {
+   "es": "Reconocer canciones solo con Shazam",
+   "en": "Song recognition with Shazam only"
+  },
+  "items": [
+   {
+    "es": "Reconocer canciones funciona solo con Shazam, gratis y sin clave. La app ya no lleva clave de AudD.",
+    "en": "Song recognition now works with Shazam only, free and without a key. The app no longer ships an AudD key."
+   },
+   {
+    "es": "Si Shazam no responde, se reintenta una vez antes de dar el aviso.",
+    "en": "If Shazam doesn't respond, it retries once before showing a message."
+   },
+   {
+    "es": "AudD sigue disponible si pones tu propia clave en Ajustes › Reconocer canciones.",
+    "en": "AudD is still available if you add your own key in Settings › Recognize songs."
+   }
+  ]
+ },
+ {
   "version": "2.14.1",
   "date": "2026-11-27",
   "title": {
