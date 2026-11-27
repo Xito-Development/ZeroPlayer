@@ -1,5 +1,27 @@
 [
  {
+  "version": "2.15.0",
+  "date": "2026-11-27",
+  "title": {
+   "es": "Subtítulos automáticos y página de descarga",
+   "en": "Auto subtitles and a download page"
+  },
+  "items": [
+   {
+    "es": "Subtítulos automáticos en los vídeos: el móvil escucha el vídeo y lo pasa a texto sin conexión, en español, inglés, portugués, francés, alemán o italiano. Se activan en «Audio y subtítulos».",
+    "en": "Auto subtitles for videos: your phone listens to the video and turns it into text offline, in Spanish, English, Portuguese, French, German or Italian. Turn them on in “Audio and subtitles”."
+   },
+   {
+    "es": "Se pueden traducir a tu idioma, también en el móvil.",
+    "en": "They can be translated into your language, on the phone too."
+   },
+   {
+    "es": "Web: nueva página de descarga (zeroplayer.pages.dev/download) y enlaces directos al Web Player para que Google los muestre.",
+    "en": "Website: new download page (zeroplayer.pages.dev/download) and direct links to the Web Player so Google can show them."
+   }
+  ]
+ },
+ {
   "version": "2.14.2",
   "date": "2026-11-27",
   "title": {
